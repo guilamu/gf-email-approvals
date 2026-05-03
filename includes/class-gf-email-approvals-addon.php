@@ -51,7 +51,8 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	const NOTIFICATION_CONFIRMATION_TITLE = 'approval_confirmation_title';
 	const NOTIFICATION_APPROVE_CONFIRMATION_TEXT = 'approval_approve_confirmation_text';
 	const NOTIFICATION_REJECT_CONFIRMATION_TEXT = 'approval_reject_confirmation_text';
-	const NOTIFICATION_CONFIRM_BUTTON_LABEL = 'approval_confirm_button_label';
+	const NOTIFICATION_APPROVE_BUTTON_LABEL = 'approval_approve_button_label';
+	const NOTIFICATION_REJECT_BUTTON_LABEL = 'approval_reject_button_label';
 	const NOTIFICATION_APPROVED_RESULT_TEXT = 'approval_approved_result_text';
 	const NOTIFICATION_REJECTED_RESULT_TEXT = 'approval_rejected_result_text';
 	const NOTIFICATION_UPDATE_MODE = 'approval_update_mode';
@@ -130,6 +131,8 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		add_filter( 'gform_replace_merge_tags', array( $this, 'replace_common_merge_tags' ), 10, 7 );
 		add_filter( 'gform_entry_meta', array( $this, 'register_entry_meta' ), 10, 2 );
 		add_action( 'gform_after_submission', array( $this, 'handle_after_submission' ), 10, 2 );
+		add_action( 'gform_update_status', array( $this, 'handle_entry_status_change' ), 10, 3 );
+		add_action( 'gform_delete_entry', array( $this, 'handle_entry_delete' ) );
 	}
 
 	/**
@@ -222,10 +225,15 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		$fields[] = array(
 			'title'       => esc_html__( 'Approval Pages', 'gf-email-approvals' ),
 			'description' => esc_html__( 'Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported.', 'gf-email-approvals' ),
+			'id'          => 'approval-pages',
 			'dependency'  => array(
-				'field'  => 'event',
-				'values' => array( 'approval_request' ),
 				'live'   => true,
+				'fields' => array(
+					array(
+						'field'  => 'event',
+						'values' => array( 'approval_request' ),
+					),
+				),
 			),
 			'fields'      => array(
 				array(
@@ -239,47 +247,59 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					'type'          => 'textarea',
 					'name'          => self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT,
 					'label'         => esc_html__( 'Approve confirmation text', 'gf-email-approvals' ),
-					'class'         => 'large merge-tag-support mt-position-right',
+					'class'         => 'large merge-tag-support mt-position-right approval-page-copy-textarea',
 					'default_value' => $defaults[ self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ],
-				),
-				array(
-					'type'          => 'textarea',
-					'name'          => self::NOTIFICATION_REJECT_CONFIRMATION_TEXT,
-					'label'         => esc_html__( 'Reject confirmation text', 'gf-email-approvals' ),
-					'class'         => 'large merge-tag-support mt-position-right',
-					'default_value' => $defaults[ self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ],
-				),
-				array(
-					'type'          => 'text',
-					'name'          => self::NOTIFICATION_CONFIRM_BUTTON_LABEL,
-					'label'         => esc_html__( 'Confirm button label', 'gf-email-approvals' ),
-					'class'         => 'medium merge-tag-support mt-position-right',
-					'default_value' => $defaults[ self::NOTIFICATION_CONFIRM_BUTTON_LABEL ],
 				),
 				array(
 					'type'          => 'textarea',
 					'name'          => self::NOTIFICATION_APPROVED_RESULT_TEXT,
 					'label'         => esc_html__( 'Approved result text', 'gf-email-approvals' ),
-					'class'         => 'large merge-tag-support mt-position-right',
+					'class'         => 'large merge-tag-support mt-position-right approval-page-copy-textarea',
 					'default_value' => $defaults[ self::NOTIFICATION_APPROVED_RESULT_TEXT ],
+				),
+				array(
+					'type'          => 'text',
+					'name'          => self::NOTIFICATION_APPROVE_BUTTON_LABEL,
+					'label'         => esc_html__( 'Approve button label', 'gf-email-approvals' ),
+					'class'         => 'medium merge-tag-support mt-position-right',
+					'default_value' => $defaults[ self::NOTIFICATION_APPROVE_BUTTON_LABEL ],
+				),
+				array(
+					'type'          => 'textarea',
+					'name'          => self::NOTIFICATION_REJECT_CONFIRMATION_TEXT,
+					'label'         => esc_html__( 'Reject confirmation text', 'gf-email-approvals' ),
+					'class'         => 'large merge-tag-support mt-position-right approval-page-copy-textarea',
+					'default_value' => $defaults[ self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ],
 				),
 				array(
 					'type'          => 'textarea',
 					'name'          => self::NOTIFICATION_REJECTED_RESULT_TEXT,
 					'label'         => esc_html__( 'Rejected result text', 'gf-email-approvals' ),
-					'class'         => 'large merge-tag-support mt-position-right',
+					'class'         => 'large merge-tag-support mt-position-right approval-page-copy-textarea',
 					'default_value' => $defaults[ self::NOTIFICATION_REJECTED_RESULT_TEXT ],
+				),
+				array(
+					'type'          => 'text',
+					'name'          => self::NOTIFICATION_REJECT_BUTTON_LABEL,
+					'label'         => esc_html__( 'Reject button label', 'gf-email-approvals' ),
+					'class'         => 'medium merge-tag-support mt-position-right',
+					'default_value' => $defaults[ self::NOTIFICATION_REJECT_BUTTON_LABEL ],
 				),
 			),
 		);
 
 		$fields[] = array(
-			'title'       => esc_html__( 'Update Field After Confirmation', 'gf-email-approvals' ),
+			'title'       => esc_html__( 'Approval actions', 'gf-email-approvals' ),
 			'description' => esc_html__( 'Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page.', 'gf-email-approvals' ),
+			'id'          => 'approval-actions',
 			'dependency'  => array(
-				'field'  => 'event',
-				'values' => array( 'approval_request' ),
 				'live'   => true,
+				'fields' => array(
+					array(
+						'field'  => 'event',
+						'values' => array( 'approval_request' ),
+					),
+				),
 			),
 			'fields'      => array(
 				array(
@@ -366,7 +386,8 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	public function save_notification_page_settings( $notification, $form ) {
 		$text_fields = array(
 			self::NOTIFICATION_CONFIRMATION_TITLE,
-			self::NOTIFICATION_CONFIRM_BUTTON_LABEL,
+			self::NOTIFICATION_APPROVE_BUTTON_LABEL,
+			self::NOTIFICATION_REJECT_BUTTON_LABEL,
 		);
 
 		foreach ( $text_fields as $setting_name ) {
@@ -592,6 +613,46 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		$form    = is_array( $form ) ? $form : array();
 
 		?>
+		<style type="text/css">
+			#gform_setting_<?php echo esc_attr( self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ); ?>,
+			#gform_setting_<?php echo esc_attr( self::NOTIFICATION_APPROVED_RESULT_TEXT ); ?>,
+			#gform_setting_<?php echo esc_attr( self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ); ?>,
+			#gform_setting_<?php echo esc_attr( self::NOTIFICATION_REJECTED_RESULT_TEXT ); ?> {
+				box-sizing: border-box;
+				float: left;
+				width: calc(50% - 8px);
+			}
+
+			#gform_setting_<?php echo esc_attr( self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ); ?>,
+			#gform_setting_<?php echo esc_attr( self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ); ?> {
+				clear: left;
+				margin-right: 16px;
+			}
+
+			#gform_setting_<?php echo esc_attr( self::NOTIFICATION_APPROVE_BUTTON_LABEL ); ?>,
+			#gform_setting_<?php echo esc_attr( self::NOTIFICATION_REJECT_BUTTON_LABEL ); ?> {
+				clear: both;
+				float: none;
+				width: 100%;
+			}
+
+			@media screen and (max-width: 900px) {
+				#gform_setting_<?php echo esc_attr( self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ); ?>,
+				#gform_setting_<?php echo esc_attr( self::NOTIFICATION_APPROVED_RESULT_TEXT ); ?>,
+				#gform_setting_<?php echo esc_attr( self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ); ?>,
+				#gform_setting_<?php echo esc_attr( self::NOTIFICATION_REJECTED_RESULT_TEXT ); ?> {
+					float: none;
+					clear: both;
+					width: 100%;
+					margin-right: 0;
+				}
+			}
+
+			textarea.approval-page-copy-textarea.large {
+				height: 80px;
+				min-height: 80px;
+			}
+		</style>
 		<script type="text/javascript">
 			(function($) {
 				var fieldConfig = <?php echo wp_json_encode( $this->get_decision_update_field_config( $form ) ); ?>;
@@ -1043,6 +1104,36 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	}
 
 	/**
+	 * Invalidates approval tokens when an entry leaves the active pool.
+	 *
+	 * @param int    $entry_id        The entry id.
+	 * @param string $property_value  The new status.
+	 * @param string $previous_value  The previous status.
+	 *
+	 * @return void
+	 */
+	public function handle_entry_status_change( $entry_id, $property_value, $previous_value ) {
+		unset( $previous_value );
+
+		if ( 'trash' !== (string) $property_value ) {
+			return;
+		}
+
+		GFEmailApprovalsTokenStore::invalidate_entry_tokens( $entry_id );
+	}
+
+	/**
+	 * Removes approval tokens when an entry is permanently deleted.
+	 *
+	 * @param int $entry_id The entry id.
+	 *
+	 * @return void
+	 */
+	public function handle_entry_delete( $entry_id ) {
+		GFEmailApprovalsTokenStore::delete_entry_tokens( $entry_id );
+	}
+
+	/**
 	 * Injects fresh approval links into approval request notifications.
 	 *
 	 * @param array $email          The email data.
@@ -1178,14 +1269,19 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			$this->render_public_message_page( esc_html__( 'This approval link is invalid or expired.', 'gf-email-approvals' ) );
 		}
 
-		if ( $record->used_at || $record->invalidated_at || self::STATUS_PENDING !== $this->get_entry_status( absint( $record->entry_id ) ) ) {
-			$this->render_public_message_page( esc_html__( 'This approval request has already been processed.', 'gf-email-approvals' ) );
-		}
-
 		$form         = class_exists( 'GFAPI' ) ? GFAPI::get_form( absint( $record->form_id ) ) : array();
 		$entry        = class_exists( 'GFAPI' ) ? GFAPI::get_entry( absint( $record->entry_id ) ) : array();
 		$form         = is_array( $form ) ? $form : array();
 		$entry        = is_array( $entry ) ? $entry : array();
+
+		if ( empty( $form ) || ! $this->is_entry_publicly_actionable( $entry ) ) {
+			$this->render_public_message_page( esc_html__( 'This approval link is invalid or expired.', 'gf-email-approvals' ) );
+		}
+
+		if ( $record->used_at || $record->invalidated_at || self::STATUS_PENDING !== $this->get_entry_status( absint( $record->entry_id ) ) ) {
+			$this->render_public_message_page( esc_html__( 'This approval request has already been processed.', 'gf-email-approvals' ) );
+		}
+
 		$notification = $this->get_form_notification( $form, (string) $record->notification_id );
 
 		$this->render_public_confirmation_page( $record, $token, $notification, $form, $entry );
@@ -1418,6 +1514,17 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		$status = function_exists( 'gform_get_meta' ) ? gform_get_meta( $entry_id, self::META_STATUS ) : '';
 
 		return is_string( $status ) ? $status : '';
+	}
+
+	/**
+	 * Returns whether the entry can still be processed from a public approval link.
+	 *
+	 * @param array $entry The current entry.
+	 *
+	 * @return bool
+	 */
+	private function is_entry_publicly_actionable( $entry ) {
+		return is_array( $entry ) && ! empty( $entry ) && 'active' === (string) $this->array_value( $entry, 'status' );
 	}
 
 	/**
@@ -1688,9 +1795,23 @@ class GFEmailApprovalsAddon extends GFAddOn {
 
 		if ( ! $record ) {
 			$fallback = GFEmailApprovalsTokenStore::get_token_record( $token, false );
-			$message  = $fallback ? esc_html__( 'This approval request has already been processed.', 'gf-email-approvals' ) : esc_html__( 'This approval link is invalid or expired.', 'gf-email-approvals' );
 
-			$this->render_public_message_page( $message );
+			if ( ! $fallback ) {
+				$this->render_public_message_page( esc_html__( 'This approval link is invalid or expired.', 'gf-email-approvals' ) );
+			}
+
+			if ( ! class_exists( 'GFAPI' ) ) {
+				$this->render_public_message_page( esc_html__( 'This approval link is invalid or expired.', 'gf-email-approvals' ) );
+			}
+
+			$fallback_entry = GFAPI::get_entry( absint( $fallback->entry_id ) );
+			$fallback_form  = GFAPI::get_form( absint( $fallback->form_id ) );
+
+			if ( is_wp_error( $fallback_entry ) || empty( $fallback_form ) || ! is_array( $fallback_entry ) || ! $this->is_entry_publicly_actionable( $fallback_entry ) ) {
+				$this->render_public_message_page( esc_html__( 'This approval link is invalid or expired.', 'gf-email-approvals' ) );
+			}
+
+			$this->render_public_message_page( esc_html__( 'This approval request has already been processed.', 'gf-email-approvals' ) );
 		}
 
 		if ( ! class_exists( 'GFAPI' ) ) {
@@ -1700,7 +1821,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		$entry = GFAPI::get_entry( absint( $record->entry_id ) );
 		$form  = GFAPI::get_form( absint( $record->form_id ) );
 
-		if ( is_wp_error( $entry ) || empty( $form ) ) {
+		if ( is_wp_error( $entry ) || empty( $form ) || ! is_array( $entry ) || ! $this->is_entry_publicly_actionable( $entry ) ) {
 			$this->render_public_message_page( esc_html__( 'This approval link is invalid or expired.', 'gf-email-approvals' ) );
 		}
 
@@ -1879,6 +2000,9 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		$message           = $is_approve
 			? $settings[ self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ]
 			: $settings[ self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ];
+		$button_label      = $is_approve
+			? $settings[ self::NOTIFICATION_APPROVE_BUTTON_LABEL ]
+			: $settings[ self::NOTIFICATION_REJECT_BUTTON_LABEL ];
 		$action_url = add_query_arg(
 			array(
 				self::QUERY_ACTION => self::PUBLIC_ACTION_CONFIRM,
@@ -1903,7 +2027,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 				esc_attr( self::QUERY_ACTION ),
 				esc_attr( self::PUBLIC_ACTION_CONFIRM ),
 				$manual_update_html,
-				esc_html( $settings[ self::NOTIFICATION_CONFIRM_BUTTON_LABEL ] )
+				esc_html( $button_label )
 			)
 		);
 	}
@@ -2053,7 +2177,8 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			self::NOTIFICATION_CONFIRMATION_TITLE        => __( 'Confirm approval action', 'gf-email-approvals' ),
 			self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT => __( 'You are about to approve this entry.', 'gf-email-approvals' ),
 			self::NOTIFICATION_REJECT_CONFIRMATION_TEXT  => __( 'You are about to reject this entry.', 'gf-email-approvals' ),
-			self::NOTIFICATION_CONFIRM_BUTTON_LABEL      => __( 'Confirm', 'gf-email-approvals' ),
+			self::NOTIFICATION_APPROVE_BUTTON_LABEL      => __( 'Approve', 'gf-email-approvals' ),
+			self::NOTIFICATION_REJECT_BUTTON_LABEL       => __( 'Reject', 'gf-email-approvals' ),
 			self::NOTIFICATION_APPROVED_RESULT_TEXT      => __( 'The entry has been approved.', 'gf-email-approvals' ),
 			self::NOTIFICATION_REJECTED_RESULT_TEXT      => __( 'The entry has been rejected.', 'gf-email-approvals' ),
 		);

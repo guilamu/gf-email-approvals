@@ -2,7 +2,7 @@
 # This file is distributed under the GNU Affero General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Approvals for Gravity Forms 0.3.2\n"
+"Project-Id-Version: Email Approvals for Gravity Forms 0.4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
 "POT-Creation-Date: 2026-05-03 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -71,7 +71,7 @@ msgid "Reject confirmation text"
 msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:223
-msgid "Confirm button label"
+msgid "Approve button label"
 msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:230
@@ -79,7 +79,15 @@ msgid "Approved result text"
 msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:237
+msgid "Reject confirmation text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:244
 msgid "Rejected result text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:251
+msgid "Reject button label"
 msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:188 includes/class-gf-email-approvals-addon.php:248 includes/class-gf-email-approvals-addon.php:286 includes/class-gf-email-approvals-addon.php:292
@@ -273,7 +281,7 @@ msgid "Leave unchanged"
 msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:277
-msgid "Update Field After Confirmation"
+msgid "Approval actions"
 msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:278

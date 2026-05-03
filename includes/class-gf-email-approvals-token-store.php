@@ -163,4 +163,21 @@ class GFEmailApprovalsTokenStore {
 
 		$wpdb->query( $wpdb->prepare( $sql, $parameters ) );
 	}
+
+	/**
+	 * Deletes all token rows for an entry.
+	 *
+	 * @param int $entry_id The entry id.
+	 *
+	 * @return void
+	 */
+	public static function delete_entry_tokens( $entry_id ) {
+		global $wpdb;
+
+		$wpdb->delete(
+			self::get_table_name(),
+			array( 'entry_id' => absint( $entry_id ) ),
+			array( '%d' )
+		);
+	}
 }

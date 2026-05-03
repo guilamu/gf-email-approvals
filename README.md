@@ -104,6 +104,12 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 
 ## Changelog
 
+### 0.4.0 - 2026-05-03
+
+- **Improved:** Public approval links are now invalidated when entries are trashed and removed when entries are permanently deleted, and trashed or missing entries can no longer be actioned from public approval pages.
+- **Improved:** Approval Request notifications now expose separate Approve and Reject button labels, tighter Approval Pages copy fields, and a cleaner two-column layout for confirmation and result text.
+- **Improved:** The `Approval Pages` and `Approval actions` sections in the notification editor now only appear for the `Approval Request` event.
+
 ### 0.3.2 - 2026-05-03
 
 - **Improved:** Fixed the plugin details modal so the sidebar version now prefers the installed plugin version instead of a stale GitHub release tag.

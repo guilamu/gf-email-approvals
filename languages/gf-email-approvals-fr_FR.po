@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Approvals for Gravity Forms 0.3.2\n"
+"Project-Id-Version: Email Approvals for Gravity Forms 0.4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
 "POT-Creation-Date: 2026-05-02 00:00+0000\n"
-"PO-Revision-Date: 2026-05-03 14:37+0200\n"
+"PO-Revision-Date: 2026-05-03 19:51+0200\n"
 "Last-Translator: GitHub Copilot <noreply@github.com>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -56,8 +56,11 @@ msgstr "Texte de confirmation d'approbation"
 msgid "Reject confirmation text"
 msgstr "Texte de confirmation de rejet"
 
-msgid "Confirm button label"
-msgstr "Libellé du bouton de confirmation"
+msgid "Approve button label"
+msgstr "Libellé du bouton d'approbation"
+
+msgid "Reject button label"
+msgstr "Libellé du bouton de rejet"
 
 msgid "Approved result text"
 msgstr "Texte de résultat après approbation"
@@ -210,8 +213,8 @@ msgstr "Impossible de renommer le dossier de mise à jour. Veuillez réessayer o
 msgid "Leave unchanged"
 msgstr "Laisser inchangé"
 
-msgid "Update Field After Confirmation"
-msgstr "Mettre à jour un champ après confirmation"
+msgid "Approval actions"
+msgstr "Actions d'approbation"
 
 msgid "Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page."
 msgstr "Mettez éventuellement à jour un champ d'entrée pris en charge après que l'approbateur a confirmé sa décision. Vous pouvez soit appliquer automatiquement une valeur prédéfinie, soit laisser l'approbateur choisir la valeur sur la page de confirmation."
