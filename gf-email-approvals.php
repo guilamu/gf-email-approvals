@@ -3,7 +3,7 @@
  * Plugin Name: Email Approvals for Gravity Forms
  * Plugin URI: https://github.com/guilamu/gf-email-approvals
  * Description: Adds email-based approval notifications to Gravity Forms entries.
- * Version: 0.1.0
+ * Version: 0.2.0
  * Author: Guilamu
  * Author URI: https://github.com/guilamu
  * License: AGPL-3.0
@@ -12,12 +12,11 @@
  * Update URI: https://github.com/guilamu/gf-email-approvals/
  * Requires at least: 6.5
  * Requires PHP: 7.4
- * Requires Plugins: gravityforms
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GF_EMAIL_APPROVALS_VERSION', '0.1.0' );
+define( 'GF_EMAIL_APPROVALS_VERSION', '0.2.0' );
 define( 'GF_EMAIL_APPROVALS_FILE', __FILE__ );
 define( 'GF_EMAIL_APPROVALS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GF_EMAIL_APPROVALS_URL', plugin_dir_url( __FILE__ ) );
@@ -27,9 +26,12 @@ define( 'GF_EMAIL_APPROVALS_GITHUB_REPO', 'guilamu/gf-email-approvals' );
 
 require_once GF_EMAIL_APPROVALS_PATH . 'includes/class-github-updater.php';
 
+register_activation_hook( __FILE__, 'gf_email_approvals_activate' );
+
 add_filter( 'plugin_row_meta', 'gf_email_approvals_plugin_row_meta', 10, 2 );
 add_action( 'init', 'gf_email_approvals_load_textdomain' );
 add_action( 'plugins_loaded', 'gf_email_approvals_register_bug_reporter', 20 );
+add_action( 'admin_notices', 'gf_email_approvals_missing_gravity_forms_notice' );
 
 add_action( 'gform_loaded', array( 'GF_Email_Approvals_Bootstrap', 'load' ), 5 );
 
@@ -55,6 +57,38 @@ class GF_Email_Approvals_Bootstrap {
 }
 
 /**
+ * Blocks activation when Gravity Forms is not available.
+ *
+ * @return void
+ */
+function gf_email_approvals_activate() {
+	if ( gf_email_approvals_has_gravity_forms() ) {
+		return;
+	}
+
+	if ( ! function_exists( 'deactivate_plugins' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+
+	deactivate_plugins( plugin_basename( GF_EMAIL_APPROVALS_FILE ) );
+
+	wp_die(
+		esc_html__( 'Email Approvals for Gravity Forms requires Gravity Forms to be installed and active.', 'gf-email-approvals' ),
+		esc_html__( 'Plugin dependency missing', 'gf-email-approvals' ),
+		array( 'back_link' => true )
+	);
+}
+
+/**
+ * Returns whether Gravity Forms is available for this plugin.
+ *
+ * @return bool
+ */
+function gf_email_approvals_has_gravity_forms() {
+	return class_exists( 'GFForms' ) && method_exists( 'GFForms', 'include_addon_framework' );
+}
+
+/**
  * Loads plugin translations from the languages directory.
  *
  * @return void
@@ -65,6 +99,21 @@ function gf_email_approvals_load_textdomain() {
 		false,
 		dirname( plugin_basename( GF_EMAIL_APPROVALS_FILE ) ) . '/languages/'
 	);
+}
+
+/**
+ * Displays an admin notice when Gravity Forms is missing.
+ *
+ * @return void
+ */
+function gf_email_approvals_missing_gravity_forms_notice() {
+	if ( gf_email_approvals_has_gravity_forms() || ! current_user_can( 'activate_plugins' ) ) {
+		return;
+	}
+
+	echo '<div class="notice notice-error"><p>'
+		. esc_html__( 'Email Approvals for Gravity Forms requires Gravity Forms to be installed and active.', 'gf-email-approvals' )
+		. '</p></div>';
 }
 
 /**
