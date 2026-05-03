@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Approvals for Gravity Forms 0.1.0\n"
+"Project-Id-Version: Email Approvals for Gravity Forms 0.2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
 "POT-Creation-Date: 2026-05-02 00:00+0000\n"
-"PO-Revision-Date: 2026-05-02 00:00+0000\n"
+"PO-Revision-Date: 2026-05-03 00:00+0000\n"
 "Last-Translator: GitHub Copilot <noreply@github.com>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -33,6 +33,30 @@ msgstr "Approbation validée"
 
 msgid "Approval Rejected"
 msgstr "Approbation rejetée"
+
+msgid "Approval Pages"
+msgstr "Pages d'approbation"
+
+msgid "Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported."
+msgstr "Personnalisez les pages publiques de confirmation et de résultat utilisées par les liens de demande d'approbation. Les merge tags Gravity Forms sont pris en charge."
+
+msgid "Confirmation title"
+msgstr "Titre de confirmation"
+
+msgid "Approve confirmation text"
+msgstr "Texte de confirmation d'approbation"
+
+msgid "Reject confirmation text"
+msgstr "Texte de confirmation de rejet"
+
+msgid "Confirm button label"
+msgstr "Libellé du bouton de confirmation"
+
+msgid "Approved result text"
+msgstr "Texte de résultat après approbation"
+
+msgid "Rejected result text"
+msgstr "Texte de résultat après rejet"
 
 msgid "Approval Status"
 msgstr "Statut d'approbation"
@@ -158,8 +182,11 @@ msgstr "Le statut d'approbation est passé à %s via %s par %s."
 msgid "Confirm approval action"
 msgstr "Confirmer l'action d'approbation"
 
-msgid "You are about to %s this entry."
-msgstr "Vous êtes sur le point de %s cette entrée."
+msgid "You are about to approve this entry."
+msgstr "Vous êtes sur le point d'approuver cette entrée."
+
+msgid "You are about to reject this entry."
+msgstr "Vous êtes sur le point de rejeter cette entrée."
 
 msgid "Confirm"
 msgstr "Confirmer"

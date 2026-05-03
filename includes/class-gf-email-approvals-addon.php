@@ -45,6 +45,12 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	const MANUAL_APPROVE_ACTION = 'gf_email_approval_manual_approve';
 	const MANUAL_REJECT_ACTION = 'gf_email_approval_manual_reject';
 	const MANUAL_RESET_ACTION = 'gf_email_approval_manual_reset';
+	const NOTIFICATION_CONFIRMATION_TITLE = 'approval_confirmation_title';
+	const NOTIFICATION_APPROVE_CONFIRMATION_TEXT = 'approval_approve_confirmation_text';
+	const NOTIFICATION_REJECT_CONFIRMATION_TEXT = 'approval_reject_confirmation_text';
+	const NOTIFICATION_CONFIRM_BUTTON_LABEL = 'approval_confirm_button_label';
+	const NOTIFICATION_APPROVED_RESULT_TEXT = 'approval_approved_result_text';
+	const NOTIFICATION_REJECTED_RESULT_TEXT = 'approval_rejected_result_text';
 
 	protected $_version = GF_EMAIL_APPROVALS_VERSION;
 	protected $_min_gravityforms_version = '2.7';
@@ -121,6 +127,8 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	public function init_admin() {
 		parent::init_admin();
 
+		add_filter( 'gform_notification_settings_fields', array( $this, 'register_notification_settings_fields' ), 10, 3 );
+		add_filter( 'gform_pre_notification_save', array( $this, 'save_notification_page_settings' ), 10, 2 );
 		add_filter( 'gform_entry_list_columns', array( $this, 'register_entry_list_columns' ), 10, 2 );
 		add_filter( 'gform_entry_list_bulk_actions', array( $this, 'register_entry_list_bulk_actions' ), 10, 2 );
 		add_filter( 'gform_entries_column_filter', array( $this, 'render_entry_list_column' ), 10, 5 );
@@ -172,6 +180,133 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	}
 
 	/**
+	 * Adds Approval Request-specific copy settings to the notification editor.
+	 *
+	 * @param array $fields       Existing notification settings sections.
+	 * @param array $notification The notification being edited.
+	 * @param array $form         The current form.
+	 *
+	 * @return array
+	 */
+	public function register_notification_settings_fields( $fields, $notification, $form ) {
+		unset( $notification, $form );
+
+		$defaults = $this->get_notification_page_defaults();
+
+		$fields[] = array(
+			'title'       => esc_html__( 'Approval Pages', 'gf-email-approvals' ),
+			'description' => esc_html__( 'Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported.', 'gf-email-approvals' ),
+			'dependency'  => array(
+				'field'  => 'event',
+				'values' => array( 'approval_request' ),
+				'live'   => true,
+			),
+			'fields'      => array(
+				array(
+					'type'          => 'text',
+					'name'          => self::NOTIFICATION_CONFIRMATION_TITLE,
+					'label'         => esc_html__( 'Confirmation title', 'gf-email-approvals' ),
+					'class'         => 'large merge-tag-support mt-position-right',
+					'default_value' => $defaults[ self::NOTIFICATION_CONFIRMATION_TITLE ],
+				),
+				array(
+					'type'          => 'textarea',
+					'name'          => self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT,
+					'label'         => esc_html__( 'Approve confirmation text', 'gf-email-approvals' ),
+					'class'         => 'large merge-tag-support mt-position-right',
+					'default_value' => $defaults[ self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ],
+				),
+				array(
+					'type'          => 'textarea',
+					'name'          => self::NOTIFICATION_REJECT_CONFIRMATION_TEXT,
+					'label'         => esc_html__( 'Reject confirmation text', 'gf-email-approvals' ),
+					'class'         => 'large merge-tag-support mt-position-right',
+					'default_value' => $defaults[ self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ],
+				),
+				array(
+					'type'          => 'text',
+					'name'          => self::NOTIFICATION_CONFIRM_BUTTON_LABEL,
+					'label'         => esc_html__( 'Confirm button label', 'gf-email-approvals' ),
+					'class'         => 'medium merge-tag-support mt-position-right',
+					'default_value' => $defaults[ self::NOTIFICATION_CONFIRM_BUTTON_LABEL ],
+				),
+				array(
+					'type'          => 'textarea',
+					'name'          => self::NOTIFICATION_APPROVED_RESULT_TEXT,
+					'label'         => esc_html__( 'Approved result text', 'gf-email-approvals' ),
+					'class'         => 'large merge-tag-support mt-position-right',
+					'default_value' => $defaults[ self::NOTIFICATION_APPROVED_RESULT_TEXT ],
+				),
+				array(
+					'type'          => 'textarea',
+					'name'          => self::NOTIFICATION_REJECTED_RESULT_TEXT,
+					'label'         => esc_html__( 'Rejected result text', 'gf-email-approvals' ),
+					'class'         => 'large merge-tag-support mt-position-right',
+					'default_value' => $defaults[ self::NOTIFICATION_REJECTED_RESULT_TEXT ],
+				),
+			),
+		);
+
+		return $fields;
+	}
+
+	/**
+	 * Persists Approval Request-specific page copy settings on the notification.
+	 *
+	 * @param array $notification The notification object being saved.
+	 * @param array $form         The current form.
+	 *
+	 * @return array
+	 */
+	public function save_notification_page_settings( $notification, $form ) {
+		unset( $form );
+
+		$text_fields = array(
+			self::NOTIFICATION_CONFIRMATION_TITLE,
+			self::NOTIFICATION_CONFIRM_BUTTON_LABEL,
+		);
+
+		foreach ( $text_fields as $setting_name ) {
+			if ( ! isset( $_POST[ $setting_name ] ) ) {
+				continue;
+			}
+
+			$value = sanitize_text_field( wp_unslash( $_POST[ $setting_name ] ) );
+
+			if ( '' === $value ) {
+				unset( $notification[ $setting_name ] );
+				continue;
+			}
+
+			$notification[ $setting_name ] = $value;
+		}
+
+		$textarea_fields = array(
+			self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT,
+			self::NOTIFICATION_REJECT_CONFIRMATION_TEXT,
+			self::NOTIFICATION_APPROVED_RESULT_TEXT,
+			self::NOTIFICATION_REJECTED_RESULT_TEXT,
+		);
+
+		foreach ( $textarea_fields as $setting_name ) {
+			if ( ! isset( $_POST[ $setting_name ] ) ) {
+				continue;
+			}
+
+			$value = sanitize_textarea_field( wp_unslash( $_POST[ $setting_name ] ) );
+
+			if ( '' === $value ) {
+				unset( $notification[ $setting_name ] );
+				continue;
+			}
+
+			$notification[ $setting_name ] = $value;
+		}
+
+		return $notification;
+	}
+
+	/**
 	 * Exposes the approval merge tags in Gravity Forms editors.
 	 *
 	 * @param array $merge_tags Existing merge tags.
@@ -184,26 +319,9 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	public function register_custom_merge_tags( $merge_tags, $form_id, $fields, $element_id ) {
 		unset( $form_id, $fields, $element_id );
 
-		$merge_tags[] = array(
-			'label' => esc_html__( 'Approval Status', 'gf-email-approvals' ),
-			'tag'   => '{approval_status}',
-		);
-		$merge_tags[] = array(
-			'label' => esc_html__( 'Approval Approve URL', 'gf-email-approvals' ),
-			'tag'   => '{approval_approve_url}',
-		);
-		$merge_tags[] = array(
-			'label' => esc_html__( 'Approval Reject URL', 'gf-email-approvals' ),
-			'tag'   => '{approval_reject_url}',
-		);
-		$merge_tags[] = array(
-			'label' => esc_html__( 'Approval Approve Button', 'gf-email-approvals' ),
-			'tag'   => '{approval_approve_button}',
-		);
-		$merge_tags[] = array(
-			'label' => esc_html__( 'Approval Reject Button', 'gf-email-approvals' ),
-			'tag'   => '{approval_reject_button}',
-		);
+		foreach ( $this->get_approval_merge_tags() as $approval_merge_tag ) {
+			$merge_tags[] = $approval_merge_tag;
+		}
 
 		return $merge_tags;
 	}
@@ -693,7 +811,13 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			$this->render_public_message_page( esc_html__( 'This approval request has already been processed.', 'gf-email-approvals' ) );
 		}
 
-		$this->render_public_confirmation_page( $record, $token );
+		$form         = class_exists( 'GFAPI' ) ? GFAPI::get_form( absint( $record->form_id ) ) : array();
+		$entry        = class_exists( 'GFAPI' ) ? GFAPI::get_entry( absint( $record->entry_id ) ) : array();
+		$form         = is_array( $form ) ? $form : array();
+		$entry        = is_array( $entry ) ? $entry : array();
+		$notification = $this->get_form_notification( $form, (string) $record->notification_id );
+
+		$this->render_public_confirmation_page( $record, $token, $notification, $form, $entry );
 	}
 
 	/**
@@ -1122,6 +1246,8 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			$this->render_public_message_page( esc_html__( 'This approval link is invalid or expired.', 'gf-email-approvals' ) );
 		}
 
+		$notification = $this->get_form_notification( is_array( $form ) ? $form : array(), (string) $record->notification_id );
+
 		$result = $this->process_decision(
 			$entry,
 			$form,
@@ -1134,7 +1260,16 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			)
 		);
 
-		$this->render_public_message_page( $result['message'] );
+		$message = $result['message'];
+
+		if ( ! empty( $result['success'] ) ) {
+			$settings = $this->get_notification_page_settings( $notification, $form, $entry );
+			$message  = self::STATUS_APPROVED === (string) $record->action
+				? $settings[ self::NOTIFICATION_APPROVED_RESULT_TEXT ]
+				: $settings[ self::NOTIFICATION_REJECTED_RESULT_TEXT ];
+		}
+
+		$this->render_public_message_page( $message );
 	}
 
 	/**
@@ -1220,10 +1355,13 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 *
 	 * @return void
 	 */
-	private function render_public_confirmation_page( $record, $token ) {
-		$decision = self::STATUS_APPROVED === $record->action ? esc_html__( 'approve', 'gf-email-approvals' ) : esc_html__( 'reject', 'gf-email-approvals' );
-		$title    = esc_html__( 'Confirm approval action', 'gf-email-approvals' );
-		$message  = sprintf( esc_html__( 'You are about to %s this entry.', 'gf-email-approvals' ), $decision );
+	private function render_public_confirmation_page( $record, $token, $notification = array(), $form = array(), $entry = array() ) {
+		$settings   = $this->get_notification_page_settings( $notification, $form, $entry );
+		$is_approve = self::STATUS_APPROVED === $record->action;
+		$title      = $settings[ self::NOTIFICATION_CONFIRMATION_TITLE ];
+		$message    = $is_approve
+			? $settings[ self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ]
+			: $settings[ self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ];
 		$action_url = add_query_arg(
 			array(
 				self::QUERY_ACTION => self::PUBLIC_ACTION_CONFIRM,
@@ -1231,18 +1369,19 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			),
 			home_url( '/' )
 		);
+		$message_markup = $this->get_public_message_markup( $message );
 
 		$this->render_public_page(
 			$title,
 			sprintf(
-				'<p>%1$s</p><form method="post" action="%2$s"><input type="hidden" name="%3$s" value="%4$s" /><input type="hidden" name="%5$s" value="%6$s" /><p><button type="submit" style="padding:12px 18px;background:#1d2327;color:#fff;border:0;border-radius:4px;cursor:pointer;">%7$s</button></p></form>',
-				esc_html( $message ),
+				'%1$s<form method="post" action="%2$s"><input type="hidden" name="%3$s" value="%4$s" /><input type="hidden" name="%5$s" value="%6$s" /><p><button type="submit" style="display:block;width:100%%;box-sizing:border-box;padding:12px 18px;background:#1d2327;color:#fff;border:0;border-radius:4px;cursor:pointer;">%7$s</button></p></form>',
+				$message_markup,
 				esc_url( $action_url ),
 				esc_attr( self::QUERY_TOKEN ),
 				esc_attr( $token ),
 				esc_attr( self::QUERY_ACTION ),
 				esc_attr( self::PUBLIC_ACTION_CONFIRM ),
-				esc_html__( 'Confirm', 'gf-email-approvals' )
+				esc_html( $settings[ self::NOTIFICATION_CONFIRM_BUTTON_LABEL ] )
 			)
 		);
 	}
@@ -1255,7 +1394,150 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 * @return void
 	 */
 	private function render_public_message_page( $message ) {
-		$this->render_public_page( esc_html__( 'Approval', 'gf-email-approvals' ), '<p>' . esc_html( $message ) . '</p>' );
+		$this->render_public_page( esc_html__( 'Approval', 'gf-email-approvals' ), $this->get_public_message_markup( $message ) );
+	}
+
+	/**
+	 * Returns the default copy used on the public approval pages.
+	 *
+	 * @return array<string, string>
+	 */
+	private function get_notification_page_defaults() {
+		return array(
+			self::NOTIFICATION_CONFIRMATION_TITLE        => __( 'Confirm approval action', 'gf-email-approvals' ),
+			self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT => __( 'You are about to approve this entry.', 'gf-email-approvals' ),
+			self::NOTIFICATION_REJECT_CONFIRMATION_TEXT  => __( 'You are about to reject this entry.', 'gf-email-approvals' ),
+			self::NOTIFICATION_CONFIRM_BUTTON_LABEL      => __( 'Confirm', 'gf-email-approvals' ),
+			self::NOTIFICATION_APPROVED_RESULT_TEXT      => __( 'The entry has been approved.', 'gf-email-approvals' ),
+			self::NOTIFICATION_REJECTED_RESULT_TEXT      => __( 'The entry has been rejected.', 'gf-email-approvals' ),
+		);
+	}
+
+	/**
+	 * Returns the approval-specific merge tags in Gravity Forms selector format.
+	 *
+	 * @return array<int, array<string, string>>
+	 */
+	private function get_approval_merge_tags() {
+		return array(
+			array(
+				'label' => esc_html__( 'Approval Status', 'gf-email-approvals' ),
+				'tag'   => '{approval_status}',
+			),
+			array(
+				'label' => esc_html__( 'Approval Approve URL', 'gf-email-approvals' ),
+				'tag'   => '{approval_approve_url}',
+			),
+			array(
+				'label' => esc_html__( 'Approval Reject URL', 'gf-email-approvals' ),
+				'tag'   => '{approval_reject_url}',
+			),
+			array(
+				'label' => esc_html__( 'Approval Approve Button', 'gf-email-approvals' ),
+				'tag'   => '{approval_approve_button}',
+			),
+			array(
+				'label' => esc_html__( 'Approval Reject Button', 'gf-email-approvals' ),
+				'tag'   => '{approval_reject_button}',
+			),
+		);
+	}
+
+	/**
+	 * Returns the effective page copy for a notification, with defaults as fallback.
+	 *
+	 * @param array $notification The notification object.
+	 *
+	 * @return array<string, string>
+	 */
+	private function get_notification_page_settings( $notification, $form = array(), $entry = array() ) {
+		$settings = $this->get_notification_page_defaults();
+
+		foreach ( $settings as $setting_name => $default_value ) {
+			$value = $this->array_value( $notification, $setting_name );
+
+			if ( is_string( $value ) && '' !== trim( $value ) ) {
+				$settings[ $setting_name ] = $value;
+			}
+		}
+
+		foreach ( $settings as $setting_name => $value ) {
+			$settings[ $setting_name ] = $this->replace_merge_tags_in_text( $value, $form, $entry );
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Resolves Gravity Forms merge tags in arbitrary text using the current form and entry.
+	 *
+	 * @param string     $text  The text to parse.
+	 * @param array|bool $form  The current form.
+	 * @param array|bool $entry The current entry.
+	 *
+	 * @return string
+	 */
+	private function replace_merge_tags_in_text( $text, $form, $entry ) {
+		if ( ! is_string( $text ) || '' === $text || false === strpos( $text, '{' ) ) {
+			return (string) $text;
+		}
+
+		if ( ! class_exists( 'GFCommon' ) || ! method_exists( 'GFCommon', 'replace_variables' ) ) {
+			return $text;
+		}
+
+		return GFCommon::replace_variables(
+			$text,
+			! empty( $form ) ? $form : false,
+			! empty( $entry ) ? $entry : false,
+			false,
+			false,
+			false,
+			'text'
+		);
+	}
+
+	/**
+	 * Finds a notification by id on the current form.
+	 *
+	 * @param array  $form            The form object.
+	 * @param string $notification_id The notification id.
+	 *
+	 * @return array
+	 */
+	private function get_form_notification( $form, $notification_id ) {
+		$notifications = $this->array_value( $form, 'notifications' );
+
+		if ( ! is_array( $notifications ) || '' === $notification_id ) {
+			return array();
+		}
+
+		if ( isset( $notifications[ $notification_id ] ) && is_array( $notifications[ $notification_id ] ) ) {
+			return $notifications[ $notification_id ];
+		}
+
+		foreach ( $notifications as $notification ) {
+			if ( ! is_array( $notification ) ) {
+				continue;
+			}
+
+			if ( $notification_id === (string) $this->array_value( $notification, 'id' ) ) {
+				return $notification;
+			}
+		}
+
+		return array();
+	}
+
+	/**
+	 * Formats plain notification copy for the public approval pages.
+	 *
+	 * @param string $message The message to render.
+	 *
+	 * @return string
+	 */
+	private function get_public_message_markup( $message ) {
+		return '<p style="white-space:pre-line;">' . esc_html( $message ) . '</p>';
 	}
 
 	/**

@@ -2,9 +2,9 @@
 # This file is distributed under the GNU Affero General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Approvals for Gravity Forms 0.1.0\n"
+"Project-Id-Version: Email Approvals for Gravity Forms 0.2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
-"POT-Creation-Date: 2026-05-02 00:00+0000\n"
+"POT-Creation-Date: 2026-05-03 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,6 +40,38 @@ msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:169
 msgid "Approval Rejected"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:191
+msgid "Approval Pages"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:192
+msgid "Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:202
+msgid "Confirmation title"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:209
+msgid "Approve confirmation text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:216
+msgid "Reject confirmation text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:223
+msgid "Confirm button label"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:230
+msgid "Approved result text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:237
+msgid "Rejected result text"
 msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:188 includes/class-gf-email-approvals-addon.php:248 includes/class-gf-email-approvals-addon.php:286 includes/class-gf-email-approvals-addon.php:292
@@ -200,15 +232,19 @@ msgstr ""
 msgid "Approval status changed to %s via %s by %s."
 msgstr ""
 
-#: includes/class-gf-email-approvals-addon.php:1225
+#: includes/class-gf-email-approvals-addon.php:1411
 msgid "Confirm approval action"
 msgstr ""
 
-#: includes/class-gf-email-approvals-addon.php:1226
-msgid "You are about to %s this entry."
+#: includes/class-gf-email-approvals-addon.php:1412
+msgid "You are about to approve this entry."
 msgstr ""
 
-#: includes/class-gf-email-approvals-addon.php:1245
+#: includes/class-gf-email-approvals-addon.php:1413
+msgid "You are about to reject this entry."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1414
 msgid "Confirm"
 msgstr ""
 

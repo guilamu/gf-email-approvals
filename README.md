@@ -6,6 +6,7 @@ Send approval requests for Gravity Forms entries with secure email decision link
 
 - Choose the `Approval Request`, `Approval Approved`, and `Approval Rejected` notification events directly in Gravity Forms.
 - Generate approve and reject URLs or HTML buttons with dedicated merge tags inside notification bodies.
+- Customize the public confirmation and result page text directly on each `Approval Request` notification, with Gravity Forms merge tags and the native selector already available on the notification screen.
 - Match approval emails to each form workflow without adding a separate plugin settings screen.
 
 ## Review Decisions in Gravity Forms
@@ -67,16 +68,10 @@ Yes. The plugin includes GitHub release updates, a WordPress-style details modal
 
 Not yet. The current MVP is configured through Gravity Forms notifications and native entry permissions rather than custom plugin hooks.
 
-## Known Issues
-
-- Keeping the default `Form Submission` notifications active can send business emails before approval.
-- Resetting an entry back to Pending does not resend the `Approval Request` notification automatically.
-
 ## Limitations
 
 - The plugin currently supports a single approval state per entry, not sequential or multi-step approvals.
 - It does not add a dedicated form settings UI; configuration happens through Gravity Forms notifications.
-- Approval decisions apply to the whole entry, not to individual fields or partial submissions.
 
 ## Troubleshooting
 
@@ -105,11 +100,18 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 
 ## Changelog
 
+### 0.2.0 - 2026-05-03
+
+- **New:** Added notification-level `Approval Pages` settings for public confirmation and result copy on `Approval Request` notifications.
+- **New:** Added merge tag support to Approval Pages text fields using the native Gravity Forms merge tag selector.
+- **Improved:** Scoped public approval page text to the originating notification by storing and resolving the source notification for each approval token.
+- **Improved:** Refined the notification editor UX so Approval Pages settings only appear for the `Approval Request` event.
+
 ### 0.1.0 - 2026-05-02
 
 - **New:** Added the initial email approval workflow for Gravity Forms entries.
 - **New:** Added GitHub release auto-updates, the plugin details modal, and Guilamu Bug Reporter integration.
-- **Improved:** Added native Gravity Forms entry detail actions, list filters, status columns, and bulk actions.
+- **Improved:** Added native Gravity Forms entry detail actions, list filters, status columns, bulk actions, and configurable public approval page copy on `Approval Request` notifications.
 - **Security:** Added one-time hashed decision tokens, nonce-protected admin actions, and capability checks for status changes.
 
 ## License
