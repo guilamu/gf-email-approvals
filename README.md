@@ -104,6 +104,11 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 
 ## Changelog
 
+### 0.3.2 - 2026-05-03
+
+- **Improved:** Fixed the plugin details modal so the sidebar version now prefers the installed plugin version instead of a stale GitHub release tag.
+- **Improved:** Aligned the modal download link and release metadata so they only point to GitHub when a newer release is actually available.
+
 ### 0.3.1 - 2026-05-03
 
 - **Improved:** Fixed the plugin details modal sidebar so `Requires Gravity Forms` renders as formatted HTML instead of escaped literal tags.

@@ -259,11 +259,17 @@ class GFEmailApprovalsGitHubUpdater {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		$plugin_file  = WP_PLUGIN_DIR . '/' . self::PLUGIN_FILE;
-		$plugin_data  = get_plugin_data( $plugin_file, false, false );
-		$release_data = self::get_release_data();
-		$version      = $release_data ? ltrim( (string) $release_data['tag_name'], 'v' ) : ( isset( $plugin_data['Version'] ) ? $plugin_data['Version'] : GF_EMAIL_APPROVALS_VERSION );
-		$readme       = self::parse_readme();
+		$plugin_file       = WP_PLUGIN_DIR . '/' . self::PLUGIN_FILE;
+		$plugin_data       = get_plugin_data( $plugin_file, false, false );
+		$release_data      = self::get_release_data();
+		$installed_version = isset( $plugin_data['Version'] ) ? (string) $plugin_data['Version'] : GF_EMAIL_APPROVALS_VERSION;
+		$release_version   = $release_data && ! empty( $release_data['tag_name'] ) ? ltrim( (string) $release_data['tag_name'], 'v' ) : '';
+		$version           = $installed_version;
+		$readme            = self::parse_readme();
+
+		if ( '' !== $release_version && version_compare( $release_version, $installed_version, '>' ) ) {
+			$version = $release_version;
+		}
 
 		$res                = new stdClass();
 		$res->name          = self::PLUGIN_NAME;
@@ -275,8 +281,12 @@ class GFEmailApprovalsGitHubUpdater {
 		$res->requires      = self::REQUIRES_WP;
 		$res->tested        = get_bloginfo( 'version' );
 		$res->requires_php  = self::REQUIRES_PHP;
-		$res->download_link = $release_data ? self::get_package_url( $release_data ) : '';
-		$res->last_updated  = $release_data && ! empty( $release_data['published_at'] ) ? $release_data['published_at'] : '';
+		$res->download_link = $release_data && '' !== $release_version && version_compare( $release_version, $installed_version, '>' )
+			? self::get_package_url( $release_data )
+			: '';
+		$res->last_updated  = $release_data && ! empty( $release_data['published_at'] ) && '' !== $release_version && version_compare( $release_version, $installed_version, '>' )
+			? $release_data['published_at']
+			: '';
 
 		$res->sections = array(
 			'description' => ! empty( $readme['description'] )
@@ -292,8 +302,7 @@ class GFEmailApprovalsGitHubUpdater {
 			$res->sections['faq'] = $readme['faq'];
 		}
 
-		$changelog_html    = '';
-		$installed_version = isset( $plugin_data['Version'] ) ? $plugin_data['Version'] : '0.0.0';
+		$changelog_html = '';
 
 		if ( $release_data && ! empty( $release_data['body'] ) && version_compare( $installed_version, $version, '<' ) ) {
 			$changelog_html .= '<h4>' . esc_html( $version ) . '</h4>' . self::markdown_to_html( $release_data['body'] );
