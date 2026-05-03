@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Approvals for Gravity Forms 0.2.0\n"
+"Project-Id-Version: Email Approvals for Gravity Forms 0.3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
 "POT-Creation-Date: 2026-05-02 00:00+0000\n"
-"PO-Revision-Date: 2026-05-03 00:00+0000\n"
+"PO-Revision-Date: 2026-05-03 14:37+0200\n"
 "Last-Translator: GitHub Copilot <noreply@github.com>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -12,6 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Domain: gf-email-approvals\n"
+"X-Generator: Poedit 3.9\n"
 
 msgid "More information about Email Approvals for Gravity Forms"
 msgstr "Plus d'informations sur Email Approvals for Gravity Forms"
@@ -24,6 +25,12 @@ msgstr "Signaler un bug"
 
 msgid "Report a Bug (install Bug Reporter)"
 msgstr "Signaler un bug (installer Bug Reporter)"
+
+msgid "Email Approvals for Gravity Forms requires Gravity Forms to be installed and active."
+msgstr "Email Approvals for Gravity Forms nécessite que Gravity Forms soit installé et actif."
+
+msgid "Plugin dependency missing"
+msgstr "Dépendance du plugin manquante"
 
 msgid "Approval Request"
 msgstr "Demande d'approbation"
@@ -176,9 +183,6 @@ msgstr "L'entrée a été approuvée."
 msgid "The entry has been rejected."
 msgstr "L'entrée a été rejetée."
 
-msgid "Approval status changed to %s via %s by %s."
-msgstr "Le statut d'approbation est passé à %s via %s par %s."
-
 msgid "Confirm approval action"
 msgstr "Confirmer l'action d'approbation"
 
@@ -202,3 +206,108 @@ msgstr "%s ou supérieur"
 
 msgid "Unable to rename the update folder. Please retry or update manually."
 msgstr "Impossible de renommer le dossier de mise à jour. Veuillez réessayer ou effectuer une mise à jour manuelle."
+
+msgid "Leave unchanged"
+msgstr "Laisser inchangé"
+
+msgid "Update Field After Confirmation"
+msgstr "Mettre à jour un champ après confirmation"
+
+msgid "Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page."
+msgstr "Mettez éventuellement à jour un champ d'entrée pris en charge après que l'approbateur a confirmé sa décision. Vous pouvez soit appliquer automatiquement une valeur prédéfinie, soit laisser l'approbateur choisir la valeur sur la page de confirmation."
+
+msgid "Update behavior"
+msgstr "Comportement de mise à jour"
+
+msgid "Choose whether the value is applied automatically when the link is confirmed or selected by the approver on the confirmation page."
+msgstr "Choisissez si la valeur est appliquée automatiquement lorsque le lien est confirmé ou si elle est sélectionnée par l'approbateur sur la page de confirmation."
+
+msgid "Field to update"
+msgstr "Champ à mettre à jour"
+
+msgid "Choose one supported field to update after approval or rejection."
+msgstr "Choisissez un champ pris en charge à mettre à jour après l'approbation ou le rejet."
+
+msgid "Approved value"
+msgstr "Valeur en cas d'approbation"
+
+msgid "Used for text-like target fields. Merge tags are supported. Leave blank to keep the field unchanged."
+msgstr "Utilisé pour les champs cibles de type texte. Les merge tags sont pris en charge. Laissez vide pour conserver la valeur actuelle du champ."
+
+msgid "Rejected value"
+msgstr "Valeur en cas de rejet"
+
+msgid "Approved choice"
+msgstr "Choix en cas d'approbation"
+
+msgid "Used for drop down and multiple choice target fields. Leave unchanged to keep the current value."
+msgstr "Utilisé pour les champs cibles liste déroulante et choix multiple. Laissez inchangé pour conserver la valeur actuelle."
+
+msgid "Rejected choice"
+msgstr "Choix en cas de rejet"
+
+msgid "Approved choices"
+msgstr "Choix en cas d'approbation"
+
+msgid "Used for checkbox and multi select target fields. Leave empty to keep the current value."
+msgstr "Utilisé pour les champs cibles cases à cocher et sélection multiple. Laissez vide pour conserver la valeur actuelle."
+
+msgid "Rejected choices"
+msgstr "Choix en cas de rejet"
+
+msgid "Approval status changed to %s."
+msgstr "Le statut d'approbation a été changé en %s."
+
+msgid "Source: %s"
+msgstr "Source : %s"
+
+msgid "Actor: %s"
+msgstr "Acteur : %s"
+
+msgid "Recipient: %s"
+msgstr "Destinataire : %s"
+
+msgid "IP: %s"
+msgstr "IP : %s"
+
+msgid "Notification: %1$s (ID: %2$s)"
+msgstr "Notification : %1$s (ID : %2$s)"
+
+msgid "Notification: %s"
+msgstr "Notification : %s"
+
+msgid "Message field updated: %1$s (%2$s)"
+msgstr "Champ de message mis à jour : %1$s (%2$s)"
+
+msgid "Field updated: %1$s (%2$s)"
+msgstr "Champ mis à jour : %1$s (%2$s)"
+
+msgid "Old value: %s"
+msgstr "Ancienne valeur : %s"
+
+msgid "New value: %s"
+msgstr "Nouvelle valeur : %s"
+
+msgid "Choose a value"
+msgstr "Choisir une valeur"
+
+msgid "Do not update any field"
+msgstr "Ne mettre à jour aucun champ"
+
+msgid "Set a predefined value automatically"
+msgstr "Appliquer automatiquement une valeur prédéfinie"
+
+msgid "Let the approver choose the value"
+msgstr "Laisser l'approbateur choisir la valeur"
+
+msgid "Field %d"
+msgstr "Champ %d"
+
+msgid "%1$s (%2$s)"
+msgstr "%1$s (%2$s)"
+
+msgid "The approval request could not be processed."
+msgstr "La demande d'approbation n'a pas pu être traitée."
+
+msgid "(empty)"
+msgstr "(vide)"

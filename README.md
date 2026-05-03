@@ -6,7 +6,9 @@ Send approval requests for Gravity Forms entries with secure email decision link
 
 - Choose the `Approval Request`, `Approval Approved`, and `Approval Rejected` notification events directly in Gravity Forms.
 - Generate approve and reject URLs or HTML buttons with dedicated merge tags inside notification bodies.
+- Override button labels inline with advanced merge tags such as `{approval_approve_button:Approve this request}` or `{approval_reject_button:Reject this request}`.
 - Customize the public confirmation and result page text directly on each `Approval Request` notification, with Gravity Forms merge tags and the native selector already available on the notification screen.
+- Update one supported field after approval or rejection, either with a predefined automatic value or with a value chosen by the approver on the confirmation page.
 - Match approval emails to each form workflow without adding a separate plugin settings screen.
 
 ## Review Decisions in Gravity Forms
@@ -24,6 +26,7 @@ Send approval requests for Gravity Forms entries with secure email decision link
 ## Key Features
 
 - **Gravity Forms Native:** Uses custom notification events, entry meta, list filters, and entry detail actions inside Gravity Forms.
+- **Field Updates After Confirmation:** Can update one supported field per decision with either automatic values or approver-selected values, and records a detailed audit trail in the entry notes.
 - **Decision Tokens:** Creates single-use approval links and invalidates older active tokens automatically.
 - **Multilingual:** Works with forms, notifications, and approver emails in any language.
 - **Translation-Ready:** User-facing strings use the `gf-email-approvals` text domain.
@@ -79,6 +82,7 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 2. If a link says it is invalid or expired, send a fresh approval request; previous tokens are invalidated after a resend, reset, or successful decision.
 3. If an admin cannot change status, confirm the user has the `gravityforms_edit_entries` capability.
 4. If a GitHub update does not appear, clear transients and verify the latest GitHub release tag is newer than the plugin version header.
+5. If a field update does not apply, confirm the chosen update behavior matches the selected field type and that choice-based fields still use valid configured choices.
 
 ## Project Structure
 
@@ -99,6 +103,14 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 ```
 
 ## Changelog
+
+### 0.3.0 - 2026-05-03
+
+- **New:** Added automatic and approver-selected field updates for one supported entry field on each `Approval Request` notification.
+- **New:** Added advanced approval button merge tags so each email can override the displayed Approve/Reject button text inline.
+- **Improved:** Reworked the notification editor so post-confirmation field updates start with an explicit update behavior choice before the target field is selected.
+- **Improved:** Refined the public confirmation page layout so manual update fields stay properly contained inside the confirmation card.
+- **Improved:** Added detailed audit notes for approval decisions, including notification context, recipient, IP, and field diffs.
 
 ### 0.2.0 - 2026-05-03
 
