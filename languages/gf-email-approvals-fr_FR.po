@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Email Approvals for Gravity Forms 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
+"POT-Creation-Date: 2026-05-02 00:00+0000\n"
+"PO-Revision-Date: 2026-05-02 00:00+0000\n"
+"Last-Translator: GitHub Copilot <noreply@github.com>\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Domain: gf-email-approvals\n"
+
+msgid "More information about Email Approvals for Gravity Forms"
+msgstr "Plus d'informations sur Email Approvals for Gravity Forms"
+
+msgid "View details"
+msgstr "Voir les détails"
+
+msgid "Report a Bug"
+msgstr "Signaler un bug"
+
+msgid "Report a Bug (install Bug Reporter)"
+msgstr "Signaler un bug (installer Bug Reporter)"
+
+msgid "Approval Request"
+msgstr "Demande d'approbation"
+
+msgid "Approval Approved"
+msgstr "Approbation validée"
+
+msgid "Approval Rejected"
+msgstr "Approbation rejetée"
+
+msgid "Approval Status"
+msgstr "Statut d'approbation"
+
+msgid "Approval Approve URL"
+msgstr "URL d'approbation"
+
+msgid "Approval Reject URL"
+msgstr "URL de rejet"
+
+msgid "Approval Approve Button"
+msgstr "Bouton d'approbation"
+
+msgid "Approval Reject Button"
+msgstr "Bouton de rejet"
+
+msgid "Approve"
+msgstr "Approuver"
+
+msgid "Reject"
+msgstr "Rejeter"
+
+msgid "Reset Status"
+msgstr "Réinitialiser le statut"
+
+msgid "Pending"
+msgstr "En attente"
+
+msgid "Approved"
+msgstr "Approuvé"
+
+msgid "Rejected"
+msgstr "Rejeté"
+
+msgid "Approval"
+msgstr "Approbation"
+
+msgid "You are not allowed to process these entries."
+msgstr "Vous n'êtes pas autorisé à traiter ces entrées."
+
+msgid "The approval action is currently unavailable."
+msgstr "L'action d'approbation est actuellement indisponible."
+
+msgid "Select at least one entry to update its approval status."
+msgstr "Sélectionnez au moins une entrée pour mettre à jour son statut d'approbation."
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Current status:"
+msgstr "Statut actuel :"
+
+msgid "Change status"
+msgstr "Changer le statut"
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "Reset"
+msgstr "Réinitialiser"
+
+msgid "This approval link is invalid or expired."
+msgstr "Ce lien d'approbation est invalide ou expiré."
+
+msgid "This approval request has already been processed."
+msgstr "Cette demande d'approbation a déjà été traitée."
+
+msgid "Choose an action:"
+msgstr "Choisissez une action :"
+
+msgid "Not requested"
+msgstr "Non demandé"
+
+msgid "The approval action could not be verified."
+msgstr "L'action d'approbation n'a pas pu être vérifiée."
+
+msgid "You are not allowed to process this entry."
+msgstr "Vous n'êtes pas autorisé à traiter cette entrée."
+
+msgid "This entry is already pending approval."
+msgstr "Cette entrée est déjà en attente d'approbation."
+
+msgid "The entry has been reset to pending."
+msgstr "L'entrée a été réinitialisée en attente."
+
+msgid "%d entry approved."
+msgid_plural "%d entries approved."
+msgstr[0] "%d entrée approuvée."
+msgstr[1] "%d entrées approuvées."
+
+msgid "%d entry rejected."
+msgid_plural "%d entries rejected."
+msgstr[0] "%d entrée rejetée."
+msgstr[1] "%d entrées rejetées."
+
+msgid "%d entry reset to pending."
+msgid_plural "%d entries reset to pending."
+msgstr[0] "%d entrée réinitialisée en attente."
+msgstr[1] "%d entrées réinitialisées en attente."
+
+msgid "%d entry skipped because its current status was not compatible."
+msgid_plural "%d entries skipped because their current status was not compatible."
+msgstr[0] "%d entrée ignorée car son statut actuel n'était pas compatible."
+msgstr[1] "%d entrées ignorées car leurs statuts actuels n'étaient pas compatibles."
+
+msgid "%d entry could not be loaded."
+msgid_plural "%d entries could not be loaded."
+msgstr[0] "%d entrée n'a pas pu être chargée."
+msgstr[1] "%d entrées n'ont pas pu être chargées."
+
+msgid "No entries were updated."
+msgstr "Aucune entrée n'a été mise à jour."
+
+msgid "The entry has been approved."
+msgstr "L'entrée a été approuvée."
+
+msgid "The entry has been rejected."
+msgstr "L'entrée a été rejetée."
+
+msgid "Approval status changed to %s via %s by %s."
+msgstr "Le statut d'approbation est passé à %s via %s par %s."
+
+msgid "Confirm approval action"
+msgstr "Confirmer l'action d'approbation"
+
+msgid "You are about to %s this entry."
+msgstr "Vous êtes sur le point de %s cette entrée."
+
+msgid "Confirm"
+msgstr "Confirmer"
+
+msgid "<p>See <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub releases</a> for changelog.</p>"
+msgstr "<p>Voir les <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">releases GitHub</a> pour le journal des modifications.</p>"
+
+msgid "Requires Gravity Forms:"
+msgstr "Gravity Forms requis :"
+
+msgid "%s or higher"
+msgstr "%s ou supérieur"
+
+msgid "Unable to rename the update folder. Please retry or update manually."
+msgstr "Impossible de renommer le dossier de mise à jour. Veuillez réessayer ou effectuer une mise à jour manuelle."
