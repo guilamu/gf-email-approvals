@@ -104,6 +104,10 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 
 ## Changelog
 
+### 0.3.1 - 2026-05-03
+
+- **Improved:** Fixed the plugin details modal sidebar so `Requires Gravity Forms` renders as formatted HTML instead of escaped literal tags.
+
 ### 0.3.0 - 2026-05-03
 
 - **New:** Added automatic and approver-selected field updates for one supported entry field on each `Approval Request` notification.

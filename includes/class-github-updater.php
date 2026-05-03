@@ -331,12 +331,10 @@ class GFEmailApprovalsGitHubUpdater {
 			return;
 		}
 
-		$requires_gf_html = esc_js(
-			sprintf(
-				'<strong>%1$s</strong> %2$s',
-				esc_html__( 'Requires Gravity Forms:', self::TEXT_DOMAIN ),
-				esc_html( sprintf( __( '%s or higher', self::TEXT_DOMAIN ), self::REQUIRES_GF ) )
-			)
+		$requires_gf_html = sprintf(
+			'<strong>%1$s</strong> %2$s',
+			esc_html__( 'Requires Gravity Forms:', self::TEXT_DOMAIN ),
+			esc_html( sprintf( __( '%s or higher', self::TEXT_DOMAIN ), self::REQUIRES_GF ) )
 		);
 
 		echo '<style>'
@@ -364,7 +362,7 @@ class GFEmailApprovalsGitHubUpdater {
 			. 'var items=document.querySelectorAll(".fyi ul li");'
 			. 'var phpLine=null;'
 			. 'for(var i=0;i<items.length;i++){if(items[i].textContent.indexOf("Requires PHP")!==-1){phpLine=items[i];break;}}'
-			. 'if(phpLine&&phpLine.parentNode){var li=document.createElement("li");li.innerHTML="' . $requires_gf_html . '";phpLine.parentNode.insertBefore(li,phpLine.nextSibling);}'
+			. 'if(phpLine&&phpLine.parentNode){var li=document.createElement("li");li.innerHTML=' . wp_json_encode( $requires_gf_html ) . ';phpLine.parentNode.insertBefore(li,phpLine.nextSibling);}'
 			. '});'
 			. '</script>';
 	}
