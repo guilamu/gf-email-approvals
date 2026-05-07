@@ -130,6 +130,24 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	}
 
 	/**
+	 * Returns the custom icon class used by Gravity Forms for this add-on.
+	 *
+	 * @return string
+	 */
+	public function get_menu_icon() {
+		return 'gf-email-approvals-icon--email';
+	}
+
+	/**
+	 * Returns the icon namespace used by Gravity Forms for this add-on.
+	 *
+	 * @return string
+	 */
+	public function get_icon_namespace() {
+		return 'gf-email-approvals';
+	}
+
+	/**
 	 * Registers the first MVP hooks.
 	 */
 	public function init() {
@@ -153,6 +171,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	public function init_admin() {
 		parent::init_admin();
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_addon_icon_assets' ) );
 		add_filter( 'gform_notification_settings_fields', array( $this, 'register_notification_settings_fields' ), 10, 3 );
 		add_filter( 'gform_pre_notification_save', array( $this, 'save_notification_page_settings' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_appearance_builder_assets' ) );
@@ -859,6 +878,23 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			})(jQuery);
 		</script>
 		<?php
+	}
+
+	/**
+	 * Enqueues the custom Dashicons-based add-on icon for Gravity Forms admin pages.
+	 *
+	 * @return void
+	 */
+	public function enqueue_addon_icon_assets() {
+		if ( ! is_admin() || ! class_exists( 'GFForms' ) || ! method_exists( 'GFForms', 'is_gravity_page' ) || ! GFForms::is_gravity_page() ) {
+			return;
+		}
+
+		wp_enqueue_style( 'dashicons' );
+		wp_add_inline_style(
+			'dashicons',
+			'.gf-email-approvals-icon,.gf-email-approvals-icon--email{display:inline-flex;align-items:center;justify-content:center;width:1em;height:1em;color:currentColor;font-family:dashicons !important;font-size:20px;font-style:normal;font-weight:400;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}.gf-email-approvals-icon::before,.gf-email-approvals-icon--email::before{content:"\\f465";}'
+		);
 	}
 
 	/**

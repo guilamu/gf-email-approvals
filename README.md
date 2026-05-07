@@ -107,6 +107,10 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 
 ## Changelog
 
+### 0.5.1 - 2026-05-07
+
+- **Improved:** Replaced the default Gravity Forms cog icon for the `Email Approvals` settings tab with an email icon.
+
 ### 0.5.0 - 2026-05-07
 
 - **New:** Added `Approval Page Appearance` under `Forms → Settings → Email Approvals` to style the shared public approval confirmation and result pages with color controls, card dimensions, and a live preview.
