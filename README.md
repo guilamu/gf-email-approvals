@@ -8,8 +8,9 @@ Send approval requests for Gravity Forms entries with secure email decision link
 - Generate approve and reject URLs or HTML buttons with dedicated merge tags inside notification bodies.
 - Override button labels inline with advanced merge tags such as `{approval_approve_button:Approve this request}` or `{approval_reject_button:Reject this request}`.
 - Customize the public confirmation and result page text directly on each `Approval Request` notification, with Gravity Forms merge tags and the native selector already available on the notification screen.
+- Style the shared public approval card from `Forms → Settings → Email Approvals` with global colors, spacing, radius, and a live preview builder.
 - Update one supported field after approval or rejection, either with a predefined automatic value or with a value chosen by the approver on the confirmation page.
-- Match approval emails to each form workflow without adding a separate plugin settings screen.
+- Match approval emails to each form workflow while keeping shared appearance controls in one plugin settings screen.
 
 ## Review Decisions in Gravity Forms
 
@@ -27,6 +28,7 @@ Send approval requests for Gravity Forms entries with secure email decision link
 
 - **Gravity Forms Native:** Uses custom notification events, entry meta, list filters, and entry detail actions inside Gravity Forms.
 - **Field Updates After Confirmation:** Can update one supported field per decision with either automatic values or approver-selected values, and records a detailed audit trail in the entry notes.
+- **Global Approval Page Appearance:** Adds a shared appearance builder for the public approval confirmation and result pages, including colors, card width, padding, and radius with a live preview.
 - **Decision Tokens:** Creates single-use approval links and invalidates older active tokens automatically.
 - **Multilingual:** Works with forms, notifications, and approver emails in any language.
 - **Translation-Ready:** User-facing strings use the `gf-email-approvals` text domain.
@@ -45,9 +47,10 @@ Send approval requests for Gravity Forms entries with secure email decision link
 
 1. Upload the `gf-email-approvals` folder to `/wp-content/plugins/`.
 2. Activate the plugin through the **Plugins** menu in WordPress.
-3. Open **Forms → Your Form → Settings → Notifications** and create an `Approval Request` notification.
-4. Optionally create `Approval Approved` and `Approval Rejected` notifications for post-decision follow-up emails.
-5. Submit a test entry and confirm the approver receives working decision links.
+3. Optionally open **Forms → Settings → Email Approvals** and configure the shared `Approval Page Appearance` settings.
+4. Open **Forms → Your Form → Settings → Notifications** and create an `Approval Request` notification.
+5. Optionally create `Approval Approved` and `Approval Rejected` notifications for post-decision follow-up emails.
+6. Submit a test entry and confirm the approver receives working decision links.
 
 ## FAQ
 
@@ -74,7 +77,7 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 ## Limitations
 
 - The plugin currently supports a single approval state per entry, not sequential or multi-step approvals.
-- It does not add a dedicated form settings UI; configuration happens through Gravity Forms notifications.
+- Workflow-specific approval text and field update behavior still live on each `Approval Request` notification; the plugin settings page only controls the shared public page appearance.
 
 ## Troubleshooting
 
@@ -103,6 +106,10 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 ```
 
 ## Changelog
+
+### 0.5.0 - 2026-05-07
+
+- **New:** Added `Approval Page Appearance` under `Forms → Settings → Email Approvals` to style the shared public approval confirmation and result pages with color controls, card dimensions, and a live preview.
 
 ### 0.4.0 - 2026-05-03
 

@@ -1,161 +1,18 @@
 msgid ""
-msgstr ""
-"Project-Id-Version: Email Approvals for Gravity Forms 0.4.0\n"
-"Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
-"POT-Creation-Date: 2026-05-02 00:00+0000\n"
-"PO-Revision-Date: 2026-05-03 19:51+0200\n"
-"Last-Translator: GitHub Copilot <noreply@github.com>\n"
-"Language-Team: French\n"
-"Language: fr_FR\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Domain: gf-email-approvals\n"
-"X-Generator: Poedit 3.9\n"
+msgstr "Project-Id-Version: Email Approvals for Gravity Forms 0.5.0\nReport-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\\nPOT-Creation-Date: 2026-05-07 16:43+0000\nPO-Revision-Date: 2026-05-07 16:43+0000\nLast-Translator: GitHub Copilot <noreply@github.com>\\nLanguage-Team: French\\nLanguage: fr_FR\\nMIME-Version: 1.0\\nContent-Type: text/plain; charset=UTF-8\\nContent-Transfer-Encoding: 8bit\\nPlural-Forms: nplurals=2; plural=(n > 1);\\nX-Domain: gf-email-approvals\\nX-Generator: GitHub Copilot\\n"
 
-msgid "More information about Email Approvals for Gravity Forms"
-msgstr "Plus d'informations sur Email Approvals for Gravity Forms"
-
-msgid "View details"
-msgstr "Voir les détails"
-
-msgid "Report a Bug"
-msgstr "Signaler un bug"
-
-msgid "Report a Bug (install Bug Reporter)"
-msgstr "Signaler un bug (installer Bug Reporter)"
-
-msgid "Email Approvals for Gravity Forms requires Gravity Forms to be installed and active."
-msgstr "Email Approvals for Gravity Forms nécessite que Gravity Forms soit installé et actif."
-
-msgid "Plugin dependency missing"
-msgstr "Dépendance du plugin manquante"
-
-msgid "Approval Request"
-msgstr "Demande d'approbation"
-
-msgid "Approval Approved"
-msgstr "Approbation validée"
-
-msgid "Approval Rejected"
-msgstr "Approbation rejetée"
-
-msgid "Approval Pages"
-msgstr "Pages d'approbation"
-
-msgid "Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported."
-msgstr "Personnalisez les pages publiques de confirmation et de résultat utilisées par les liens de demande d'approbation. Les merge tags Gravity Forms sont pris en charge."
-
-msgid "Confirmation title"
-msgstr "Titre de confirmation"
-
-msgid "Approve confirmation text"
-msgstr "Texte de confirmation d'approbation"
-
-msgid "Reject confirmation text"
-msgstr "Texte de confirmation de rejet"
-
-msgid "Approve button label"
-msgstr "Libellé du bouton d'approbation"
-
-msgid "Reject button label"
-msgstr "Libellé du bouton de rejet"
-
-msgid "Approved result text"
-msgstr "Texte de résultat après approbation"
-
-msgid "Rejected result text"
-msgstr "Texte de résultat après rejet"
-
-msgid "Approval Status"
-msgstr "Statut d'approbation"
-
-msgid "Approval Approve URL"
-msgstr "URL d'approbation"
-
-msgid "Approval Reject URL"
-msgstr "URL de rejet"
-
-msgid "Approval Approve Button"
-msgstr "Bouton d'approbation"
-
-msgid "Approval Reject Button"
-msgstr "Bouton de rejet"
-
-msgid "Approve"
-msgstr "Approuver"
-
-msgid "Reject"
-msgstr "Rejeter"
-
-msgid "Reset Status"
-msgstr "Réinitialiser le statut"
-
-msgid "Pending"
-msgstr "En attente"
-
-msgid "Approved"
-msgstr "Approuvé"
-
-msgid "Rejected"
-msgstr "Rejeté"
-
-msgid "Approval"
-msgstr "Approbation"
-
-msgid "You are not allowed to process these entries."
-msgstr "Vous n'êtes pas autorisé à traiter ces entrées."
-
-msgid "The approval action is currently unavailable."
-msgstr "L'action d'approbation est actuellement indisponible."
-
-msgid "Select at least one entry to update its approval status."
-msgstr "Sélectionnez au moins une entrée pour mettre à jour son statut d'approbation."
-
-msgid "Admin"
-msgstr "Admin"
-
-msgid "Current status:"
-msgstr "Statut actuel :"
-
-msgid "Change status"
-msgstr "Changer le statut"
-
-msgid "Apply"
-msgstr "Appliquer"
-
-msgid "Reset"
-msgstr "Réinitialiser"
-
-msgid "This approval link is invalid or expired."
-msgstr "Ce lien d'approbation est invalide ou expiré."
-
-msgid "This approval request has already been processed."
-msgstr "Cette demande d'approbation a déjà été traitée."
-
-msgid "Choose an action:"
-msgstr "Choisissez une action :"
-
-msgid "Not requested"
-msgstr "Non demandé"
-
-msgid "The approval action could not be verified."
-msgstr "L'action d'approbation n'a pas pu être vérifiée."
-
-msgid "You are not allowed to process this entry."
-msgstr "Vous n'êtes pas autorisé à traiter cette entrée."
-
-msgid "This entry is already pending approval."
-msgstr "Cette entrée est déjà en attente d'approbation."
-
-msgid "The entry has been reset to pending."
-msgstr "L'entrée a été réinitialisée en attente."
+msgid "%1$s (%2$s)"
+msgstr "%1$s (%2$s)"
 
 msgid "%d entry approved."
 msgid_plural "%d entries approved."
 msgstr[0] "%d entrée approuvée."
 msgstr[1] "%d entrées approuvées."
+
+msgid "%d entry could not be loaded."
+msgid_plural "%d entries could not be loaded."
+msgstr[0] "%d entrée n'a pas pu être chargée."
+msgstr[1] "%d entrées n'ont pas pu être chargées."
 
 msgid "%d entry rejected."
 msgid_plural "%d entries rejected."
@@ -172,106 +29,179 @@ msgid_plural "%d entries skipped because their current status was not compatible
 msgstr[0] "%d entrée ignorée car son statut actuel n'était pas compatible."
 msgstr[1] "%d entrées ignorées car leurs statuts actuels n'étaient pas compatibles."
 
-msgid "%d entry could not be loaded."
-msgid_plural "%d entries could not be loaded."
-msgstr[0] "%d entrée n'a pas pu être chargée."
-msgstr[1] "%d entrées n'ont pas pu être chargées."
+msgid "%s or higher"
+msgstr "%s ou supérieur"
 
-msgid "No entries were updated."
-msgstr "Aucune entrée n'a été mise à jour."
-
-msgid "The entry has been approved."
-msgstr "L'entrée a été approuvée."
-
-msgid "The entry has been rejected."
-msgstr "L'entrée a été rejetée."
-
-msgid "Confirm approval action"
-msgstr "Confirmer l'action d'approbation"
-
-msgid "You are about to approve this entry."
-msgstr "Vous êtes sur le point d'approuver cette entrée."
-
-msgid "You are about to reject this entry."
-msgstr "Vous êtes sur le point de rejeter cette entrée."
-
-msgid "Confirm"
-msgstr "Confirmer"
+msgid "(empty)"
+msgstr "(vide)"
 
 msgid "<p>See <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub releases</a> for changelog.</p>"
 msgstr "<p>Voir les <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">releases GitHub</a> pour le journal des modifications.</p>"
 
-msgid "Requires Gravity Forms:"
-msgstr "Gravity Forms requis :"
+msgid "Actor: %s"
+msgstr "Acteur : %s"
 
-msgid "%s or higher"
-msgstr "%s ou supérieur"
+msgid "Admin"
+msgstr "Admin"
 
-msgid "Unable to rename the update folder. Please retry or update manually."
-msgstr "Impossible de renommer le dossier de mise à jour. Veuillez réessayer ou effectuer une mise à jour manuelle."
+msgid "Apply"
+msgstr "Appliquer"
 
-msgid "Leave unchanged"
-msgstr "Laisser inchangé"
+msgid "Approval"
+msgstr "Approbation"
+
+msgid "Approval Approve Button"
+msgstr "Bouton d'approbation"
+
+msgid "Approval Approve URL"
+msgstr "URL d'approbation"
+
+msgid "Approval Approved"
+msgstr "Approbation validée"
+
+msgid "Approval Page Appearance"
+msgstr "Apparence des pages d'approbation"
+
+msgid "Approval Pages"
+msgstr "Pages d'approbation"
+
+msgid "Approval Reject Button"
+msgstr "Bouton de rejet"
+
+msgid "Approval Reject URL"
+msgstr "URL de rejet"
+
+msgid "Approval Rejected"
+msgstr "Approbation rejetée"
+
+msgid "Approval Request"
+msgstr "Demande d'approbation"
+
+msgid "Approval Status"
+msgstr "Statut d'approbation"
 
 msgid "Approval actions"
 msgstr "Actions d'approbation"
 
-msgid "Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page."
-msgstr "Mettez éventuellement à jour un champ d'entrée pris en charge après que l'approbateur a confirmé sa décision. Vous pouvez soit appliquer automatiquement une valeur prédéfinie, soit laisser l'approbateur choisir la valeur sur la page de confirmation."
+msgid "Approval status changed to %s."
+msgstr "Le statut d'approbation a été changé en %s."
 
-msgid "Update behavior"
-msgstr "Comportement de mise à jour"
+msgid "Approve"
+msgstr "Approuver"
 
-msgid "Choose whether the value is applied automatically when the link is confirmed or selected by the approver on the confirmation page."
-msgstr "Choisissez si la valeur est appliquée automatiquement lorsque le lien est confirmé ou si elle est sélectionnée par l'approbateur sur la page de confirmation."
+msgid "Approve button color"
+msgstr "Couleur du bouton d'approbation"
 
-msgid "Field to update"
-msgstr "Champ à mettre à jour"
+msgid "Approve button label"
+msgstr "Libellé du bouton d'approbation"
 
-msgid "Choose one supported field to update after approval or rejection."
-msgstr "Choisissez un champ pris en charge à mettre à jour après l'approbation ou le rejet."
+msgid "Approve confirmation text"
+msgstr "Texte de confirmation d'approbation"
 
-msgid "Approved value"
-msgstr "Valeur en cas d'approbation"
-
-msgid "Used for text-like target fields. Merge tags are supported. Leave blank to keep the field unchanged."
-msgstr "Utilisé pour les champs cibles de type texte. Les merge tags sont pris en charge. Laissez vide pour conserver la valeur actuelle du champ."
-
-msgid "Rejected value"
-msgstr "Valeur en cas de rejet"
+msgid "Approved"
+msgstr "Approuvé"
 
 msgid "Approved choice"
 msgstr "Choix en cas d'approbation"
 
-msgid "Used for drop down and multiple choice target fields. Leave unchanged to keep the current value."
-msgstr "Utilisé pour les champs cibles liste déroulante et choix multiple. Laissez inchangé pour conserver la valeur actuelle."
-
-msgid "Rejected choice"
-msgstr "Choix en cas de rejet"
-
 msgid "Approved choices"
 msgstr "Choix en cas d'approbation"
 
-msgid "Used for checkbox and multi select target fields. Leave empty to keep the current value."
-msgstr "Utilisé pour les champs cibles cases à cocher et sélection multiple. Laissez vide pour conserver la valeur actuelle."
+msgid "Approved result text"
+msgstr "Texte de résultat après approbation"
 
-msgid "Rejected choices"
-msgstr "Choix en cas de rejet"
+msgid "Approved value"
+msgstr "Valeur en cas d'approbation"
 
-msgid "Approval status changed to %s."
-msgstr "Le statut d'approbation a été changé en %s."
+msgid "Body text color"
+msgstr "Couleur du texte principal"
 
-msgid "Source: %s"
-msgstr "Source : %s"
+msgid "Button text color"
+msgstr "Couleur du texte du bouton"
 
-msgid "Actor: %s"
-msgstr "Acteur : %s"
+msgid "Card background color"
+msgstr "Couleur d'arrière-plan de la carte"
 
-msgid "Recipient: %s"
-msgstr "Destinataire : %s"
+msgid "Card max width (320px to 960px)"
+msgstr "Largeur maximale de la carte (320px à 960px)"
+
+msgid "Card padding (16px to 80px)"
+msgstr "Espacement interne de la carte (16px à 80px)"
+
+msgid "Card radius (0px to 40px)"
+msgstr "Rayon de bordure de la carte (0px à 40px)"
+
+msgid "Change status"
+msgstr "Changer le statut"
+
+msgid "Choose a value"
+msgstr "Choisir une valeur"
+
+msgid "Choose an action:"
+msgstr "Choisissez une action :"
+
+msgid "Choose one supported field to update after approval or rejection."
+msgstr "Choisissez un champ pris en charge à mettre à jour après l'approbation ou le rejet."
+
+msgid "Choose whether the value is applied automatically when the link is confirmed or selected by the approver on the confirmation page."
+msgstr "Choisissez si la valeur est appliquée automatiquement lorsque le lien est confirmé ou si elle est sélectionnée par l'approbateur sur la page de confirmation."
+
+msgid "Comment"
+msgstr "Commentaire"
+
+msgid "Confirm approval action"
+msgstr "Confirmer l'action d'approbation"
+
+msgid "Confirmation title"
+msgstr "Titre de confirmation"
+
+msgid "Current status:"
+msgstr "Statut actuel :"
+
+msgid "Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported."
+msgstr "Personnalisez les pages publiques de confirmation et de résultat utilisées par les liens de demande d'approbation. Les merge tags Gravity Forms sont pris en charge."
+
+msgid "Do not update any field"
+msgstr "Ne mettre à jour aucun champ"
+
+msgid "Email Approvals for Gravity Forms requires Gravity Forms to be installed and active."
+msgstr "Email Approvals for Gravity Forms nécessite que Gravity Forms soit installé et actif."
+
+msgid "Field %d"
+msgstr "Champ %d"
+
+msgid "Field to update"
+msgstr "Champ à mettre à jour"
+
+msgid "Field updated: %1$s (%2$s)"
+msgstr "Champ mis à jour : %1$s (%2$s)"
 
 msgid "IP: %s"
 msgstr "IP : %s"
+
+msgid "Leave unchanged"
+msgstr "Laisser inchangé"
+
+msgid "Let the approver choose the value"
+msgstr "Laisser l'approbateur choisir la valeur"
+
+msgid "Live preview"
+msgstr "Aperçu en direct"
+
+msgid "Message field updated: %1$s (%2$s)"
+msgstr "Champ de message mis à jour : %1$s (%2$s)"
+
+msgid "More information about Email Approvals for Gravity Forms"
+msgstr "Plus d'informations sur Email Approvals for Gravity Forms"
+
+msgid "New value: %s"
+msgstr "Nouvelle valeur : %s"
+
+msgid "No entries were updated."
+msgstr "Aucune entrée n'a été mise à jour."
+
+msgid "Not requested"
+msgstr "Non demandé"
 
 msgid "Notification: %1$s (ID: %2$s)"
 msgstr "Notification : %1$s (ID : %2$s)"
@@ -279,38 +209,137 @@ msgstr "Notification : %1$s (ID : %2$s)"
 msgid "Notification: %s"
 msgstr "Notification : %s"
 
-msgid "Message field updated: %1$s (%2$s)"
-msgstr "Champ de message mis à jour : %1$s (%2$s)"
-
-msgid "Field updated: %1$s (%2$s)"
-msgstr "Champ mis à jour : %1$s (%2$s)"
-
 msgid "Old value: %s"
 msgstr "Ancienne valeur : %s"
 
-msgid "New value: %s"
-msgstr "Nouvelle valeur : %s"
+msgid "Optional response field"
+msgstr "Champ de réponse facultatif"
 
-msgid "Choose a value"
-msgstr "Choisir une valeur"
+msgid "Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page."
+msgstr "Mettez éventuellement à jour un champ d'entrée pris en charge après que l'approbateur a confirmé sa décision. Vous pouvez soit appliquer automatiquement une valeur prédéfinie, soit laisser l'approbateur choisir la valeur sur la page de confirmation."
 
-msgid "Do not update any field"
-msgstr "Ne mettre à jour aucun champ"
+msgid "Page background color"
+msgstr "Couleur d'arrière-plan de la page"
+
+msgid "Pending"
+msgstr "En attente"
+
+msgid "Plugin dependency missing"
+msgstr "Dépendance du plugin manquante"
+
+msgid "Recipient: %s"
+msgstr "Destinataire : %s"
+
+msgid "Reject"
+msgstr "Rejeter"
+
+msgid "Reject button color"
+msgstr "Couleur du bouton de rejet"
+
+msgid "Reject button label"
+msgstr "Libellé du bouton de rejet"
+
+msgid "Reject confirmation text"
+msgstr "Texte de confirmation de rejet"
+
+msgid "Rejected"
+msgstr "Rejeté"
+
+msgid "Rejected choice"
+msgstr "Choix en cas de rejet"
+
+msgid "Rejected choices"
+msgstr "Choix en cas de rejet"
+
+msgid "Rejected result text"
+msgstr "Texte de résultat après rejet"
+
+msgid "Rejected value"
+msgstr "Valeur en cas de rejet"
+
+msgid "Report a Bug"
+msgstr "Signaler un bug"
+
+msgid "Report a Bug (install Bug Reporter)"
+msgstr "Signaler un bug (installer Bug Reporter)"
+
+msgid "Requires Gravity Forms:"
+msgstr "Gravity Forms requis :"
+
+msgid "Reset"
+msgstr "Réinitialiser"
+
+msgid "Reset Status"
+msgstr "Réinitialiser le statut"
+
+msgid "Result"
+msgstr "Résultat"
+
+msgid "Select at least one entry to update its approval status."
+msgstr "Sélectionnez au moins une entrée pour mettre à jour son statut d'approbation."
 
 msgid "Set a predefined value automatically"
 msgstr "Appliquer automatiquement une valeur prédéfinie"
 
-msgid "Let the approver choose the value"
-msgstr "Laisser l'approbateur choisir la valeur"
+msgid "Source: %s"
+msgstr "Source : %s"
 
-msgid "Field %d"
-msgstr "Champ %d"
+msgid "The approval action could not be verified."
+msgstr "L'action d'approbation n'a pas pu être vérifiée."
 
-msgid "%1$s (%2$s)"
-msgstr "%1$s (%2$s)"
+msgid "The approval action is currently unavailable."
+msgstr "L'action d'approbation est actuellement indisponible."
 
 msgid "The approval request could not be processed."
 msgstr "La demande d'approbation n'a pas pu être traitée."
 
-msgid "(empty)"
-msgstr "(vide)"
+msgid "The entry has been approved."
+msgstr "L'entrée a été approuvée."
+
+msgid "The entry has been rejected."
+msgstr "L'entrée a été rejetée."
+
+msgid "The entry has been reset to pending."
+msgstr "L'entrée a été réinitialisée en attente."
+
+msgid "This approval link is invalid or expired."
+msgstr "Ce lien d'approbation est invalide ou expiré."
+
+msgid "This approval request has already been processed."
+msgstr "Cette demande d'approbation a déjà été traitée."
+
+msgid "This entry is already pending approval."
+msgstr "Cette entrée est déjà en attente d'approbation."
+
+msgid "Title color"
+msgstr "Couleur du titre"
+
+msgid "Unable to rename the update folder. Please retry or update manually."
+msgstr "Impossible de renommer le dossier de mise à jour. Veuillez réessayer ou effectuer une mise à jour manuelle."
+
+msgid "Update behavior"
+msgstr "Comportement de mise à jour"
+
+msgid "Used for checkbox and multi select target fields. Leave empty to keep the current value."
+msgstr "Utilisé pour les champs cibles cases à cocher et sélection multiple. Laissez vide pour conserver la valeur actuelle."
+
+msgid "Used for drop down and multiple choice target fields. Leave unchanged to keep the current value."
+msgstr "Utilisé pour les champs cibles liste déroulante et choix multiple. Laissez inchangé pour conserver la valeur actuelle."
+
+msgid "Used for text-like target fields. Merge tags are supported. Leave blank to keep the field unchanged."
+msgstr "Utilisé pour les champs cibles de type texte. Les merge tags sont pris en charge. Laissez vide pour conserver la valeur actuelle du champ."
+
+msgid "View details"
+msgstr "Voir les détails"
+
+msgid "You are about to approve this entry."
+msgstr "Vous êtes sur le point d'approuver cette entrée."
+
+msgid "You are about to reject this entry."
+msgstr "Vous êtes sur le point de rejeter cette entrée."
+
+msgid "You are not allowed to process these entries."
+msgstr "Vous n'êtes pas autorisé à traiter ces entrées."
+
+msgid "You are not allowed to process this entry."
+msgstr "Vous n'êtes pas autorisé à traiter cette entrée."

@@ -1,418 +1,458 @@
-﻿# Copyright (C) 2026 Guilamu
+# Copyright (C) 2026 Guilamu
 # This file is distributed under the GNU Affero General Public License v3.0.
 msgid ""
-msgstr ""
-"Project-Id-Version: Email Approvals for Gravity Forms 0.4.0\n"
-"Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
-"POT-Creation-Date: 2026-05-03 00:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Domain: gf-email-approvals\n"
+msgstr "Project-Id-Version: Email Approvals for Gravity Forms 0.5.0\nReport-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\\nPOT-Creation-Date: 2026-05-07 16:43+0000\nPO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\nLast-Translator: FULL NAME <EMAIL@ADDRESS>\\nLanguage-Team: LANGUAGE <LL@li.org>\\nMIME-Version: 1.0\\nContent-Type: text/plain; charset=UTF-8\\nContent-Transfer-Encoding: 8bit\\nPlural-Forms: nplurals=2; plural=(n != 1);\\nX-Domain: gf-email-approvals\\n"
 
-#: gf-email-approvals.php:92
-msgid "More information about Email Approvals for Gravity Forms"
+#: includes/class-gf-email-approvals-addon.php:3292
+msgid "%1$s (%2$s)"
 msgstr ""
 
-#: gf-email-approvals.php:94
-msgid "View details"
-msgstr ""
-
-#: gf-email-approvals.php:102
-msgid "Report a Bug"
-msgstr ""
-
-#: gf-email-approvals.php:108
-msgid "Report a Bug (install Bug Reporter)"
-msgstr ""
-
-#: gf-email-approvals.php:69 gf-email-approvals.php:98
-msgid "Email Approvals for Gravity Forms requires Gravity Forms to be installed and active."
-msgstr ""
-
-#: gf-email-approvals.php:70
-msgid "Plugin dependency missing"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:167
-msgid "Approval Request"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:168
-msgid "Approval Approved"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:169
-msgid "Approval Rejected"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:191
-msgid "Approval Pages"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:192
-msgid "Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:202
-msgid "Confirmation title"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:209
-msgid "Approve confirmation text"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:216
-msgid "Reject confirmation text"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:223
-msgid "Approve button label"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:230
-msgid "Approved result text"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:237
-msgid "Reject confirmation text"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:244
-msgid "Rejected result text"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:251
-msgid "Reject button label"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:188 includes/class-gf-email-approvals-addon.php:248 includes/class-gf-email-approvals-addon.php:286 includes/class-gf-email-approvals-addon.php:292
-msgid "Approval Status"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:192
-msgid "Approval Approve URL"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:196
-msgid "Approval Reject URL"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:200
-msgid "Approval Approve Button"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:204
-msgid "Approval Reject Button"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:319 includes/class-gf-email-approvals-addon.php:649 includes/class-gf-email-approvals-addon.php:776 includes/class-gf-email-approvals-addon.php:1224
-msgid "Approve"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:320 includes/class-gf-email-approvals-addon.php:650 includes/class-gf-email-approvals-addon.php:776 includes/class-gf-email-approvals-addon.php:1224
-msgid "Reject"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:321
-msgid "Reset Status"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:365 includes/class-gf-email-approvals-addon.php:865
-msgid "Pending"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:366 includes/class-gf-email-approvals-addon.php:867
-msgid "Approved"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:367 includes/class-gf-email-approvals-addon.php:869
-msgid "Rejected"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:417 includes/class-gf-email-approvals-addon.php:1258
-msgid "Approval"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:462
-msgid "You are not allowed to process these entries."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:468 includes/class-gf-email-approvals-addon.php:476
-msgid "The approval action is currently unavailable."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:484
-msgid "Select at least one entry to update its approval status."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:494 includes/class-gf-email-approvals-addon.php:948 includes/class-gf-email-approvals-addon.php:965
-msgid "Admin"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:639
-msgid "Current status:"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:646 includes/class-gf-email-approvals-addon.php:648
-msgid "Change status"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:652
-msgid "Apply"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:657
-msgid "Reset"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:679 includes/class-gf-email-approvals-addon.php:689 includes/class-gf-email-approvals-addon.php:1109 includes/class-gf-email-approvals-addon.php:1115 includes/class-gf-email-approvals-addon.php:1122
-msgid "This approval link is invalid or expired."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:693 includes/class-gf-email-approvals-addon.php:1109 includes/class-gf-email-approvals-addon.php:1157
-msgid "This approval request has already been processed."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:822
-msgid "Choose an action:"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:871
-msgid "Not requested"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:923
-msgid "The approval action could not be verified."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:932
-msgid "You are not allowed to process this entry."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:988
-msgid "This entry is already pending approval."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1009
-msgid "The entry has been reset to pending."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1038
+#: includes/class-gf-email-approvals-addon.php:2573
 msgid "%d entry approved."
 msgid_plural "%d entries approved."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-gf-email-approvals-addon.php:1044
-msgid "%d entry rejected."
-msgid_plural "%d entries rejected."
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/class-gf-email-approvals-addon.php:1050
-msgid "%d entry reset to pending."
-msgid_plural "%d entries reset to pending."
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/class-gf-email-approvals-addon.php:1064
-msgid "%d entry skipped because its current status was not compatible."
-msgid_plural "%d entries skipped because their current status was not compatible."
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/class-gf-email-approvals-addon.php:1071
+#: includes/class-gf-email-approvals-addon.php:2606
 msgid "%d entry could not be loaded."
 msgid_plural "%d entries could not be loaded."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-gf-email-approvals-addon.php:1077
-msgid "No entries were updated."
-msgstr ""
+#: includes/class-gf-email-approvals-addon.php:2579
+msgid "%d entry rejected."
+msgid_plural "%d entries rejected."
+msgstr[0] ""
+msgstr[1] ""
 
-#: includes/class-gf-email-approvals-addon.php:1189
-msgid "The entry has been approved."
-msgstr ""
+#: includes/class-gf-email-approvals-addon.php:2585
+msgid "%d entry reset to pending."
+msgid_plural "%d entries reset to pending."
+msgstr[0] ""
+msgstr[1] ""
 
-#: includes/class-gf-email-approvals-addon.php:1190
-msgid "The entry has been rejected."
-msgstr ""
+#: includes/class-gf-email-approvals-addon.php:2599
+msgid "%d entry skipped because its current status was not compatible."
+msgid_plural "%d entries skipped because their current status was not compatible."
+msgstr[0] ""
+msgstr[1] ""
 
-#: includes/class-gf-email-approvals-addon.php:1411
-msgid "Confirm approval action"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1412
-msgid "You are about to approve this entry."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1413
-msgid "You are about to reject this entry."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1414
-msgid "Confirm"
-msgstr ""
-
-#: includes/class-github-updater.php:309
-msgid "<p>See <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub releases</a> for changelog.</p>"
-msgstr ""
-
-#: includes/class-github-updater.php:337
-msgid "Requires Gravity Forms:"
-msgstr ""
-
-#: includes/class-github-updater.php:338
+#: includes/class-github-updater.php:346
 msgid "%s or higher"
 msgstr ""
 
-#: includes/class-github-updater.php:535
-msgid "Unable to rename the update folder. Please retry or update manually."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:216 includes/class-gf-email-approvals-addon.php:636
-msgid "Leave unchanged"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:277
-msgid "Approval actions"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:278
-msgid "Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:288
-msgid "Update behavior"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:292
-msgid "Choose whether the value is applied automatically when the link is confirmed or selected by the approver on the confirmation page."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:297
-msgid "Field to update"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:300
-msgid "Choose one supported field to update after approval or rejection."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:305
-msgid "Approved value"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:308 includes/class-gf-email-approvals-addon.php:316
-msgid "Used for text-like target fields. Merge tags are supported. Leave blank to keep the field unchanged."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:313
-msgid "Rejected value"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:321
-msgid "Approved choice"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:324 includes/class-gf-email-approvals-addon.php:332
-msgid "Used for drop down and multiple choice target fields. Leave unchanged to keep the current value."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:329
-msgid "Rejected choice"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:337
-msgid "Approved choices"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:341 includes/class-gf-email-approvals-addon.php:350
-msgid "Used for checkbox and multi select target fields. Leave empty to keep the current value."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:346
-msgid "Rejected choices"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1817
-msgid "Approval status changed to %s."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1818
-msgid "Source: %s"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1819
-msgid "Actor: %s"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1823
-msgid "Recipient: %s"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1827
-msgid "IP: %s"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1835
-msgid "Notification: %1$s (ID: %2$s)"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1837
-msgid "Notification: %s"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1852
-msgid "Message field updated: %1$s (%2$s)"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1853
-msgid "Field updated: %1$s (%2$s)"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1856
-msgid "Old value: %s"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1857
-msgid "New value: %s"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:1947
-msgid "Choose a value"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:2088 includes/class-gf-email-approvals-addon.php:2152
-msgid "Do not update any field"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:2092
-msgid "Set a predefined value automatically"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:2096
-msgid "Let the approver choose the value"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:2286
-msgid "Field %d"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:2311
-msgid "%1$s (%2$s)"
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:2622 includes/class-gf-email-approvals-addon.php:2645 includes/class-gf-email-approvals-addon.php:2681
-msgid "The approval request could not be processed."
-msgstr ""
-
-#: includes/class-gf-email-approvals-addon.php:2821 includes/class-gf-email-approvals-addon.php:2837 includes/class-gf-email-approvals-addon.php:2855 includes/class-gf-email-approvals-addon.php:2870
+#: includes/class-gf-email-approvals-addon.php:3802 includes/class-gf-email-approvals-addon.php:3818 includes/class-gf-email-approvals-addon.php:3836 includes/class-gf-email-approvals-addon.php:3851
 msgid "(empty)"
 msgstr ""
 
+#: includes/class-github-updater.php:318
+msgid "<p>See <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub releases</a> for changelog.</p>"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2786
+msgid "Actor: %s"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1890 includes/class-gf-email-approvals-addon.php:2483 includes/class-gf-email-approvals-addon.php:2500
+msgid "Admin"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2078
+msgid "Apply"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1813 includes/class-gf-email-approvals-addon.php:3023 includes/class-gf-email-approvals-addon.php:950
+msgid "Approval"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3874
+msgid "Approval Approve Button"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3866
+msgid "Approval Approve URL"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:296
+msgid "Approval Approved"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:189
+msgid "Approval Page Appearance"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:329
+msgid "Approval Pages"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3878
+msgid "Approval Reject Button"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3870
+msgid "Approval Reject URL"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:297
+msgid "Approval Rejected"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2798 includes/class-gf-email-approvals-addon.php:295
+msgid "Approval Request"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1644 includes/class-gf-email-approvals-addon.php:1682 includes/class-gf-email-approvals-addon.php:1688 includes/class-gf-email-approvals-addon.php:3862
+msgid "Approval Status"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:395
+msgid "Approval actions"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2784
+msgid "Approval status changed to %s."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1577 includes/class-gf-email-approvals-addon.php:1590 includes/class-gf-email-approvals-addon.php:1715 includes/class-gf-email-approvals-addon.php:2075 includes/class-gf-email-approvals-addon.php:2213 includes/class-gf-email-approvals-addon.php:3036 includes/class-gf-email-approvals-addon.php:936
+msgid "Approve"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:221
+msgid "Approve button color"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:366
+msgid "Approve button label"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:352
+msgid "Approve confirmation text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1762 includes/class-gf-email-approvals-addon.php:2402
+msgid "Approved"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:444
+msgid "Approved choice"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:460
+msgid "Approved choices"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:359
+msgid "Approved result text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:428
+msgid "Approved value"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:207
+msgid "Body text color"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:235
+msgid "Button text color"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:200
+msgid "Card background color"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:242
+msgid "Card max width (320px to 960px)"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:249
+msgid "Card padding (16px to 80px)"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:256
+msgid "Card radius (0px to 40px)"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2072 includes/class-gf-email-approvals-addon.php:2074
+msgid "Change status"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2923
+msgid "Choose a value"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2346
+msgid "Choose an action:"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:423
+msgid "Choose one supported field to update after approval or rejection."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:415
+msgid "Choose whether the value is applied automatically when the link is confirmed or selected by the approver on the confirmation page."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1588
+msgid "Comment"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1584 includes/class-gf-email-approvals-addon.php:3033 includes/class-gf-email-approvals-addon.php:934 includes/class-gf-email-approvals-addon.php:942
+msgid "Confirm approval action"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:345
+msgid "Confirmation title"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2065
+msgid "Current status:"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:330
+msgid "Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3070 includes/class-gf-email-approvals-addon.php:3134 includes/class-gf-email-approvals-addon.php:832
+msgid "Do not update any field"
+msgstr ""
+
+#: gf-email-approvals.php:115 gf-email-approvals.php:76
+msgid "Email Approvals for Gravity Forms requires Gravity Forms to be installed and active."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3267
+msgid "Field %d"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:420
+msgid "Field to update"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2820
+msgid "Field updated: %1$s (%2$s)"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2794
+msgid "IP: %s"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:322 includes/class-gf-email-approvals-addon.php:800 includes/class-gf-email-approvals-addon.php:839 includes/class-gf-email-approvals-addon.php:840
+msgid "Leave unchanged"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3078
+msgid "Let the approver choose the value"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:263
+msgid "Live preview"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2819
+msgid "Message field updated: %1$s (%2$s)"
+msgstr ""
+
+#: gf-email-approvals.php:155
+msgid "More information about Email Approvals for Gravity Forms"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2824
+msgid "New value: %s"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2612
+msgid "No entries were updated."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2406
+msgid "Not requested"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2802
+msgid "Notification: %1$s (ID: %2$s)"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2804
+msgid "Notification: %s"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2823
+msgid "Old value: %s"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1587
+msgid "Optional response field"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:396
+msgid "Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:193
+msgid "Page background color"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1761 includes/class-gf-email-approvals-addon.php:2400
+msgid "Pending"
+msgstr ""
+
+#: gf-email-approvals.php:77
+msgid "Plugin dependency missing"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2790
+msgid "Recipient: %s"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1578 includes/class-gf-email-approvals-addon.php:1716 includes/class-gf-email-approvals-addon.php:2076 includes/class-gf-email-approvals-addon.php:2213 includes/class-gf-email-approvals-addon.php:3037 includes/class-gf-email-approvals-addon.php:944
+msgid "Reject"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:228
+msgid "Reject button color"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:387
+msgid "Reject button label"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:373
+msgid "Reject confirmation text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1763 includes/class-gf-email-approvals-addon.php:2404
+msgid "Rejected"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:452
+msgid "Rejected choice"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:469
+msgid "Rejected choices"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:380
+msgid "Rejected result text"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:436
+msgid "Rejected value"
+msgstr ""
+
+#: gf-email-approvals.php:165
+msgid "Report a Bug"
+msgstr ""
+
+#: gf-email-approvals.php:171
+msgid "Report a Bug (install Bug Reporter)"
+msgstr ""
+
+#: includes/class-github-updater.php:345
+msgid "Requires Gravity Forms:"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2083
+msgid "Reset"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1717
+msgid "Reset Status"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1579
+msgid "Result"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1880
+msgid "Select at least one entry to update its approval status."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3074
+msgid "Set a predefined value automatically"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2785
+msgid "Source: %s"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2458
+msgid "The approval action could not be verified."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1864 includes/class-gf-email-approvals-addon.php:1872
+msgid "The approval action is currently unavailable."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2727 includes/class-gf-email-approvals-addon.php:3603 includes/class-gf-email-approvals-addon.php:3626 includes/class-gf-email-approvals-addon.php:3662
+msgid "The approval request could not be processed."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2762 includes/class-gf-email-approvals-addon.php:3038 includes/class-gf-email-approvals-addon.php:951
+msgid "The entry has been approved."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2763 includes/class-gf-email-approvals-addon.php:3039
+msgid "The entry has been rejected."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2544
+msgid "The entry has been reset to pending."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2105 includes/class-gf-email-approvals-addon.php:2115 includes/class-gf-email-approvals-addon.php:2124 includes/class-gf-email-approvals-addon.php:2646 includes/class-gf-email-approvals-addon.php:2650 includes/class-gf-email-approvals-addon.php:2657 includes/class-gf-email-approvals-addon.php:2664 includes/class-gf-email-approvals-addon.php:2671
+msgid "This approval link is invalid or expired."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2128 includes/class-gf-email-approvals-addon.php:2660 includes/class-gf-email-approvals-addon.php:2718
+msgid "This approval request has already been processed."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2523
+msgid "This entry is already pending approval."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:214
+msgid "Title color"
+msgstr ""
+
+#: includes/class-github-updater.php:542
+msgid "Unable to rename the update folder. Please retry or update manually."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:411
+msgid "Update behavior"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:464 includes/class-gf-email-approvals-addon.php:473
+msgid "Used for checkbox and multi select target fields. Leave empty to keep the current value."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:447 includes/class-gf-email-approvals-addon.php:455
+msgid "Used for drop down and multiple choice target fields. Leave unchanged to keep the current value."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:431 includes/class-gf-email-approvals-addon.php:439
+msgid "Used for text-like target fields. Merge tags are supported. Leave blank to keep the field unchanged."
+msgstr ""
+
+#: gf-email-approvals.php:157
+msgid "View details"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1585 includes/class-gf-email-approvals-addon.php:3034 includes/class-gf-email-approvals-addon.php:935
+msgid "You are about to approve this entry."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:3035 includes/class-gf-email-approvals-addon.php:943
+msgid "You are about to reject this entry."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:1858
+msgid "You are not allowed to process these entries."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php:2467
+msgid "You are not allowed to process this entry."
+msgstr ""
