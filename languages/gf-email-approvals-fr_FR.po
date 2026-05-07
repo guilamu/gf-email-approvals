@@ -1,5 +1,17 @@
 msgid ""
-msgstr "Project-Id-Version: Email Approvals for Gravity Forms 0.5.0\nReport-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\\nPOT-Creation-Date: 2026-05-07 16:43+0000\nPO-Revision-Date: 2026-05-07 16:43+0000\nLast-Translator: GitHub Copilot <noreply@github.com>\\nLanguage-Team: French\\nLanguage: fr_FR\\nMIME-Version: 1.0\\nContent-Type: text/plain; charset=UTF-8\\nContent-Transfer-Encoding: 8bit\\nPlural-Forms: nplurals=2; plural=(n > 1);\\nX-Domain: gf-email-approvals\\nX-Generator: GitHub Copilot\\n"
+msgstr ""
+"Project-Id-Version: Email Approvals for Gravity Forms 0.5.0\n"
+"Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\\nPOT-Creation-Date: 2026-05-07 16:43+0000\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2026-05-07 19:03+0200\n"
+"Last-Translator: GitHub Copilot <noreply@github.com>\\nLanguage-Team: French\\nLanguage: fr_FR\\nMIME-Version: 1.0\\nContent-Type: text/plain; charset=UTF-8\\nContent-Transfer-Encoding: 8bit\\nPlural-Forms: nplurals=2; plural=(n > 1);\\nX-Domain: gf-email-approvals\\nX-Generator: GitHub Copilot\\n\n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.9\n"
 
 msgid "%1$s (%2$s)"
 msgstr "%1$s (%2$s)"
@@ -343,3 +355,4 @@ msgstr "Vous n'êtes pas autorisé à traiter ces entrées."
 
 msgid "You are not allowed to process this entry."
 msgstr "Vous n'êtes pas autorisé à traiter cette entrée."
+
