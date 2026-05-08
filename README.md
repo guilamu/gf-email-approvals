@@ -107,6 +107,10 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 
 ## Changelog
 
+### 0.6.0 - 2026-05-08
+
+- **New:** Added a `Logo` accordion to the `Approval Page Appearance` settings, allowing you to upload a custom logo image, set its alignment, and control its maximum height on the public approval pages.
+
 ### 0.5.1 - 2026-05-07
 
 - **Improved:** Replaced the default Gravity Forms cog icon for the `Email Approvals` settings tab with an email icon.

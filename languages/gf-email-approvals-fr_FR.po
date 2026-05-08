@@ -1,5 +1,17 @@
 msgid ""
-msgstr "Project-Id-Version: Email Approvals for Gravity Forms 0.5.0\nReport-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\\nPOT-Creation-Date: 2026-05-07 16:43+0000\nPO-Revision-Date: 2026-05-07 16:43+0000\nLast-Translator: GitHub Copilot <noreply@github.com>\\nLanguage-Team: French\\nLanguage: fr_FR\\nMIME-Version: 1.0\\nContent-Type: text/plain; charset=UTF-8\\nContent-Transfer-Encoding: 8bit\\nPlural-Forms: nplurals=2; plural=(n > 1);\\nX-Domain: gf-email-approvals\\nX-Generator: GitHub Copilot\\n"
+msgstr ""
+"Project-Id-Version: Email Approvals for Gravity Forms 0.6.0\n"
+"Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
+"POT-Creation-Date: 2026-05-08 13:46+0200\n"
+"PO-Revision-Date: 2026-05-08 13:58+0200\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.9\n"
 
 msgid "%1$s (%2$s)"
 msgstr "%1$s (%2$s)"
@@ -36,31 +48,34 @@ msgid "(empty)"
 msgstr "(vide)"
 
 msgid "<p>See <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub releases</a> for changelog.</p>"
-msgstr "<p>Voir les <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">releases GitHub</a> pour le journal des modifications.</p>"
+msgstr "<p>Voir <a href=\"https://github.com/%1$s/%2$s/releases\" target=\"_blank\" rel=\"noopener noreferrer\">les versions GitHub</a> pour le journal des modifications.</p>"
 
-msgid "Actor: %s"
-msgstr "Acteur : %s"
+msgid "A newer version of %s is available."
+msgstr "Une nouvelle version de %s est disponible."
 
-msgid "Admin"
-msgstr "Admin"
+msgid "Add Note"
+msgstr "Ajouter une note"
 
-msgid "Apply"
-msgstr "Appliquer"
+msgid "An error occurred while updating."
+msgstr "Une erreur s'est produite lors de la mise à jour."
+
+msgid "An unexpected error occurred while communicating with GitHub."
+msgstr "Une erreur inattendue s'est produite lors de la communication avec GitHub."
+
+msgid "Appearance"
+msgstr "Apparence"
 
 msgid "Approval"
 msgstr "Approbation"
+
+msgid "Approval Actions"
+msgstr "Actions d'approbation"
 
 msgid "Approval Approve Button"
 msgstr "Bouton d'approbation"
 
 msgid "Approval Approve URL"
 msgstr "URL d'approbation"
-
-msgid "Approval Approved"
-msgstr "Approbation validée"
-
-msgid "Approval Page Appearance"
-msgstr "Apparence des pages d'approbation"
 
 msgid "Approval Pages"
 msgstr "Pages d'approbation"
@@ -71,20 +86,11 @@ msgstr "Bouton de rejet"
 msgid "Approval Reject URL"
 msgstr "URL de rejet"
 
-msgid "Approval Rejected"
-msgstr "Approbation rejetée"
-
 msgid "Approval Request"
 msgstr "Demande d'approbation"
 
 msgid "Approval Status"
 msgstr "Statut d'approbation"
-
-msgid "Approval actions"
-msgstr "Actions d'approbation"
-
-msgid "Approval status changed to %s."
-msgstr "Le statut d'approbation a été changé en %s."
 
 msgid "Approve"
 msgstr "Approuver"
@@ -113,22 +119,19 @@ msgstr "Texte de résultat après approbation"
 msgid "Approved value"
 msgstr "Valeur en cas d'approbation"
 
-msgid "Body text color"
-msgstr "Couleur du texte principal"
+msgid "Body text"
+msgstr "Texte du corps"
 
-msgid "Button text color"
-msgstr "Couleur du texte du bouton"
+msgid "Card background"
+msgstr "Arrière-plan de la carte"
 
-msgid "Card background color"
-msgstr "Couleur d'arrière-plan de la carte"
+msgid "Card max width"
+msgstr "Largeur maximale de la carte"
 
-msgid "Card max width (320px to 960px)"
-msgstr "Largeur maximale de la carte (320px à 960px)"
+msgid "Card padding"
+msgstr "Espacement de la carte (padding)"
 
-msgid "Card padding (16px to 80px)"
-msgstr "Espacement interne de la carte (16px à 80px)"
-
-msgid "Card radius (0px to 40px)"
+msgid "Card radius"
 msgstr "Rayon de bordure de la carte (0px à 40px)"
 
 msgid "Change status"
@@ -146,6 +149,9 @@ msgstr "Choisissez un champ pris en charge à mettre à jour après l'approbatio
 msgid "Choose whether the value is applied automatically when the link is confirmed or selected by the approver on the confirmation page."
 msgstr "Choisissez si la valeur est appliquée automatiquement lorsque le lien est confirmé ou si elle est sélectionnée par l'approbateur sur la page de confirmation."
 
+msgid "Click to upload (PNG, SVG, WebP)"
+msgstr "Cliquez pour uploader (PNG, SVG, WebP)"
+
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -161,8 +167,14 @@ msgstr "Statut actuel :"
 msgid "Customize the public confirmation and result pages used by Approval Request links. Gravity Forms merge tags are supported."
 msgstr "Personnalisez les pages publiques de confirmation et de résultat utilisées par les liens de demande d'approbation. Les merge tags Gravity Forms sont pris en charge."
 
+msgid "Dimensions"
+msgstr "Dimensions"
+
 msgid "Do not update any field"
 msgstr "Ne mettre à jour aucun champ"
+
+msgid "Email Approvals"
+msgstr "Approbations par e-mail"
 
 msgid "Email Approvals for Gravity Forms requires Gravity Forms to be installed and active."
 msgstr "Email Approvals for Gravity Forms nécessite que Gravity Forms soit installé et actif."
@@ -185,8 +197,17 @@ msgstr "Laisser inchangé"
 msgid "Let the approver choose the value"
 msgstr "Laisser l'approbateur choisir la valeur"
 
-msgid "Live preview"
-msgstr "Aperçu en direct"
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Logo Alignment"
+msgstr "Alignement du logo"
+
+msgid "Logo Image"
+msgstr "Image du logo"
+
+msgid "Max Height"
+msgstr "Hauteur maximale"
 
 msgid "Message field updated: %1$s (%2$s)"
 msgstr "Champ de message mis à jour : %1$s (%2$s)"
@@ -257,6 +278,12 @@ msgstr "Texte de résultat après rejet"
 msgid "Rejected value"
 msgstr "Valeur en cas de rejet"
 
+msgid "Remove"
+msgstr "Supprimer"
+
+msgid "Remove image"
+msgstr "Supprimer l'image"
+
 msgid "Report a Bug"
 msgstr "Signaler un bug"
 
@@ -274,6 +301,9 @@ msgstr "Réinitialiser le statut"
 
 msgid "Result"
 msgstr "Résultat"
+
+msgid "Select Logo"
+msgstr "Sélectionner un logo"
 
 msgid "Select at least one entry to update its approval status."
 msgstr "Sélectionnez au moins une entrée pour mettre à jour son statut d'approbation."
@@ -319,6 +349,9 @@ msgstr "Impossible de renommer le dossier de mise à jour. Veuillez réessayer o
 
 msgid "Update behavior"
 msgstr "Comportement de mise à jour"
+
+msgid "Use this image"
+msgstr "Utiliser cette image"
 
 msgid "Used for checkbox and multi select target fields. Leave empty to keep the current value."
 msgstr "Utilisé pour les champs cibles cases à cocher et sélection multiple. Laissez vide pour conserver la valeur actuelle."

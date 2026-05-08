@@ -71,8 +71,15 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	const PLUGIN_SETTING_REJECT_BUTTON_COLOR = 'approval_page_reject_button_color';
 	const PLUGIN_SETTING_BUTTON_TEXT_COLOR = 'approval_page_button_text_color';
 	const PLUGIN_SETTING_CARD_MAX_WIDTH = 'approval_page_card_max_width';
+	const PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT = 'approval_page_card_max_width_unit';
 	const PLUGIN_SETTING_CARD_PADDING = 'approval_page_card_padding';
+	const PLUGIN_SETTING_CARD_PADDING_UNIT = 'approval_page_card_padding_unit';
 	const PLUGIN_SETTING_CARD_BORDER_RADIUS = 'approval_page_card_border_radius';
+	const PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT = 'approval_page_card_border_radius_unit';
+	const PLUGIN_SETTING_LOGO_IMAGE = 'approval_page_logo_image';
+	const PLUGIN_SETTING_LOGO_ALIGNMENT = 'approval_page_logo_alignment';
+	const PLUGIN_SETTING_LOGO_MAX_HEIGHT = 'approval_page_logo_max_height';
+	const PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT = 'approval_page_logo_max_height_unit';
 	const UPDATE_MODE_AUTOMATIC = 'automatic';
 	const UPDATE_MODE_MANUAL = 'manual';
 
@@ -191,85 +198,22 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function plugin_settings_fields() {
-		$defaults = $this->get_public_page_theme_defaults();
-
 		return array(
 			array(
-				'title'       => esc_html__( 'Approval Page Appearance', 'gf-email-approvals' ),
+				'title'       => esc_html__( 'Approval Page Settings', 'gf-email-approvals' ),
 				'fields'      => array(
 					array(
-						'name'          => self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR,
-						'label'         => esc_html__( 'Page background color', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'medium gf-email-approvals-color-control',
-						'default_value' => $defaults[ self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ],
+						'name' => 'approval_page_settings_accordions',
+						'type' => 'approval_page_settings_accordions',
 					),
-					array(
-						'name'          => self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR,
-						'label'         => esc_html__( 'Card background color', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'medium gf-email-approvals-color-control',
-						'default_value' => $defaults[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ],
-					),
-					array(
-						'name'          => self::PLUGIN_SETTING_TEXT_COLOR,
-						'label'         => esc_html__( 'Body text color', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'medium gf-email-approvals-color-control',
-						'default_value' => $defaults[ self::PLUGIN_SETTING_TEXT_COLOR ],
-					),
-					array(
-						'name'          => self::PLUGIN_SETTING_TITLE_COLOR,
-						'label'         => esc_html__( 'Title color', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'medium gf-email-approvals-color-control',
-						'default_value' => $defaults[ self::PLUGIN_SETTING_TITLE_COLOR ],
-					),
-					array(
-						'name'          => self::PLUGIN_SETTING_APPROVE_BUTTON_COLOR,
-						'label'         => esc_html__( 'Approve button color', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'medium gf-email-approvals-color-control',
-						'default_value' => $defaults[ self::PLUGIN_SETTING_APPROVE_BUTTON_COLOR ],
-					),
-					array(
-						'name'          => self::PLUGIN_SETTING_REJECT_BUTTON_COLOR,
-						'label'         => esc_html__( 'Reject button color', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'medium gf-email-approvals-color-control',
-						'default_value' => $defaults[ self::PLUGIN_SETTING_REJECT_BUTTON_COLOR ],
-					),
-					array(
-						'name'          => self::PLUGIN_SETTING_BUTTON_TEXT_COLOR,
-						'label'         => esc_html__( 'Button text color', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'medium gf-email-approvals-color-control',
-						'default_value' => $defaults[ self::PLUGIN_SETTING_BUTTON_TEXT_COLOR ],
-					),
-					array(
-						'name'          => self::PLUGIN_SETTING_CARD_MAX_WIDTH,
-						'label'         => esc_html__( 'Card max width (320px to 960px)', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'small',
-						'default_value' => (string) $defaults[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ],
-					),
-					array(
-						'name'          => self::PLUGIN_SETTING_CARD_PADDING,
-						'label'         => esc_html__( 'Card padding (16px to 80px)', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'small',
-						'default_value' => (string) $defaults[ self::PLUGIN_SETTING_CARD_PADDING ],
-					),
-					array(
-						'name'          => self::PLUGIN_SETTING_CARD_BORDER_RADIUS,
-						'label'         => esc_html__( 'Card radius (0px to 40px)', 'gf-email-approvals' ),
-						'type'          => 'text',
-						'class'         => 'small',
-						'default_value' => (string) $defaults[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ],
-					),
+				),
+			),
+			array(
+				'title'       => esc_html__( 'Approval Page Preview', 'gf-email-approvals' ),
+				'fields'      => array(
 					array(
 						'name'        => 'approval_page_preview',
-						'label'       => esc_html__( 'Live preview', 'gf-email-approvals' ),
+						'label'       => '',
 						'type'        => 'approval_page_preview',
 					),
 				),
@@ -882,6 +826,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
+		wp_enqueue_media();
 	}
 
 	/**
@@ -901,7 +846,904 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	}
 
 	/**
-	 * Renders the live preview field used on the plugin settings screen.
+	 * Renders a dimension field with range slider, numeric input and unit selector.
+	 *
+	 * @param array $field The field configuration.
+	 * @param bool  $echo  Whether to print the markup immediately.
+	 *
+	 * @return string|void
+	 */
+	/**
+	 * Renders the custom image uploader setting field.
+	 *
+	 * @param array $field The field properties.
+	 * @param bool  $echo  Whether to echo the output or return it.
+	 *
+	 * @return string|void
+	 */
+	public function settings_approval_image( $field, $echo = true ) {
+		$name        = rgar( $field, 'name' );
+		$saved_value = esc_url_raw( (string) $this->get_plugin_setting( $name ) );
+		$input_id    = 'gf_setting_' . esc_attr( $name );
+		$input_name  = '_gform_setting_' . esc_attr( $name );
+		$has_image   = ! empty( $saved_value );
+
+		ob_start();
+
+		static $image_assets_printed = false;
+
+		if ( ! $image_assets_printed ) {
+			$image_assets_printed = true;
+			?>
+			<script type="text/javascript">
+				(function($) {
+					$(document).on('click', '.gf-email-approvals-image-upload', function(e) {
+						if ($(e.target).hasClass('gf-email-approvals-image-upload__remove')) {
+							return;
+						}
+
+						var $wrapper = $(this);
+						var $input = $wrapper.find('input[type="hidden"]');
+						var $preview = $wrapper.find('.gf-email-approvals-image-upload__preview');
+
+						var frame = wp.media({
+							title: 'Select Logo',
+							multiple: false,
+							library: { type: 'image' },
+							button: { text: 'Use this image' }
+						});
+
+						frame.on('select', function() {
+							var attachment = frame.state().get('selection').first().toJSON();
+							$input.val(attachment.url).trigger('change');
+							$preview.attr('src', attachment.url);
+							$wrapper.addClass('has-image');
+							
+							var inputEl = $input[0];
+							if (inputEl) {
+								inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+							}
+						});
+
+						frame.open();
+					});
+
+					$(document).on('click', '.gf-email-approvals-image-upload__remove', function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+
+						var $wrapper = $(this).closest('.gf-email-approvals-image-upload');
+						var $input = $wrapper.find('input[type="hidden"]');
+						var $preview = $wrapper.find('.gf-email-approvals-image-upload__preview');
+
+						$input.val('').trigger('change');
+						$preview.attr('src', '');
+						$wrapper.removeClass('has-image');
+
+						var inputEl = $input[0];
+						if (inputEl) {
+							inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+						}
+					});
+				})(jQuery);
+			</script>
+			<?php
+		}
+		?>
+		<div class="gf-email-approvals-image-upload <?php echo $has_image ? 'has-image' : ''; ?>">
+			<input type="hidden" id="<?php echo esc_attr( $input_id ); ?>" name="<?php echo esc_attr( $input_name ); ?>" value="<?php echo esc_attr( $saved_value ); ?>" />
+			<img class="gf-email-approvals-image-upload__preview" src="<?php echo esc_attr( $saved_value ); ?>" alt="Logo Preview" />
+			<div class="gf-email-approvals-image-upload__placeholder">
+				<div class="gf-email-approvals-image-upload__placeholder-icon">
+					<span class="dashicons dashicons-format-image"></span>
+				</div>
+				<div class="gf-email-approvals-image-upload__placeholder-text">
+					<?php esc_html_e( 'Click to upload (PNG, SVG, WebP)', 'gf-email-approvals' ); ?>
+				</div>
+			</div>
+			<button type="button" class="gf-email-approvals-image-upload__remove" aria-label="<?php esc_attr_e( 'Remove image', 'gf-email-approvals' ); ?>">
+				<span class="dashicons dashicons-trash" style="font-size:14px;line-height:1;width:14px;height:14px;vertical-align:middle;margin-right:2px;"></span><?php esc_html_e( 'Remove', 'gf-email-approvals' ); ?>
+			</button>
+		</div>
+		<?php
+		$html = ob_get_clean();
+
+		if ( $echo ) {
+			echo $html;
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Renders the custom alignment control field.
+	 *
+	 * @param array $field The field properties.
+	 * @param bool  $echo  Whether to echo the output or return it.
+	 *
+	 * @return string|void
+	 */
+	public function settings_approval_alignment( $field, $echo = true ) {
+		$name        = rgar( $field, 'name' );
+		$saved_value = sanitize_key( (string) $this->get_plugin_setting( $name ) );
+		
+		if ( empty( $saved_value ) && isset( $field['default_value'] ) ) {
+			$saved_value = $field['default_value'];
+		}
+
+		$input_name  = '_gform_setting_' . esc_attr( $name );
+
+		ob_start();
+
+		static $alignment_assets_printed = false;
+
+		if ( ! $alignment_assets_printed ) {
+			$alignment_assets_printed = true;
+			?>
+			<script type="text/javascript">
+				(function($) {
+					$(document).on('click', '.gf-email-approvals-alignment__option', function() {
+						var $this = $(this);
+						var $wrapper = $this.closest('.gf-email-approvals-alignment');
+						
+						$wrapper.find('.gf-email-approvals-alignment__option').removeClass('active');
+						$this.addClass('active');
+						
+						var $input = $this.find('input[type="radio"]');
+						$input.prop('checked', true).trigger('change');
+
+						var inputEl = $input[0];
+						if (inputEl) {
+							inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+						}
+					});
+				})(jQuery);
+			</script>
+			<?php
+		}
+		?>
+		<div class="gf-email-approvals-alignment">
+			<label class="gf-email-approvals-alignment__option <?php echo 'left' === $saved_value ? 'active' : ''; ?>">
+				<input type="radio" name="<?php echo esc_attr( $input_name ); ?>" value="left" <?php checked( $saved_value, 'left' ); ?> />
+				<span class="dashicons dashicons-editor-alignleft gf-email-approvals-alignment__icon"></span>
+			</label>
+			<label class="gf-email-approvals-alignment__option <?php echo 'center' === $saved_value ? 'active' : ''; ?>">
+				<input type="radio" name="<?php echo esc_attr( $input_name ); ?>" value="center" <?php checked( $saved_value, 'center' ); ?> />
+				<span class="dashicons dashicons-editor-aligncenter gf-email-approvals-alignment__icon"></span>
+			</label>
+			<label class="gf-email-approvals-alignment__option <?php echo 'right' === $saved_value ? 'active' : ''; ?>">
+				<input type="radio" name="<?php echo esc_attr( $input_name ); ?>" value="right" <?php checked( $saved_value, 'right' ); ?> />
+				<span class="dashicons dashicons-editor-alignright gf-email-approvals-alignment__icon"></span>
+			</label>
+		</div>
+		<?php
+		$html = ob_get_clean();
+
+		if ( $echo ) {
+			echo $html;
+		}
+
+		return $html;
+	}
+
+	public function settings_approval_dimension( $field, $echo = true ) {
+		$name          = rgar( $field, 'name' );
+		$unit_name     = rgar( $field, 'unit_name', $name . '_unit' );
+		$units         = rgar( $field, 'units', array() );
+		$default_value = rgar( $field, 'default_value', 0 );
+		$default_unit  = rgar( $field, 'default_unit', 'px' );
+		$range_hint    = rgar( $field, 'range_hint', '' );
+
+		$saved_value = $this->get_plugin_setting( $name );
+		$saved_unit  = $this->get_plugin_setting( $unit_name );
+
+		if ( '' === $saved_value || null === $saved_value || false === $saved_value ) {
+			$saved_value = $default_value;
+		}
+
+		if ( ! $saved_unit || ! isset( $units[ $saved_unit ] ) ) {
+			$saved_unit  = $default_unit;
+			$saved_value = $default_value;
+		}
+
+		$current_unit_config = $units[ $saved_unit ];
+
+		ob_start();
+
+		static $dimension_assets_printed = false;
+
+		if ( ! $dimension_assets_printed ) {
+			$dimension_assets_printed = true;
+			?>
+			<style type="text/css">
+				.gf-email-approvals-dimension {
+					display: flex;
+					align-items: center;
+					gap: 10px;
+					flex-wrap: nowrap;
+				}
+
+				.gf-email-approvals-dimension__range {
+					flex: 1 1 0;
+					min-width: 0;
+					-webkit-appearance: none;
+					appearance: none;
+					height: 4px;
+					background: #dcdcde;
+					border-radius: 2px;
+					outline: none;
+					cursor: pointer;
+				}
+
+				.gf-email-approvals-dimension__range::-webkit-slider-thumb {
+					-webkit-appearance: none;
+					appearance: none;
+					width: 18px;
+					height: 18px;
+					background: #50575e;
+					border-radius: 50%;
+					border: 2px solid #fff;
+					cursor: pointer;
+					box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+				}
+
+				.gf-email-approvals-dimension__range::-moz-range-thumb {
+					width: 18px;
+					height: 18px;
+					background: #50575e;
+					border-radius: 50%;
+					border: 2px solid #fff;
+					cursor: pointer;
+					box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+				}
+
+				.gf-email-approvals-dimension__input {
+					width: 70px !important;
+					min-height: 36px;
+					text-align: center;
+					font-size: 0.875rem;
+					border: 1px solid #dcdcde;
+					border-radius: 4px;
+					padding: 4px 6px;
+					box-sizing: border-box;
+				}
+
+				.gf-email-approvals-dimension__unit {
+					width: auto !important;
+					min-width: 0;
+					flex-shrink: 0;
+					min-height: 36px;
+					font-size: 0.875rem;
+					border: 1px solid #dcdcde;
+					border-radius: 4px;
+					padding: 4px 8px;
+					box-sizing: border-box;
+					cursor: pointer;
+					background: #f0f0f1;
+					color: #1d2327;
+				}
+
+				.gf-email-approvals-dimension__hint {
+					display: block;
+					margin-top: 4px;
+					font-size: 12px;
+					color: #646970;
+				}
+			</style>
+			<script type="text/javascript">
+				(function($) {
+					$(document).on('input change', '.gf-email-approvals-dimension__range', function() {
+						var $wrapper = $(this).closest('.gf-email-approvals-dimension');
+						var input = $wrapper.find('.gf-email-approvals-dimension__input')[0];
+
+						if (input) {
+							input.value = this.value;
+							input.dispatchEvent(new Event('input', { bubbles: true }));
+						}
+					});
+
+					$(document).on('input change', '.gf-email-approvals-dimension__input', function() {
+						var $wrapper = $(this).closest('.gf-email-approvals-dimension');
+						var $range = $wrapper.find('.gf-email-approvals-dimension__range');
+						var val = parseFloat(this.value);
+						var min = parseFloat($range.attr('min'));
+						var max = parseFloat($range.attr('max'));
+
+						if (!isNaN(val)) {
+							if (val < min) { val = min; }
+							if (val > max) { val = max; }
+							$range.val(val);
+						}
+					});
+
+					$(document).on('change', '.gf-email-approvals-dimension__unit', function() {
+						var $wrapper = $(this).closest('.gf-email-approvals-dimension');
+						var $range = $wrapper.find('.gf-email-approvals-dimension__range');
+						var input = $wrapper.find('.gf-email-approvals-dimension__input')[0];
+						var $selected = $(this).find('option:selected');
+						var newMin = parseFloat($selected.attr('data-min'));
+						var newMax = parseFloat($selected.attr('data-max'));
+						var newStep = parseFloat($selected.attr('data-step'));
+						var newDefault = parseFloat($selected.attr('data-default'));
+
+						$range.attr({ min: newMin, max: newMax, step: newStep });
+
+						if (input) {
+							input.min = newMin;
+							input.max = newMax;
+							input.step = newStep;
+							input.value = newDefault;
+							$range.val(newDefault);
+							input.dispatchEvent(new Event('input', { bubbles: true }));
+						}
+					});
+				})(jQuery);
+			</script>
+			<?php
+		}
+
+		$input_id      = 'gf_setting_' . esc_attr( $name );
+		$unit_input_id = 'gf_setting_' . esc_attr( $unit_name );
+		?>
+		<div class="gf-email-approvals-dimension" data-field-name="<?php echo esc_attr( $name ); ?>">
+			<input
+				type="range"
+				class="gf-email-approvals-dimension__range"
+				min="<?php echo esc_attr( $current_unit_config['min'] ); ?>"
+				max="<?php echo esc_attr( $current_unit_config['max'] ); ?>"
+				step="<?php echo esc_attr( $current_unit_config['step'] ); ?>"
+				value="<?php echo esc_attr( $saved_value ); ?>"
+				aria-hidden="true"
+				tabindex="-1"
+			/>
+			<input
+				type="number"
+				id="<?php echo esc_attr( $input_id ); ?>"
+				name="<?php echo esc_attr( '_gform_setting_' . $name ); ?>"
+				class="gf-email-approvals-dimension__input"
+				min="<?php echo esc_attr( $current_unit_config['min'] ); ?>"
+				max="<?php echo esc_attr( $current_unit_config['max'] ); ?>"
+				step="<?php echo esc_attr( $current_unit_config['step'] ); ?>"
+				value="<?php echo esc_attr( $saved_value ); ?>"
+			/>
+			<select
+				id="<?php echo esc_attr( $unit_input_id ); ?>"
+				name="<?php echo esc_attr( '_gform_setting_' . $unit_name ); ?>"
+				class="gf-email-approvals-dimension__unit"
+			>
+				<?php foreach ( $units as $unit_key => $unit_config ) : ?>
+					<option
+						value="<?php echo esc_attr( $unit_key ); ?>"
+						data-min="<?php echo esc_attr( $unit_config['min'] ); ?>"
+						data-max="<?php echo esc_attr( $unit_config['max'] ); ?>"
+						data-step="<?php echo esc_attr( $unit_config['step'] ); ?>"
+						data-default="<?php echo esc_attr( rgar( $field, 'default_value' ) ); ?>"
+						<?php selected( $saved_unit, $unit_key ); ?>
+					><?php echo esc_html( $unit_config['label'] ); ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+		<?php if ( $range_hint ) : ?>
+			<span class="gf-email-approvals-dimension__hint"><?php echo esc_html( $range_hint ); ?></span>
+		<?php endif; ?>
+		<?php
+
+		$output = ob_get_clean();
+
+		if ( $echo ) {
+			echo $output;
+			return;
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Renders the approval page settings inside collapsible accordions.
+	 *
+	 * Two accordions are rendered: "Colors" wrapping the seven color fields,
+	 * and "Dimensions" wrapping the three card-sizing fields. Each field is
+	 * a proper GF add-on setting so values are saved by the framework.
+	 *
+	 * @param array $field The field configuration.
+	 * @param bool  $echo  Whether to print the markup immediately.
+	 *
+	 * @return string|void
+	 */
+	public function settings_approval_page_settings_accordions( $field, $echo = true ) {
+		unset( $field );
+
+		$defaults = $this->get_public_page_theme_defaults();
+
+		$color_fields = array(
+			array(
+				'name'          => self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR,
+				'label'         => esc_html__( 'Page background', 'gf-email-approvals' ),
+				'type'          => 'text',
+				'class'         => 'medium gf-email-approvals-color-control',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ],
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR,
+				'label'         => esc_html__( 'Card background', 'gf-email-approvals' ),
+				'type'          => 'text',
+				'class'         => 'medium gf-email-approvals-color-control',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ],
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_TEXT_COLOR,
+				'label'         => esc_html__( 'Body text', 'gf-email-approvals' ),
+				'type'          => 'text',
+				'class'         => 'medium gf-email-approvals-color-control',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_TEXT_COLOR ],
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_TITLE_COLOR,
+				'label'         => esc_html__( 'Title', 'gf-email-approvals' ),
+				'type'          => 'text',
+				'class'         => 'medium gf-email-approvals-color-control',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_TITLE_COLOR ],
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_APPROVE_BUTTON_COLOR,
+				'label'         => esc_html__( 'Approve button', 'gf-email-approvals' ),
+				'type'          => 'text',
+				'class'         => 'medium gf-email-approvals-color-control',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_APPROVE_BUTTON_COLOR ],
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_REJECT_BUTTON_COLOR,
+				'label'         => esc_html__( 'Reject button', 'gf-email-approvals' ),
+				'type'          => 'text',
+				'class'         => 'medium gf-email-approvals-color-control',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_REJECT_BUTTON_COLOR ],
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_BUTTON_TEXT_COLOR,
+				'label'         => esc_html__( 'Button text', 'gf-email-approvals' ),
+				'type'          => 'text',
+				'class'         => 'medium gf-email-approvals-color-control',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_BUTTON_TEXT_COLOR ],
+			),
+		);
+
+		$dimension_fields = array(
+			array(
+				'name'          => self::PLUGIN_SETTING_CARD_MAX_WIDTH,
+				'label'         => esc_html__( 'Card max width', 'gf-email-approvals' ),
+				'type'          => 'approval_dimension',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ],
+				'unit_name'     => self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT,
+				'default_unit'  => $defaults[ self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT ],
+				'units'         => array(
+					'vw'  => array( 'label' => 'vw',  'min' => 40,  'max' => 90,  'step' => 1 ),
+					'%'   => array( 'label' => '%',   'min' => 40,  'max' => 100, 'step' => 1 ),
+					'px'  => array( 'label' => 'px',  'min' => 400, 'max' => 960, 'step' => 1 ),
+					'rem' => array( 'label' => 'rem', 'min' => 25,  'max' => 60,  'step' => 1 ),
+				),
+				'range_hint'    => esc_html__( '40 – 90 vw / 400 – 960 px', 'gf-email-approvals' ),
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_CARD_PADDING,
+				'label'         => esc_html__( 'Card padding', 'gf-email-approvals' ),
+				'type'          => 'approval_dimension',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_CARD_PADDING ],
+				'unit_name'     => self::PLUGIN_SETTING_CARD_PADDING_UNIT,
+				'default_unit'  => $defaults[ self::PLUGIN_SETTING_CARD_PADDING_UNIT ],
+				'units'         => array(
+					'rem' => array( 'label' => 'rem', 'min' => 1,  'max' => 5,  'step' => 0.25 ),
+					'em'  => array( 'label' => 'em',  'min' => 1,  'max' => 5,  'step' => 0.25 ),
+					'px'  => array( 'label' => 'px',  'min' => 8,  'max' => 80, 'step' => 1 ),
+				),
+				'range_hint'    => esc_html__( '1 – 5 rem / 8 – 80 px', 'gf-email-approvals' ),
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_CARD_BORDER_RADIUS,
+				'label'         => esc_html__( 'Card radius', 'gf-email-approvals' ),
+				'type'          => 'approval_dimension',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ],
+				'unit_name'     => self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT,
+				'default_unit'  => $defaults[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ],
+				'units'         => array(
+					'rem' => array( 'label' => 'rem', 'min' => 0,  'max' => 2,  'step' => 0.05 ),
+					'px'  => array( 'label' => 'px',  'min' => 0,  'max' => 40, 'step' => 1 ),
+				),
+				'range_hint'    => esc_html__( '0 – 2 rem / 0 – 40 px', 'gf-email-approvals' ),
+			),
+		);
+
+		$logo_fields = array(
+			array(
+				'name'  => self::PLUGIN_SETTING_LOGO_IMAGE,
+				'label' => esc_html__( 'Image file', 'gf-email-approvals' ),
+				'type'  => 'approval_image',
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_LOGO_ALIGNMENT,
+				'label'         => esc_html__( 'Alignment', 'gf-email-approvals' ),
+				'type'          => 'approval_alignment',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_LOGO_ALIGNMENT ],
+			),
+			array(
+				'name'          => self::PLUGIN_SETTING_LOGO_MAX_HEIGHT,
+				'label'         => esc_html__( 'Max height', 'gf-email-approvals' ),
+				'type'          => 'approval_dimension',
+				'default_value' => $defaults[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT ],
+				'unit_name'     => self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT,
+				'default_unit'  => $defaults[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ],
+				'units'         => array(
+					'rem' => array( 'label' => 'rem', 'min' => 1,  'max' => 10, 'step' => 0.5 ),
+					'px'  => array( 'label' => 'px',  'min' => 16, 'max' => 160, 'step' => 1 ),
+				),
+				'range_hint'    => esc_html__( '1 – 10 rem / 16 – 160 px', 'gf-email-approvals' ),
+			),
+		);
+
+		$accordions = array(
+			array(
+				'id'     => 'gf-email-approvals-accordion-colors',
+				'title'  => esc_html__( 'Colors', 'gf-email-approvals' ),
+				'fields' => $color_fields,
+				'open'   => true,
+			),
+			array(
+				'id'     => 'gf-email-approvals-accordion-dimensions',
+				'title'  => esc_html__( 'Dimensions', 'gf-email-approvals' ),
+				'fields' => $dimension_fields,
+				'open'   => false,
+			),
+			array(
+				'id'     => 'gf-email-approvals-accordion-logo',
+				'title'  => esc_html__( 'Logo', 'gf-email-approvals' ),
+				'fields' => $logo_fields,
+				'open'   => false,
+			),
+		);
+
+		ob_start();
+
+		static $accordion_assets_printed = false;
+
+		if ( ! $accordion_assets_printed ) {
+			$accordion_assets_printed = true;
+			?>
+			<style type="text/css">
+				/* Accordion container */
+				.gf-email-approvals-accordions {
+					display: flex;
+					flex-direction: column;
+					gap: 8px;
+				}
+
+				/* Single accordion */
+				.gf-email-approvals-accordion {
+					background: #fff;
+					border: 1px solid #dcdcde;
+					border-radius: 4px;
+					overflow: hidden;
+					transition: all 0.2s ease;
+				}
+
+				/* Accordion header */
+				.gf-email-approvals-accordion__header {
+					display: flex;
+					align-items: center;
+					gap: 12px;
+					padding: 16px;
+					cursor: pointer;
+					background: #fff;
+					border: none;
+					width: 100%;
+					text-align: left;
+					font-size: 14px;
+					font-weight: 600;
+					color: #1d2327;
+					transition: background 0.2s ease;
+				}
+
+				.gf-email-approvals-accordion__header:hover {
+					background: #f6f7f7;
+				}
+
+				.gf-email-approvals-accordion__title {
+					flex: 1;
+				}
+
+				.gf-email-approvals-accordion__icon {
+					width: 20px;
+					height: 20px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #50575e;
+					transition: transform 0.2s ease;
+					flex-shrink: 0;
+				}
+
+				.gf-email-approvals-accordion.open .gf-email-approvals-accordion__icon {
+					transform: rotate(180deg);
+				}
+
+				/* Accordion content */
+				.gf-email-approvals-accordion__content {
+					max-height: 0;
+					overflow: hidden;
+					transition: max-height 0.3s ease;
+					border-top: 1px solid #dcdcde;
+				}
+
+				.gf-email-approvals-accordion.open .gf-email-approvals-accordion__content {
+					max-height: 5000px;
+				}
+
+				.gf-email-approvals-accordion.fully-open,
+				.gf-email-approvals-accordion.fully-open .gf-email-approvals-accordion__content {
+					overflow: visible;
+				}
+
+				.gf-email-approvals-accordion__content-inner {
+					padding: 20px;
+				}
+
+				.gf-email-approvals-accordion__content-inner .gform-settings-field {
+					margin-bottom: 16px;
+				}
+
+				.gf-email-approvals-accordion__content-inner .gform-settings-field:last-child {
+					margin-bottom: 0;
+				}
+
+				/* Dimension fields: 3-column grid */
+				#gf-email-approvals-accordion-dimensions .gf-email-approvals-accordion__content-inner {
+					display: grid;
+					grid-template-columns: repeat(3, 1fr);
+					gap: 16px;
+				}
+
+				#gf-email-approvals-accordion-dimensions .gform-settings-field {
+					margin-bottom: 0;
+				}
+
+				/* Logo fields: 2-column grid with Image spanning full height on left */
+				#gf-email-approvals-accordion-logo .gf-email-approvals-accordion__content-inner {
+					display: grid;
+					grid-template-columns: 1fr 1fr;
+					gap: 16px;
+					align-items: start;
+				}
+
+				#gf-email-approvals-accordion-logo .gform-settings-field {
+					margin-bottom: 0;
+				}
+
+				#gfea_wrap_approval_page_logo_image_container {
+					grid-row: span 2;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+				}
+
+				/* Custom Approval Alignment Control */
+				.gf-email-approvals-alignment {
+					display: flex;
+					border: 1px solid #dcdcde;
+					border-radius: 4px;
+					overflow: hidden;
+					background: #fff;
+				}
+
+				.gf-email-approvals-alignment__option {
+					flex: 1;
+					text-align: center;
+					padding: 6px;
+					border-right: 1px solid #dcdcde;
+					cursor: pointer;
+					background: #f6f7f7;
+					transition: all 0.2s ease;
+				}
+
+				.gf-email-approvals-alignment__option:last-child {
+					border-right: none;
+				}
+
+				.gf-email-approvals-alignment__option input[type="radio"] {
+					display: none;
+				}
+
+				.gf-email-approvals-alignment__option:hover {
+					background: #fff;
+				}
+
+				.gf-email-approvals-alignment__option.active {
+					background: #fff;
+					box-shadow: inset 0 0 0 1px #2271b1;
+					color: #2271b1;
+				}
+
+				.gf-email-approvals-alignment__icon {
+					display: inline-block;
+					vertical-align: middle;
+					line-height: 1;
+				}
+
+				/* Custom Approval Image Control */
+				.gf-email-approvals-image-upload {
+					flex: 1;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					border: 2px dashed #c3c4c7;
+					border-radius: 4px;
+					background: #f6f7f7;
+					padding: 24px;
+					text-align: center;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					position: relative;
+					overflow: hidden;
+					min-height: 120px;
+				}
+
+				.gf-email-approvals-image-upload:hover {
+					border-color: #a7aaad;
+					background: #f0f0f1;
+				}
+
+				.gf-email-approvals-image-upload.has-image {
+					border-style: solid;
+					background: #fff;
+					padding: 8px;
+				}
+
+				.gf-email-approvals-image-upload__preview {
+					max-width: 100%;
+					max-height: 140px;
+					object-fit: contain;
+					display: none;
+				}
+
+				.gf-email-approvals-image-upload.has-image .gf-email-approvals-image-upload__preview {
+					display: block;
+				}
+
+				.gf-email-approvals-image-upload.has-image .gf-email-approvals-image-upload__placeholder {
+					display: none;
+				}
+
+				.gf-email-approvals-image-upload__placeholder-icon {
+					font-size: 24px;
+					color: #50575e;
+					margin-bottom: 8px;
+				}
+
+				.gf-email-approvals-image-upload__placeholder-text {
+					color: #50575e;
+					font-size: 13px;
+				}
+
+				.gf-email-approvals-image-upload__remove {
+					position: absolute;
+					top: 4px;
+					right: 4px;
+					background: #fff;
+					border: 1px solid #dcdcde;
+					color: #d63638;
+					border-radius: 3px;
+					padding: 2px 6px;
+					font-size: 11px;
+					cursor: pointer;
+					display: none;
+					box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+				}
+
+				.gf-email-approvals-image-upload__remove:hover {
+					border-color: #d63638;
+					background: #fcf0f1;
+				}
+
+				.gf-email-approvals-image-upload.has-image:hover .gf-email-approvals-image-upload__remove {
+					display: block;
+				}
+
+				/* Remove the outer wrapper label + padding for the accordion host field */
+				#gform_setting_approval_page_settings_accordions {
+					padding: 0 !important;
+					margin: 0 !important;
+				}
+
+				#gform_setting_approval_page_settings_accordions > .gform-settings-field__header {
+					display: none;
+				}
+			</style>
+			<script type="text/javascript">
+				(function() {
+					document.addEventListener('click', function(event) {
+						var header = event.target.closest('.gf-email-approvals-accordion__header');
+
+						if (!header) {
+							return;
+						}
+
+						event.preventDefault();
+
+						var accordion = header.closest('.gf-email-approvals-accordion');
+
+						if (accordion) {
+							if (accordion.classList.contains('open')) {
+								accordion.classList.remove('open', 'fully-open');
+							} else {
+								accordion.classList.add('open');
+								setTimeout(function() {
+									if (accordion.classList.contains('open')) {
+										accordion.classList.add('fully-open');
+									}
+								}, 300); /* Match the 0.3s CSS transition duration */
+							}
+						}
+					});
+				})();
+			</script>
+			<?php
+		}
+		?>
+		<div class="gf-email-approvals-accordions">
+			<?php foreach ( $accordions as $accordion ) : ?>
+				<div
+					class="gf-email-approvals-accordion<?php echo $accordion['open'] ? ' open fully-open' : ''; ?>"
+					id="<?php echo esc_attr( $accordion['id'] ); ?>"
+				>
+					<button
+						class="gf-email-approvals-accordion__header"
+						type="button"
+					>
+						<span class="gf-email-approvals-accordion__title"><?php echo esc_html( $accordion['title'] ); ?></span>
+						<span class="gf-email-approvals-accordion__icon">▼</span>
+					</button>
+					<div class="gf-email-approvals-accordion__content">
+						<div class="gf-email-approvals-accordion__content-inner">
+							<?php
+							foreach ( $accordion['fields'] as $sub_field ) {
+								$field_type     = rgar( $sub_field, 'type' );
+								$render_method  = 'settings_' . $field_type;
+
+								if ( 'text' !== $field_type && method_exists( $this, $render_method ) ) {
+									$field_id    = 'gfea_wrap_' . esc_attr( rgar( $sub_field, 'name' ) ) . '_container';
+									$field_label = rgar( $sub_field, 'label', '' );
+									?>
+									<div id="<?php echo esc_attr( $field_id ); ?>" class="gform-settings-field">
+										<?php if ( $field_label ) : ?>
+											<div class="gform-settings-field__header">
+												<label class="gform-settings-label"><?php echo esc_html( $field_label ); ?></label>
+											</div>
+										<?php endif; ?>
+										<?php $this->{$render_method}( $sub_field ); ?>
+									</div>
+									<?php
+								} else {
+									$this->single_setting_row( $sub_field );
+								}
+							}
+							?>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<?php
+
+		$output = ob_get_clean();
+
+		if ( $echo ) {
+			echo $output;
+			return;
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Renders the live preview widget for the approval page appearance.
 	 *
 	 * @param array $field The field configuration.
 	 * @param bool  $echo  Whether to print the markup immediately.
@@ -923,8 +1765,15 @@ class GFEmailApprovalsAddon extends GFAddOn {
 				'rejectButton'   => self::PLUGIN_SETTING_REJECT_BUTTON_COLOR,
 				'buttonText'     => self::PLUGIN_SETTING_BUTTON_TEXT_COLOR,
 				'cardWidth'      => self::PLUGIN_SETTING_CARD_MAX_WIDTH,
+				'cardWidthUnit'  => self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT,
 				'cardPadding'    => self::PLUGIN_SETTING_CARD_PADDING,
+				'cardPaddingUnit' => self::PLUGIN_SETTING_CARD_PADDING_UNIT,
 				'cardRadius'     => self::PLUGIN_SETTING_CARD_BORDER_RADIUS,
+				'cardRadiusUnit' => self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT,
+				'logoImage'      => self::PLUGIN_SETTING_LOGO_IMAGE,
+				'logoAlignment'  => self::PLUGIN_SETTING_LOGO_ALIGNMENT,
+				'logoMaxHeight'  => self::PLUGIN_SETTING_LOGO_MAX_HEIGHT,
+				'logoMaxHeightUnit' => self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT,
 			),
 			'defaults' => array(
 				'pageBackground' => $defaults[ self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ],
@@ -935,8 +1784,15 @@ class GFEmailApprovalsAddon extends GFAddOn {
 				'rejectButton'   => $defaults[ self::PLUGIN_SETTING_REJECT_BUTTON_COLOR ],
 				'buttonText'     => $defaults[ self::PLUGIN_SETTING_BUTTON_TEXT_COLOR ],
 				'cardWidth'      => $defaults[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ],
+				'cardWidthUnit'  => $defaults[ self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT ],
 				'cardPadding'    => $defaults[ self::PLUGIN_SETTING_CARD_PADDING ],
+				'cardPaddingUnit' => $defaults[ self::PLUGIN_SETTING_CARD_PADDING_UNIT ],
 				'cardRadius'     => $defaults[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ],
+				'cardRadiusUnit' => $defaults[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ],
+				'logoImage'      => $defaults[ self::PLUGIN_SETTING_LOGO_IMAGE ],
+				'logoAlignment'  => $defaults[ self::PLUGIN_SETTING_LOGO_ALIGNMENT ],
+				'logoMaxHeight'  => $defaults[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT ],
+				'logoMaxHeightUnit' => $defaults[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ],
 			),
 			'states'   => array(
 				'approve' => array(
@@ -1031,8 +1887,8 @@ class GFEmailApprovalsAddon extends GFAddOn {
 
 				.gf-email-approvals-appearance-setting .wp-picker-container {
 					display: flex;
-					flex-wrap: wrap;
-					align-items: stretch;
+					flex-wrap: nowrap;
+					align-items: center;
 					gap: 8px;
 					width: 100%;
 					position: relative;
@@ -1043,38 +1899,41 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					z-index: 20;
 				}
 
+				/* Color swatch — small square showing the selected color */
 				.gf-email-approvals-appearance-setting .wp-picker-container .wp-color-result.button {
-					border: 1px solid #9092b2;
-					display: inline-flex;
-					align-items: stretch;
-					min-height: 40px;
-					padding: 0 0 0 35px;
+					width: 36px;
+					height: 36px;
+					min-height: 36px;
+					padding: 0;
 					margin: 0;
+					flex: 0 0 36px;
+					border: 1px solid #dcdcde;
+					border-radius: 6px;
 					box-shadow: none;
 					overflow: hidden;
+					order: 0;
 				}
 
 				.gf-email-approvals-appearance-setting .wp-picker-container.wp-picker-active .wp-color-result.button {
-					flex: 0 0 auto;
+					flex: 0 0 36px;
 				}
 
 				.gf-email-approvals-appearance-setting.gf-email-approvals-appearance-setting--base-color .wp-picker-container .wp-color-result.button,
-				.gf-email-approvals-appearance-setting.gf-email-approvals-appearance-setting--base-color .wp-picker-container.wp-picker-active .wp-color-result.button,
+				.gf-email-approvals-appearance-setting.gf-email-approvals-appearance-setting--base-color .wp-picker-container.wp-picker-active .wp-color-result.button {
+					flex: 0 0 36px;
+					max-width: 36px;
+					min-width: 36px;
+				}
+
 				.gf-email-approvals-appearance-setting.gf-email-approvals-appearance-setting--base-color .wp-picker-input-wrap {
-					flex: 1 1 calc(50% - 4px);
-					max-width: calc(50% - 4px);
+					flex: 1 1 0;
+					max-width: none;
 					min-width: 0;
 				}
 
+				/* Hide the "Select Color" text inside the swatch button */
 				.gf-email-approvals-appearance-setting .wp-picker-container .wp-color-result-text {
-					display: inline-flex;
-					align-items: center;
-					align-self: stretch;
-					font-size: 0.875rem;
-					line-height: 1.2;
-					padding: 0 0.75rem;
-					margin: 0;
-					background: #fff;
+					display: none !important;
 				}
 
 				.gf-email-approvals-appearance-setting .wp-picker-holder {
@@ -1090,13 +1949,15 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					display: block;
 				}
 
+				/* Hex input wrap — always visible */
 				.gf-email-approvals-appearance-setting .wp-picker-input-wrap {
-					display: flex;
+					display: flex !important;
 					flex: 1 1 0;
-					align-items: stretch;
+					align-items: center;
 					gap: 8px;
 					min-width: 0;
 					margin: 0;
+					order: 1;
 				}
 
 				.gf-email-approvals-appearance-setting .wp-picker-input-wrap label {
@@ -1111,14 +1972,40 @@ class GFEmailApprovalsAddon extends GFAddOn {
 				}
 
 				.gf-email-approvals-appearance-setting .wp-picker-input-wrap input[type="text"] {
-					font-size: 1rem;
-					width: 5.25rem !important;
-					min-height: 40px;
+					font-size: 0.875rem;
+					width: 100% !important;
+					min-height: 36px;
 					box-sizing: border-box;
 				}
 
-				.gf-email-approvals-appearance-setting .wp-picker-input-wrap input[type="text"] {
-					width: 100% !important;
+				/* Pencil edit button */
+				.gf-email-approvals-color-edit-btn {
+					flex: 0 0 36px;
+					width: 36px;
+					height: 36px;
+					display: inline-flex;
+					align-items: center;
+					justify-content: center;
+					background: #f0f0f1;
+					border: 1px solid #dcdcde;
+					border-radius: 6px;
+					cursor: pointer;
+					padding: 0;
+					color: #787c82;
+					order: 2;
+					transition: background 0.15s, color 0.15s;
+				}
+
+				.gf-email-approvals-color-edit-btn:hover {
+					background: #e0e0e0;
+					color: #1d2327;
+				}
+
+				.gf-email-approvals-color-edit-btn .dashicons {
+					font-size: 16px;
+					width: 16px;
+					height: 16px;
+					line-height: 1;
 				}
 
 				.gf-email-approvals-appearance-builder {
@@ -1130,9 +2017,9 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					--gf-email-approvals-reject: #b32d2e;
 					--gf-email-approvals-button-text: #ffffff;
 					--gf-email-approvals-active-button: #2271b1;
-					--gf-email-approvals-card-width: 640px;
-					--gf-email-approvals-card-padding: 32px;
-					--gf-email-approvals-card-radius: 12px;
+					--gf-email-approvals-card-width: 60vw;
+					--gf-email-approvals-card-padding: 2rem;
+					--gf-email-approvals-card-radius: 0.75rem;
 					--gf-email-approvals-shadow: rgba(29, 35, 39, 0.12);
 					max-width: 100%;
 				}
@@ -1177,6 +2064,19 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					color: var(--gf-email-approvals-text);
 					box-shadow: 0 10px 30px var(--gf-email-approvals-shadow);
 					box-sizing: border-box;
+				}
+
+				.gf-email-approvals-appearance-builder__logo {
+					margin-bottom: 24px;
+					text-align: var(--gf-email-approvals-logo-align);
+				}
+
+				.gf-email-approvals-appearance-builder__logo-img {
+					max-width: 100%;
+					max-height: var(--gf-email-approvals-logo-height);
+					height: auto;
+					display: inline-block;
+					vertical-align: top;
 				}
 
 				.gf-email-approvals-appearance-builder__title {
@@ -1287,7 +2187,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					}
 
 					function getScope($builder) {
-						return $builder.closest('.gform-settings-panel, form, .wrap');
+						return $(document);
 					}
 
 					function findInput($builder, name) {
@@ -1314,7 +2214,22 @@ class GFEmailApprovalsAddon extends GFAddOn {
 
 					function getInputValue($builder, name) {
 						var $input = findInput($builder, name);
-						return $input.length ? $input.val() : '';
+						
+						if (!$input.length) {
+							return '';
+						}
+
+						if ($input.is(':radio')) {
+							var radioName = $input.attr('name');
+							var $checked = getScope($builder).find('input[name="' + radioName + '"]:checked');
+							return $checked.length ? $checked.val() : '';
+						}
+
+						if ($input.is(':checkbox')) {
+							return $input.is(':checked') ? $input.val() : '';
+						}
+
+						return $input.val();
 					}
 
 					function getFieldRow($builder, name) {
@@ -1339,6 +2254,8 @@ class GFEmailApprovalsAddon extends GFAddOn {
 						});
 					}
 
+					window.refreshAllBuilders = refreshAllBuilders;
+
 					function initColorPickers($builder, config) {
 						if (!$.fn.wpColorPicker) {
 							return;
@@ -1361,7 +2278,19 @@ class GFEmailApprovalsAddon extends GFAddOn {
 								}
 							});
 
-							$input.parents('.wp-picker-container').find('.wp-color-result').addClass('ed_button');
+							var $container = $input.parents('.wp-picker-container');
+
+							$container.find('.wp-color-result').addClass('ed_button');
+
+							/* Add pencil edit button if not already present */
+							if (!$container.find('.gf-email-approvals-color-edit-btn').length) {
+								var $editBtn = $('<button type="button" class="gf-email-approvals-color-edit-btn" aria-label="Edit color"><span class="dashicons dashicons-edit"></span></button>');
+								$container.append($editBtn);
+								$editBtn.on('click', function(e) {
+									e.preventDefault();
+									$container.find('.wp-color-result').trigger('click');
+								});
+							}
 
 							$input.data('gfEmailApprovalsColorPickerReady', true);
 						});
@@ -1375,10 +2304,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 							config.settings.titleColor,
 							config.settings.approveButton,
 							config.settings.rejectButton,
-							config.settings.buttonText,
-							config.settings.cardWidth,
-							config.settings.cardPadding,
-							config.settings.cardRadius
+							config.settings.buttonText
 						];
 						var colorSettingNames = getColorSettingNames(config);
 						var baseColorSettingNames = [
@@ -1391,11 +2317,6 @@ class GFEmailApprovalsAddon extends GFAddOn {
 							config.settings.approveButton,
 							config.settings.rejectButton,
 							config.settings.buttonText
-						];
-						var cardSettingNames = [
-							config.settings.cardWidth,
-							config.settings.cardPadding,
-							config.settings.cardRadius
 						];
 						var $rows = $();
 
@@ -1429,7 +2350,6 @@ class GFEmailApprovalsAddon extends GFAddOn {
 
 						if ($previewRow.length) {
 							$previewRow.addClass('gf-email-approvals-appearance-preview-row');
-							$rows = $rows.add($previewRow);
 						}
 
 						if ($rows.length) {
@@ -1443,12 +2363,6 @@ class GFEmailApprovalsAddon extends GFAddOn {
 							if ($firstButtonColorRow.length) {
 								$('<div class="gf-email-approvals-appearance-row-break" aria-hidden="true"></div>').insertBefore($firstButtonColorRow);
 							}
-
-							var $firstCardRow = getFieldRow($builder, cardSettingNames[0]);
-
-							if ($firstCardRow.length) {
-								$('<div class="gf-email-approvals-appearance-row-break" aria-hidden="true"></div>').insertBefore($firstCardRow);
-							}
 						}
 					}
 
@@ -1458,19 +2372,11 @@ class GFEmailApprovalsAddon extends GFAddOn {
 						return /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(value) ? value : fallback;
 					}
 
-					function sanitizeNumber(value, fallback, min, max) {
-						var number = parseInt(value, 10);
+					function sanitizeNumber(value, fallback) {
+						var number = parseFloat(value);
 
 						if (isNaN(number)) {
 							number = fallback;
-						}
-
-						if (number < min) {
-							number = min;
-						}
-
-						if (number > max) {
-							number = max;
 						}
 
 						return number;
@@ -1510,9 +2416,17 @@ class GFEmailApprovalsAddon extends GFAddOn {
 						var approveButton = sanitizeColor(getInputValue($builder, settings.approveButton), defaults.approveButton);
 						var rejectButton = sanitizeColor(getInputValue($builder, settings.rejectButton), defaults.rejectButton);
 						var buttonText = sanitizeColor(getInputValue($builder, settings.buttonText), defaults.buttonText);
-						var cardWidth = sanitizeNumber(getInputValue($builder, settings.cardWidth), defaults.cardWidth, 320, 960);
-						var cardPadding = sanitizeNumber(getInputValue($builder, settings.cardPadding), defaults.cardPadding, 16, 80);
-						var cardRadius = sanitizeNumber(getInputValue($builder, settings.cardRadius), defaults.cardRadius, 0, 40);
+						var cardWidth = sanitizeNumber(getInputValue($builder, settings.cardWidth), defaults.cardWidth);
+						var cardWidthUnit = getInputValue($builder, settings.cardWidthUnit) || defaults.cardWidthUnit || 'px';
+						var cardPadding = sanitizeNumber(getInputValue($builder, settings.cardPadding), defaults.cardPadding);
+						var cardPaddingUnit = getInputValue($builder, settings.cardPaddingUnit) || defaults.cardPaddingUnit || 'px';
+						var cardRadius = sanitizeNumber(getInputValue($builder, settings.cardRadius), defaults.cardRadius);
+						var cardRadiusUnit = getInputValue($builder, settings.cardRadiusUnit) || defaults.cardRadiusUnit || 'px';
+
+						var logoImage = getInputValue($builder, settings.logoImage);
+						var logoAlignment = getInputValue($builder, settings.logoAlignment) || defaults.logoAlignment || 'center';
+						var logoMaxHeight = sanitizeNumber(getInputValue($builder, settings.logoMaxHeight), defaults.logoMaxHeight);
+						var logoMaxHeightUnit = getInputValue($builder, settings.logoMaxHeightUnit) || defaults.logoMaxHeightUnit || 'px';
 
 						$builder[0].style.setProperty('--gf-email-approvals-page-bg', pageBackground);
 						$builder[0].style.setProperty('--gf-email-approvals-card-bg', cardBackground);
@@ -1521,10 +2435,22 @@ class GFEmailApprovalsAddon extends GFAddOn {
 						$builder[0].style.setProperty('--gf-email-approvals-approve', approveButton);
 						$builder[0].style.setProperty('--gf-email-approvals-reject', rejectButton);
 						$builder[0].style.setProperty('--gf-email-approvals-button-text', buttonText);
-						$builder[0].style.setProperty('--gf-email-approvals-card-width', cardWidth + 'px');
-						$builder[0].style.setProperty('--gf-email-approvals-card-padding', cardPadding + 'px');
-						$builder[0].style.setProperty('--gf-email-approvals-card-radius', cardRadius + 'px');
+						$builder[0].style.setProperty('--gf-email-approvals-card-width', cardWidth + cardWidthUnit);
+						$builder[0].style.setProperty('--gf-email-approvals-card-padding', cardPadding + cardPaddingUnit);
+						$builder[0].style.setProperty('--gf-email-approvals-card-radius', cardRadius + cardRadiusUnit);
 						$builder[0].style.setProperty('--gf-email-approvals-shadow', hexToRgba(textColor, 0.12, 'rgba(29,35,39,0.12)'));
+						$builder[0].style.setProperty('--gf-email-approvals-logo-align', logoAlignment);
+						$builder[0].style.setProperty('--gf-email-approvals-logo-height', logoMaxHeight + logoMaxHeightUnit);
+
+						var $logoImg = $builder.find('.gf-email-approvals-appearance-builder__logo-img');
+						var $logoWrapper = $builder.find('.gf-email-approvals-appearance-builder__logo');
+
+						if (logoImage) {
+							$logoImg.attr('src', logoImage);
+							$logoWrapper.show();
+						} else {
+							$logoWrapper.hide();
+						}
 					}
 
 					function applyState($builder, stateName) {
@@ -1589,6 +2515,9 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			</div>
 			<div class="gf-email-approvals-appearance-builder__canvas">
 				<div class="gf-email-approvals-appearance-builder__viewport">
+					<div class="gf-email-approvals-appearance-builder__logo" style="display: none;">
+						<img class="gf-email-approvals-appearance-builder__logo-img" src="" alt="Logo" />
+					</div>
 					<div class="gf-email-approvals-appearance-builder__card">
 						<h3 class="gf-email-approvals-appearance-builder__title" data-preview-title><?php esc_html_e( 'Confirm approval action', 'gf-email-approvals' ); ?></h3>
 						<p class="gf-email-approvals-appearance-builder__message" data-preview-message><?php esc_html_e( 'You are about to approve this entry.', 'gf-email-approvals' ); ?></p>
@@ -3929,9 +4858,16 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			self::PLUGIN_SETTING_APPROVE_BUTTON_COLOR  => '#2271b1',
 			self::PLUGIN_SETTING_REJECT_BUTTON_COLOR   => '#b32d2e',
 			self::PLUGIN_SETTING_BUTTON_TEXT_COLOR     => '#ffffff',
-			self::PLUGIN_SETTING_CARD_MAX_WIDTH        => 640,
-			self::PLUGIN_SETTING_CARD_PADDING          => 32,
-			self::PLUGIN_SETTING_CARD_BORDER_RADIUS    => 12,
+			self::PLUGIN_SETTING_CARD_MAX_WIDTH        => 60,
+			self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT   => 'vw',
+			self::PLUGIN_SETTING_CARD_PADDING          => 2,
+			self::PLUGIN_SETTING_CARD_PADDING_UNIT     => 'rem',
+			self::PLUGIN_SETTING_CARD_BORDER_RADIUS    => 0.75,
+			self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT => 'rem',
+			self::PLUGIN_SETTING_LOGO_IMAGE            => '',
+			self::PLUGIN_SETTING_LOGO_ALIGNMENT        => 'center',
+			self::PLUGIN_SETTING_LOGO_MAX_HEIGHT       => 3,
+			self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT  => 'rem',
 		);
 	}
 
@@ -3970,23 +4906,59 @@ class GFEmailApprovalsAddon extends GFAddOn {
 
 		$settings[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ] = $this->sanitize_public_page_dimension(
 			$this->get_plugin_setting( self::PLUGIN_SETTING_CARD_MAX_WIDTH ),
-			320,
-			960,
-			(int) $defaults[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ]
+			0,
+			9999,
+			$defaults[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ]
+		);
+
+		$settings[ self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT ] = $this->sanitize_public_page_unit(
+			$this->get_plugin_setting( self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT ),
+			array( 'vw', '%', 'px', 'rem' ),
+			$defaults[ self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT ]
 		);
 
 		$settings[ self::PLUGIN_SETTING_CARD_PADDING ] = $this->sanitize_public_page_dimension(
 			$this->get_plugin_setting( self::PLUGIN_SETTING_CARD_PADDING ),
-			16,
-			80,
-			(int) $defaults[ self::PLUGIN_SETTING_CARD_PADDING ]
+			0,
+			9999,
+			$defaults[ self::PLUGIN_SETTING_CARD_PADDING ]
+		);
+
+		$settings[ self::PLUGIN_SETTING_CARD_PADDING_UNIT ] = $this->sanitize_public_page_unit(
+			$this->get_plugin_setting( self::PLUGIN_SETTING_CARD_PADDING_UNIT ),
+			array( 'rem', 'em', 'px' ),
+			$defaults[ self::PLUGIN_SETTING_CARD_PADDING_UNIT ]
 		);
 
 		$settings[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] = $this->sanitize_public_page_dimension(
 			$this->get_plugin_setting( self::PLUGIN_SETTING_CARD_BORDER_RADIUS ),
 			0,
-			40,
-			(int) $defaults[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ]
+			9999,
+			$defaults[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ]
+		);
+
+		$settings[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ] = $this->sanitize_public_page_unit(
+			$this->get_plugin_setting( self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ),
+			array( 'rem', 'px' ),
+			$defaults[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ]
+		);
+
+		$settings[ self::PLUGIN_SETTING_LOGO_IMAGE ] = esc_url_raw( (string) $this->get_plugin_setting( self::PLUGIN_SETTING_LOGO_IMAGE ) );
+
+		$logo_alignment = sanitize_key( (string) $this->get_plugin_setting( self::PLUGIN_SETTING_LOGO_ALIGNMENT ) );
+		$settings[ self::PLUGIN_SETTING_LOGO_ALIGNMENT ] = in_array( $logo_alignment, array( 'left', 'center', 'right' ), true ) ? $logo_alignment : $defaults[ self::PLUGIN_SETTING_LOGO_ALIGNMENT ];
+
+		$settings[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT ] = $this->sanitize_public_page_dimension(
+			$this->get_plugin_setting( self::PLUGIN_SETTING_LOGO_MAX_HEIGHT ),
+			0,
+			9999,
+			(float) $defaults[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT ]
+		);
+
+		$settings[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ] = $this->sanitize_public_page_unit(
+			$this->get_plugin_setting( self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ),
+			array( 'rem', 'px' ),
+			$defaults[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ]
 		);
 
 		return $settings;
@@ -3995,12 +4967,12 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	/**
 	 * Sanitizes a numeric theme dimension.
 	 *
-	 * @param mixed $value   Raw dimension value.
-	 * @param int   $min     Minimum accepted value.
-	 * @param int   $max     Maximum accepted value.
-	 * @param int   $default Fallback value.
+	 * @param mixed     $value   Raw dimension value.
+	 * @param int|float $min     Minimum accepted value.
+	 * @param int|float $max     Maximum accepted value.
+	 * @param int|float $default Fallback value.
 	 *
-	 * @return int
+	 * @return float
 	 */
 	private function sanitize_public_page_dimension( $value, $min, $max, $default ) {
 		if ( is_string( $value ) ) {
@@ -4008,16 +4980,33 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		}
 
 		if ( '' === $value || ! is_numeric( $value ) ) {
-			return $default;
+			return (float) $default;
 		}
 
-		$value = (int) round( (float) $value );
+		$value = (float) $value;
 
 		if ( $value < $min || $value > $max ) {
-			return $default;
+			return (float) $default;
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Sanitizes a CSS unit string against a whitelist.
+	 *
+	 * @param mixed    $value   Raw unit value.
+	 * @param string[] $allowed Allowed unit strings.
+	 * @param string   $default Fallback unit.
+	 *
+	 * @return string
+	 */
+	private function sanitize_public_page_unit( $value, $allowed, $default ) {
+		if ( is_string( $value ) && in_array( $value, $allowed, true ) ) {
+			return $value;
+		}
+
+		return $default;
 	}
 
 	/**
@@ -4061,8 +5050,13 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 * @return string
 	 */
 	private function get_public_page_preview_style_variables( $theme ) {
+		$card_width   = floatval( $theme[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ] ) . $theme[ self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT ];
+		$card_padding = floatval( $theme[ self::PLUGIN_SETTING_CARD_PADDING ] ) . $theme[ self::PLUGIN_SETTING_CARD_PADDING_UNIT ];
+		$card_radius  = floatval( $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] ) . $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ];
+		$logo_height  = floatval( $theme[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT ] ) . $theme[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ];
+
 		return sprintf(
-			'--gf-email-approvals-page-bg:%1$s;--gf-email-approvals-card-bg:%2$s;--gf-email-approvals-text:%3$s;--gf-email-approvals-title:%4$s;--gf-email-approvals-approve:%5$s;--gf-email-approvals-reject:%6$s;--gf-email-approvals-button-text:%7$s;--gf-email-approvals-card-width:%8$dpx;--gf-email-approvals-card-padding:%9$dpx;--gf-email-approvals-card-radius:%10$dpx;--gf-email-approvals-shadow:%11$s;',
+			'--gf-email-approvals-page-bg:%1$s;--gf-email-approvals-card-bg:%2$s;--gf-email-approvals-text:%3$s;--gf-email-approvals-title:%4$s;--gf-email-approvals-approve:%5$s;--gf-email-approvals-reject:%6$s;--gf-email-approvals-button-text:%7$s;--gf-email-approvals-card-width:%8$s;--gf-email-approvals-card-padding:%9$s;--gf-email-approvals-card-radius:%10$s;--gf-email-approvals-shadow:%11$s;--gf-email-approvals-logo-align:%12$s;--gf-email-approvals-logo-height:%13$s;',
 			(string) $theme[ self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ],
 			(string) $theme[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ],
 			(string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ],
@@ -4070,10 +5064,12 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			(string) $theme[ self::PLUGIN_SETTING_APPROVE_BUTTON_COLOR ],
 			(string) $theme[ self::PLUGIN_SETTING_REJECT_BUTTON_COLOR ],
 			(string) $theme[ self::PLUGIN_SETTING_BUTTON_TEXT_COLOR ],
-			(int) $theme[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ],
-			(int) $theme[ self::PLUGIN_SETTING_CARD_PADDING ],
-			(int) $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ],
-			$this->hex_to_rgba( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ], 0.12, 'rgba(29,35,39,0.12)' )
+			$card_width,
+			$card_padding,
+			$card_radius,
+			$this->hex_to_rgba( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ], 0.12, 'rgba(29,35,39,0.12)' ),
+			(string) $theme[ self::PLUGIN_SETTING_LOGO_ALIGNMENT ],
+			$logo_height
 		);
 	}
 
@@ -4088,12 +5084,14 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 */
 	private function get_public_page_button_style( $status, $theme = null, $full_width = true ) {
 		$theme             = is_array( $theme ) ? $theme : $this->get_public_page_theme_settings();
-		$radius            = max( 4, min( 18, (int) round( (int) $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] * 0.5 ) ) );
+		$radius_value      = floatval( $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] ) * 0.5;
+		$radius_unit       = $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ];
+		$radius            = $radius_value . $radius_unit;
 		$background        = self::STATUS_REJECTED === $status ? (string) $theme[ self::PLUGIN_SETTING_REJECT_BUTTON_COLOR ] : (string) $theme[ self::PLUGIN_SETTING_APPROVE_BUTTON_COLOR ];
 		$width_declaration = $full_width ? 'width:100%;' : '';
 
 		return sprintf(
-			'display:block;%1$sbox-sizing:border-box;padding:12px 18px;background:%2$s;color:%3$s;border:0;border-radius:%4$dpx;cursor:pointer;font:inherit;font-weight:600;',
+			'display:block;%1$sbox-sizing:border-box;padding:12px 18px;background:%2$s;color:%3$s;border:0;border-radius:%4$s;cursor:pointer;font:inherit;font-weight:600;',
 			$width_declaration,
 			$background,
 			(string) $theme[ self::PLUGIN_SETTING_BUTTON_TEXT_COLOR ],
@@ -4111,10 +5109,12 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 */
 	private function get_public_page_input_style( $control_type, $theme = null ) {
 		$theme        = is_array( $theme ) ? $theme : $this->get_public_page_theme_settings();
-		$radius       = max( 4, min( 18, (int) round( (int) $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] * 0.5 ) ) );
+		$radius_value = floatval( $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] ) * 0.5;
+		$radius_unit  = $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ];
+		$radius       = $radius_value . $radius_unit;
 		$border_color = $this->hex_to_rgba( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ], 0.18, 'rgba(29,35,39,0.18)' );
 		$style        = sprintf(
-			'display:block;width:100%%;max-width:100%%;margin-top:12px;padding:12px 14px;border:1px solid %1$s;border-radius:%2$dpx;background:%3$s;color:%4$s;font:inherit;box-sizing:border-box;',
+			'display:block;width:100%%;max-width:100%%;margin-top:12px;padding:12px 14px;border:1px solid %1$s;border-radius:%2$s;background:%3$s;color:%4$s;font:inherit;box-sizing:border-box;',
 			$border_color,
 			$radius,
 			(string) $theme[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ],
@@ -4247,8 +5247,19 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	private function render_public_page( $title, $content ) {
 		status_header( 200 );
 		nocache_headers();
-		$theme              = $this->get_public_page_theme_settings();
-		$responsive_padding = max( 16, (int) $theme[ self::PLUGIN_SETTING_CARD_PADDING ] - 8 );
+		$theme         = $this->get_public_page_theme_settings();
+		$card_width    = floatval( $theme[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ] ) . esc_attr( $theme[ self::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT ] );
+		$card_padding  = floatval( $theme[ self::PLUGIN_SETTING_CARD_PADDING ] ) . esc_attr( $theme[ self::PLUGIN_SETTING_CARD_PADDING_UNIT ] );
+		$card_radius   = floatval( $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] ) . esc_attr( $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ] );
+
+		/* Compute a smaller padding for mobile breakpoint */
+		$padding_unit = $theme[ self::PLUGIN_SETTING_CARD_PADDING_UNIT ];
+		if ( 'px' === $padding_unit ) {
+			$responsive_padding = max( 16, (int) $theme[ self::PLUGIN_SETTING_CARD_PADDING ] - 8 ) . 'px';
+		} else {
+			$responsive_padding = ( floatval( $theme[ self::PLUGIN_SETTING_CARD_PADDING ] ) * 0.8 ) . esc_attr( $padding_unit );
+		}
+
 		$allowed_html = array(
 			'form'    => array(
 				'method' => true,
@@ -4314,14 +5325,33 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			'main'    => array(
 				'style' => true,
 			),
+			'img'     => array(
+				'src'   => true,
+				'alt'   => true,
+				'style' => true,
+			),
 		);
+
+		$logo_html = '';
+		$logo_url  = (string) $theme[ self::PLUGIN_SETTING_LOGO_IMAGE ];
+		if ( ! empty( $logo_url ) ) {
+			$logo_align  = (string) $theme[ self::PLUGIN_SETTING_LOGO_ALIGNMENT ];
+			$logo_height = floatval( $theme[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT ] ) . esc_attr( $theme[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ] );
+			$logo_html   = sprintf(
+				'<div style="margin-bottom:24px;text-align:%1$s;"><img src="%2$s" alt="Logo" style="max-width:100%%;max-height:%3$s;height:auto;display:inline-block;vertical-align:top;" /></div>',
+				esc_attr( $logo_align ),
+				esc_url( $logo_url ),
+				esc_attr( $logo_height )
+			);
+		}
 
 		echo '<!doctype html><html><head><meta charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '" />';
 		echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
 		echo '<title>' . esc_html( $title ) . '</title>';
-		echo '<style>html{box-sizing:border-box;}*,*::before,*::after{box-sizing:inherit;}input,select,textarea{font:inherit;max-width:100%;}textarea{resize:vertical;}body.gf-email-approvals-public{margin:0;font-family:Segoe UI,Arial,sans-serif;background:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ] ) . ';color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ] ) . ';}main.gf-email-approvals-public__main{width:100%;max-width:' . absint( $theme[ self::PLUGIN_SETTING_CARD_MAX_WIDTH ] ) . 'px;margin:8vh auto;padding:24px;box-sizing:border-box;}section.gf-email-approvals-public__card{width:100%;box-sizing:border-box;background:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ] ) . ';border-radius:' . absint( $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] ) . 'px;padding:' . absint( $theme[ self::PLUGIN_SETTING_CARD_PADDING ] ) . 'px;box-shadow:0 10px 30px ' . esc_html( $this->hex_to_rgba( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ], 0.12, 'rgba(0,0,0,0.08)' ) ) . ';}h1.gf-email-approvals-public__title{margin-top:0;margin-bottom:16px;font-size:28px;line-height:1.2;color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TITLE_COLOR ] ) . ';}.gf-email-approvals-public__content p:first-child{margin-top:0;}.gf-email-approvals-public__content p:last-child{margin-bottom:0;}@media screen and (max-width:680px){main.gf-email-approvals-public__main{margin:0;padding:16px;}section.gf-email-approvals-public__card{padding:' . absint( $responsive_padding ) . 'px;}}</style>';
+		echo '<style>html{box-sizing:border-box;}*,*::before,*::after{box-sizing:inherit;}input,select,textarea{font:inherit;max-width:100%;}textarea{resize:vertical;}body.gf-email-approvals-public{margin:0;font-family:Segoe UI,Arial,sans-serif;background:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ] ) . ';color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ] ) . ';}main.gf-email-approvals-public__main{width:100%;max-width:' . esc_html( $card_width ) . ';margin:8vh auto;padding:24px;box-sizing:border-box;}section.gf-email-approvals-public__card{width:100%;box-sizing:border-box;background:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ] ) . ';border-radius:' . esc_html( $card_radius ) . ';padding:' . esc_html( $card_padding ) . ';box-shadow:0 10px 30px ' . esc_html( $this->hex_to_rgba( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ], 0.12, 'rgba(0,0,0,0.08)' ) ) . ';}h1.gf-email-approvals-public__title{margin-top:0;margin-bottom:16px;font-size:28px;line-height:1.2;color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TITLE_COLOR ] ) . ';}.gf-email-approvals-public__content p:first-child{margin-top:0;}.gf-email-approvals-public__content p:last-child{margin-bottom:0;}@media screen and (max-width:680px){main.gf-email-approvals-public__main{margin:0;padding:16px;}section.gf-email-approvals-public__card{padding:' . esc_html( $responsive_padding ) . ';}}</style>';
 		echo '</head><body class="gf-email-approvals-public">';
 		echo '<main class="gf-email-approvals-public__main">';
+		echo $logo_html; // WPCS: XSS ok.
 		echo '<section class="gf-email-approvals-public__card">';
 		echo '<h1 class="gf-email-approvals-public__title">' . esc_html( $title ) . '</h1>';
 		echo '<div class="gf-email-approvals-public__content">';

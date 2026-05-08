@@ -245,9 +245,6 @@ msgstr ""
 msgid "Let the approver choose the value"
 msgstr ""
 
-#: includes/class-gf-email-approvals-addon.php:263
-msgid "Live preview"
-msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:2819
 msgid "Message field updated: %1$s (%2$s)"
@@ -455,4 +452,48 @@ msgstr ""
 
 #: includes/class-gf-email-approvals-addon.php:2467
 msgid "You are not allowed to process this entry."
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Logo"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Select Logo"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Use this image"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Click to upload (PNG, SVG, WebP)"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Remove image"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Remove"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Logo Image"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Logo Alignment"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Max Height"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Appearance"
+msgstr ""
+
+#: includes/class-gf-email-approvals-addon.php
+msgid "Dimensions"
 msgstr ""
