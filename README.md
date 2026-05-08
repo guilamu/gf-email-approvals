@@ -91,6 +91,13 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 
 ```text
 .
+├── assets
+│   ├── css
+│   │   ├── admin-appearance-builder.css       # Appearance builder admin styles used on the plugin settings page
+│   │   └── admin-notification-settings.css    # Notification editor layout styles for approval page copy and field updates
+│   └── js
+│       ├── admin-appearance-builder.js        # Appearance builder admin interactions, media picker, accordions, and live preview sync
+│       └── admin-notification-settings.js     # Notification editor toggles for approval field update settings
 ├── gf-email-approvals.php                       # Main plugin bootstrap, GitHub updater wiring, and plugin row links
 ├── LICENSE                                      # GNU Affero General Public License v3.0 text
 ├── README.md                                    # Plugin documentation, support notes, and changelog
@@ -99,13 +106,20 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 │   ├── gf-email-approvals-fr_FR.po             # French translation source catalog
 │   └── gf-email-approvals-fr_FR.mo             # Compiled French translation loaded by WordPress
 └── includes
-    ├── class-gf-email-approvals-addon.php       # Gravity Forms add-on integration and approval workflow
+    ├── class-gf-email-approvals-addon.php       # Gravity Forms add-on entrypoint and approval workflow orchestration
+    ├── class-gf-email-approvals-appearance-settings-helper.php # Appearance settings rendering and preview configuration helpers
+    ├── class-gf-email-approvals-public-page-presentation-helper.php # Public approval page theme and inline style calculation helpers
     ├── class-gf-email-approvals-token-store.php # Approval token storage and invalidation helpers
     ├── class-github-updater.php                 # GitHub release updater and plugin details modal
     └── Parsedown.php                            # Markdown parser used by the plugin details modal
 ```
 
 ## Changelog
+
+### 0.6.1 - 2026-05-08
+
+- **Improved:** Removed the extra outer wrapper padding around the public approve/reject pages on both desktop and mobile so the approval card aligns directly with the configured theme spacing.
+- **Improved:** Refactored the shared approval page appearance logic into dedicated helper classes for admin appearance settings and public-page presentation.
 
 ### 0.6.0 - 2026-05-08
 

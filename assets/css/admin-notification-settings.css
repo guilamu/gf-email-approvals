@@ -1,0 +1,38 @@
+#gform_setting_approval_approve_confirmation_text,
+#gform_setting_approval_approved_result_text,
+#gform_setting_approval_reject_confirmation_text,
+#gform_setting_approval_rejected_result_text {
+	box-sizing: border-box;
+	float: left;
+	width: calc(50% - 8px);
+}
+
+#gform_setting_approval_approve_confirmation_text,
+#gform_setting_approval_reject_confirmation_text {
+	clear: left;
+	margin-right: 16px;
+}
+
+#gform_setting_approval_approve_button_label,
+#gform_setting_approval_reject_button_label {
+	clear: both;
+	float: none;
+	width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+	#gform_setting_approval_approve_confirmation_text,
+	#gform_setting_approval_approved_result_text,
+	#gform_setting_approval_reject_confirmation_text,
+	#gform_setting_approval_rejected_result_text {
+		float: none;
+		clear: both;
+		width: 100%;
+		margin-right: 0;
+	}
+}
+
+textarea.approval-page-copy-textarea.large {
+	height: 80px;
+	min-height: 80px;
+}
