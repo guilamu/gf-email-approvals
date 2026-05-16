@@ -362,6 +362,12 @@ class GFEmailApprovalsAppearanceSettingsHelper {
 				'open'   => false,
 			),
 			array(
+				'id'     => 'gf-email-approvals-accordion-text',
+				'title'  => esc_html__( 'Text', 'gf-email-approvals' ),
+				'fields' => $this->get_approval_page_text_fields( $defaults ),
+				'open'   => false,
+			),
+			array(
 				'id'     => 'gf-email-approvals-accordion-logo',
 				'title'  => esc_html__( 'Logo', 'gf-email-approvals' ),
 				'fields' => $this->get_approval_page_logo_fields( $defaults ),
@@ -486,6 +492,56 @@ class GFEmailApprovalsAppearanceSettingsHelper {
 	}
 
 	/**
+	 * Returns the text field definitions used by the appearance settings accordion.
+	 *
+	 * @param array<string, mixed> $defaults Default theme settings.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
+	private function get_approval_page_text_fields( $defaults ) {
+		return array(
+			array(
+				'name'          => GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT,
+				'label'         => esc_html__( 'Title alignment', 'gf-email-approvals' ),
+				'type'          => 'approval_alignment',
+				'default_value' => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT ],
+			),
+			array(
+				'name'          => GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE,
+				'label'         => esc_html__( 'Title size', 'gf-email-approvals' ),
+				'type'          => 'approval_dimension',
+				'default_value' => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE ],
+				'unit_name'     => GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT,
+				'default_unit'  => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT ],
+				'units'         => array(
+					'rem' => array( 'label' => 'rem', 'min' => 1.25, 'max' => 3,  'step' => 0.05 ),
+					'px'  => array( 'label' => 'px',  'min' => 20,   'max' => 48, 'step' => 1 ),
+				),
+				'range_hint'    => esc_html__( '1.25 – 3 rem / 20 – 48 px', 'gf-email-approvals' ),
+			),
+			array(
+				'name'          => GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT,
+				'label'         => esc_html__( 'Message alignment', 'gf-email-approvals' ),
+				'type'          => 'approval_alignment',
+				'default_value' => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT ],
+			),
+			array(
+				'name'          => GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE,
+				'label'         => esc_html__( 'Message size', 'gf-email-approvals' ),
+				'type'          => 'approval_dimension',
+				'default_value' => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE ],
+				'unit_name'     => GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT,
+				'default_unit'  => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT ],
+				'units'         => array(
+					'rem' => array( 'label' => 'rem', 'min' => 0.875, 'max' => 1.75, 'step' => 0.05 ),
+					'px'  => array( 'label' => 'px',  'min' => 14,    'max' => 28,   'step' => 1 ),
+				),
+				'range_hint'    => esc_html__( '0.875 – 1.75 rem / 14 – 28 px', 'gf-email-approvals' ),
+			),
+		);
+	}
+
+	/**
 	 * Returns the logo field definitions used by the appearance settings accordion.
 	 *
 	 * @param array<string, mixed> $defaults Default theme settings.
@@ -586,6 +642,12 @@ class GFEmailApprovalsAppearanceSettingsHelper {
 			'cardBackground'    => GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_BACKGROUND_COLOR,
 			'textColor'         => GFEmailApprovalsAddon::PLUGIN_SETTING_TEXT_COLOR,
 			'titleColor'        => GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_COLOR,
+			'titleAlignment'    => GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT,
+			'titleFontSize'     => GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE,
+			'titleFontSizeUnit' => GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT,
+			'messageAlignment'  => GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT,
+			'messageFontSize'   => GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE,
+			'messageFontUnit'   => GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT,
 			'approveButton'     => GFEmailApprovalsAddon::PLUGIN_SETTING_APPROVE_BUTTON_COLOR,
 			'rejectButton'      => GFEmailApprovalsAddon::PLUGIN_SETTING_REJECT_BUTTON_COLOR,
 			'buttonText'        => GFEmailApprovalsAddon::PLUGIN_SETTING_BUTTON_TEXT_COLOR,
@@ -615,6 +677,12 @@ class GFEmailApprovalsAppearanceSettingsHelper {
 			'cardBackground'    => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ],
 			'textColor'         => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TEXT_COLOR ],
 			'titleColor'        => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_COLOR ],
+			'titleAlignment'    => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT ],
+			'titleFontSize'     => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE ],
+			'titleFontSizeUnit' => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT ],
+			'messageAlignment'  => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT ],
+			'messageFontSize'   => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE ],
+			'messageFontUnit'   => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT ],
 			'approveButton'     => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_APPROVE_BUTTON_COLOR ],
 			'rejectButton'      => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_REJECT_BUTTON_COLOR ],
 			'buttonText'        => $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_BUTTON_TEXT_COLOR ],

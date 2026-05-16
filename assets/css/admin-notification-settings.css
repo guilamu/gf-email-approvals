@@ -36,3 +36,246 @@ textarea.approval-page-copy-textarea.large {
 	height: 80px;
 	min-height: 80px;
 }
+
+.gf-email-approvals-mappings {
+	--gf-email-approvals-mappings-row-padding: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.gf-email-approvals-mappings__header,
+.gf-email-approvals-mappings__row {
+	grid-template-columns: minmax(180px, 1fr) minmax(220px, 1fr) minmax(220px, 1fr) 44px;
+	gap: 12px;
+	align-items: start;
+	box-sizing: border-box;
+}
+
+.gf-email-approvals-mappings--manual .gf-email-approvals-mappings__header,
+.gf-email-approvals-mappings--manual .gf-email-approvals-mappings__row {
+	grid-template-columns: minmax(180px, 1fr) 44px;
+}
+
+.gf-email-approvals-mappings__header {
+	display: none;
+	padding: 0 var(--gf-email-approvals-mappings-row-padding);
+	color: #50575e;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.gf-email-approvals-mappings--has-rows .gf-email-approvals-mappings__header {
+	display: grid;
+}
+
+.gf-email-approvals-mappings__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.gf-email-approvals-mappings__row {
+	display: grid;
+	padding: 14px var(--gf-email-approvals-mappings-row-padding);
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	background: #f6f5ef;
+}
+
+.gf-email-approvals-mappings__cell {
+	min-width: 0;
+}
+
+.gf-email-approvals-mappings__cell--actions {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.gf-email-approvals-mappings__mobile-label {
+	display: none;
+	margin: 0 0 8px;
+	color: #50575e;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.gf-email-approvals-mappings__slot:empty {
+	display: none;
+}
+
+.gf-email-approvals-mappings__add {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	gap: 6px;
+	width: 100%;
+	min-height: 42px;
+	padding: 10px 16px;
+}
+
+.gf-email-approvals-mappings__add .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+	line-height: 1;
+}
+
+.gf-email-approvals-mappings__remove {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 1px solid #c3c4c7;
+	border-radius: 10px;
+	background: #fff;
+	color: #50575e;
+	cursor: pointer;
+	transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.gf-email-approvals-mappings__remove:hover,
+.gf-email-approvals-mappings__remove:focus {
+	border-color: #d63638;
+	background: #fff1f1;
+	color: #d63638;
+	outline: none;
+}
+
+.gf-email-approvals-mappings__remove .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+	line-height: 1;
+}
+
+.gf-email-approvals-decision-value-field .ginput_container,
+.gf-email-approvals-decision-value-field .ginput_complex,
+.gf-email-approvals-decision-value-field select,
+.gf-email-approvals-decision-value-field textarea,
+.gf-email-approvals-decision-value-field input[type="email"],
+.gf-email-approvals-decision-value-field input[type="number"],
+.gf-email-approvals-decision-value-field input[type="tel"],
+.gf-email-approvals-decision-value-field input[type="text"],
+.gf-email-approvals-decision-value-field input[type="url"] {
+	max-width: 100%;
+}
+
+.gf-email-approvals-decision-value-field .ginput_container_select select,
+.gf-email-approvals-decision-value-field .ginput_container_multiselect select,
+.gf-email-approvals-decision-value-field .ginput_container_text input,
+.gf-email-approvals-decision-value-field .ginput_container_email input,
+.gf-email-approvals-decision-value-field .ginput_container_number input,
+.gf-email-approvals-decision-value-field .ginput_container_phone input,
+.gf-email-approvals-decision-value-field .ginput_container_website input,
+.gf-email-approvals-decision-value-field .ginput_container_date input,
+.gf-email-approvals-decision-value-field .ginput_container_textarea textarea,
+.gf-email-approvals-decision-value-field .regular-text {
+	width: 100%;
+}
+
+.gf-email-approvals-decision-value-field .gfield_checkbox,
+.gf-email-approvals-decision-value-field .gfield_radio {
+	display: grid;
+	gap: 8px;
+}
+
+.gf-email-approvals-decision-value-field .ginput_complex {
+	gap: 8px;
+}
+
+.gf-email-approvals-decision-value-field .ginput_container_multiselect select {
+	min-height: 120px;
+}
+
+.gf-email-approvals-decision-value-field .gfield_checkbox,
+.gf-email-approvals-decision-value-field .gfield_radio {
+	padding-top: 8px;
+}
+
+.gf-email-approvals-decision-value-field .gchoice {
+	margin-bottom: 0;
+}
+
+@media screen and (max-width: 1200px) {
+	.gf-email-approvals-mappings__header,
+	.gf-email-approvals-mappings__row {
+		grid-template-columns: minmax(160px, 1fr) minmax(180px, 1fr) minmax(180px, 1fr) 44px;
+	}
+
+	.gf-email-approvals-mappings--manual .gf-email-approvals-mappings__header,
+	.gf-email-approvals-mappings--manual .gf-email-approvals-mappings__row {
+		grid-template-columns: minmax(160px, 1fr) 44px;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.gf-email-approvals-mappings__header {
+		display: none;
+	}
+
+	.gf-email-approvals-mappings__row {
+		grid-template-columns: 1fr;
+	}
+
+	.gf-email-approvals-mappings__cell--actions {
+		justify-content: flex-end;
+		padding-top: 0;
+	}
+
+	.gf-email-approvals-mappings__mobile-label {
+		display: block;
+	}
+}
+
+.gform-settings-panel.gform-settings-panel--with-title.gf-email-approvals-panel-has-settings-link {
+	position: relative;
+}
+
+.gf-email-approvals-panel-header-has-settings-link {
+	position: relative;
+}
+
+.gform-settings-panel.gform-settings-panel--with-title.gf-email-approvals-panel-has-settings-link .gf-email-approvals-panel-header-has-settings-link {
+	padding-right: 72px;
+}
+
+.gf-email-approvals-panel-settings-link {
+	position: absolute;
+	top: 50%;
+	right: 18px;
+	transform: translateY(-50%);
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+	color: #50575e;
+	text-decoration: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+	transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.gf-email-approvals-panel-settings-link:hover,
+.gf-email-approvals-panel-settings-link:focus {
+	border-color: #2271b1;
+	background: #f0f6fc;
+	color: #2271b1;
+	outline: none;
+}
+
+.gf-email-approvals-panel-settings-link .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+	line-height: 1;
+}

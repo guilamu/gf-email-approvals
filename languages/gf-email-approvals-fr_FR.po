@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Approvals for Gravity Forms 0.6.1\n"
+"Project-Id-Version: Email Approvals for Gravity Forms 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/guilamu/gf-email-approvals/issues\n"
-"POT-Creation-Date: 2026-05-08 13:46+0200\n"
-"PO-Revision-Date: 2026-05-08 21:46+0200\n"
+"POT-Creation-Date: 2026-05-16 00:00+0000\n"
+"PO-Revision-Date: 2026-05-16 16:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -68,6 +68,9 @@ msgstr "Apparence"
 msgid "Approval"
 msgstr "Approbation"
 
+msgid "Approval actions"
+msgstr "Actions d'approbation"
+
 msgid "Approval Actions"
 msgstr "Actions d'approbation"
 
@@ -79,6 +82,9 @@ msgstr "URL d'approbation"
 
 msgid "Approval Pages"
 msgstr "Pages d'approbation"
+
+msgid "Approval Page Visual Settings"
+msgstr "Réglages visuels de la page d'approbation"
 
 msgid "Approval Reject Button"
 msgstr "Bouton de rejet"
@@ -143,8 +149,8 @@ msgstr "Choisir une valeur"
 msgid "Choose an action:"
 msgstr "Choisissez une action :"
 
-msgid "Choose one supported field to update after approval or rejection."
-msgstr "Choisissez un champ pris en charge à mettre à jour après l'approbation ou le rejet."
+msgid "Choose one supported field to update on the public confirmation page."
+msgstr "Choisissez un champ pris en charge à mettre à jour sur la page publique de confirmation."
 
 msgid "Choose whether the value is applied automatically when the link is confirmed or selected by the approver on the confirmation page."
 msgstr "Choisissez si la valeur est appliquée automatiquement lorsque le lien est confirmé ou si elle est sélectionnée par l'approbateur sur la page de confirmation."
@@ -179,11 +185,17 @@ msgstr "Approbations par e-mail"
 msgid "Email Approvals for Gravity Forms requires Gravity Forms to be installed and active."
 msgstr "Email Approvals for Gravity Forms nécessite que Gravity Forms soit installé et actif."
 
+msgid "Field"
+msgstr "Champ"
+
 msgid "Field %d"
 msgstr "Champ %d"
 
 msgid "Field to update"
 msgstr "Champ à mettre à jour"
+
+msgid "Add field"
+msgstr "Ajouter un champ"
 
 msgid "Field updated: %1$s (%2$s)"
 msgstr "Champ mis à jour : %1$s (%2$s)"
@@ -236,8 +248,8 @@ msgstr "Ancienne valeur : %s"
 msgid "Optional response field"
 msgstr "Champ de réponse facultatif"
 
-msgid "Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page."
-msgstr "Mettez éventuellement à jour un champ d'entrée pris en charge après que l'approbateur a confirmé sa décision. Vous pouvez soit appliquer automatiquement une valeur prédéfinie, soit laisser l'approbateur choisir la valeur sur la page de confirmation."
+msgid "Optionally update one or more supported entry fields after the approver confirms their decision. You can either apply predefined values automatically or let the approver choose one field value on the confirmation page."
+msgstr "Mettez éventuellement à jour un ou plusieurs champs d'entrée pris en charge après que l'approbateur a confirmé sa décision. Vous pouvez soit appliquer automatiquement des valeurs prédéfinies, soit laisser l'approbateur choisir la valeur d'un champ sur la page de confirmation."
 
 msgid "Page background color"
 msgstr "Couleur d'arrière-plan de la page"
@@ -278,6 +290,9 @@ msgstr "Texte de résultat après rejet"
 msgid "Rejected value"
 msgstr "Valeur en cas de rejet"
 
+msgid "Remove field"
+msgstr "Supprimer le champ"
+
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -301,6 +316,9 @@ msgstr "Réinitialiser le statut"
 
 msgid "Result"
 msgstr "Résultat"
+
+msgid "Select a field"
+msgstr "Sélectionner un champ"
 
 msgid "Select Logo"
 msgstr "Sélectionner un logo"
@@ -376,3 +394,42 @@ msgstr "Vous n'êtes pas autorisé à traiter ces entrées."
 
 msgid "You are not allowed to process this entry."
 msgstr "Vous n'êtes pas autorisé à traiter cette entrée."
+
+msgid "Actor: %s"
+msgstr "Acteur : %s"
+
+msgid "Admin"
+msgstr "Administrateur"
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "Approval Approved"
+msgstr "Approbation approuvée"
+
+msgid "Approval Page Appearance"
+msgstr "Apparence de la page d'approbation"
+
+msgid "Approval Rejected"
+msgstr "Approbation rejetée"
+
+msgid "Approval status changed to %s."
+msgstr "Le statut d'approbation est passé à %s."
+
+msgid "Body text color"
+msgstr "Couleur du texte du corps"
+
+msgid "Button text color"
+msgstr "Couleur du texte du bouton"
+
+msgid "Card background color"
+msgstr "Couleur d'arrière-plan de la carte"
+
+msgid "Card max width (320px to 960px)"
+msgstr "Largeur maximale de la carte (320px à 960px)"
+
+msgid "Card padding (16px to 80px)"
+msgstr "Espacement interne de la carte (16px à 80px)"
+
+msgid "Card radius (0px to 40px)"
+msgstr "Rayon de bordure de la carte (0px à 40px)"

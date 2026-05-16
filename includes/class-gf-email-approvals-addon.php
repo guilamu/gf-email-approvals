@@ -57,16 +57,31 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	const NOTIFICATION_REJECTED_RESULT_TEXT = 'approval_rejected_result_text';
 	const NOTIFICATION_UPDATE_MODE = 'approval_update_mode';
 	const NOTIFICATION_DECISION_UPDATE_FIELD = 'approval_decision_update_field';
+	const NOTIFICATION_DECISION_UPDATE_FIELDS = 'approval_decision_update_fields';
+	const NOTIFICATION_DECISION_UPDATE_MAPPINGS = 'approval_decision_update_mappings';
 	const NOTIFICATION_APPROVED_TEXT_VALUE = 'approval_approved_text_value';
 	const NOTIFICATION_REJECTED_TEXT_VALUE = 'approval_rejected_text_value';
 	const NOTIFICATION_APPROVED_CHOICE_VALUE = 'approval_approved_choice_value';
 	const NOTIFICATION_REJECTED_CHOICE_VALUE = 'approval_rejected_choice_value';
 	const NOTIFICATION_APPROVED_CHOICE_VALUES = 'approval_approved_choice_values';
 	const NOTIFICATION_REJECTED_CHOICE_VALUES = 'approval_rejected_choice_values';
+	const NOTIFICATION_DECISION_UPDATE_FIELDS_FIELD = 'approval_decision_update_fields_builder';
+	const NOTIFICATION_DECISION_UPDATE_MAPPINGS_FIELD = 'approval_decision_update_mappings_builder';
+	const DECISION_VALUE_FIELD_NAME_APPROVED = 'approval_approved_value_control';
+	const DECISION_VALUE_FIELD_NAME_REJECTED = 'approval_rejected_value_control';
+	const DECISION_VALUE_VIRTUAL_FIELD_ID_APPROVED = 910000000;
+	const DECISION_VALUE_VIRTUAL_FIELD_ID_REJECTED = 920000000;
+	const DECISION_VALUE_VIRTUAL_FIELD_ID_MANUAL = 930000000;
 	const PLUGIN_SETTING_PAGE_BACKGROUND_COLOR = 'approval_page_background_color';
 	const PLUGIN_SETTING_CARD_BACKGROUND_COLOR = 'approval_page_card_background_color';
 	const PLUGIN_SETTING_TEXT_COLOR = 'approval_page_text_color';
 	const PLUGIN_SETTING_TITLE_COLOR = 'approval_page_title_color';
+	const PLUGIN_SETTING_TITLE_ALIGNMENT = 'approval_page_title_alignment';
+	const PLUGIN_SETTING_TITLE_FONT_SIZE = 'approval_page_title_font_size';
+	const PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT = 'approval_page_title_font_size_unit';
+	const PLUGIN_SETTING_MESSAGE_ALIGNMENT = 'approval_page_message_alignment';
+	const PLUGIN_SETTING_MESSAGE_FONT_SIZE = 'approval_page_message_font_size';
+	const PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT = 'approval_page_message_font_size_unit';
 	const PLUGIN_SETTING_APPROVE_BUTTON_COLOR = 'approval_page_approve_button_color';
 	const PLUGIN_SETTING_REJECT_BUTTON_COLOR = 'approval_page_reject_button_color';
 	const PLUGIN_SETTING_BUTTON_TEXT_COLOR = 'approval_page_button_text_color';
@@ -277,20 +292,9 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 */
 	public function register_notification_settings_fields( $fields, $notification, $form ) {
 		$defaults                  = $this->get_notification_page_defaults();
-		$decision_settings         = $this->get_notification_decision_update_settings( $notification );
-		$decision_defaults         = $this->get_notification_decision_update_defaults();
-		$decision_field_choices    = $this->get_decision_update_field_choices( $form, (string) $decision_settings[ self::NOTIFICATION_UPDATE_MODE ] );
-		$current_target_field      = $this->get_decision_update_field( $form, (string) $decision_settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ], (string) $decision_settings[ self::NOTIFICATION_UPDATE_MODE ] );
-		$current_target_choices    = $current_target_field ? $this->get_supported_field_choice_options( $current_target_field ) : array();
-		$current_single_choices    = array_merge(
-			array(
-				array(
-					'value' => '',
-					'label' => esc_html__( 'Leave unchanged', 'gf-email-approvals' ),
-				),
-			),
-			$current_target_choices
-		);
+		$decision_settings         = $this->get_current_notification_decision_update_settings( $notification, $form );
+		$manual_fields             = $this->get_notification_manual_decision_update_fields( $form, $decision_settings );
+		$automatic_mappings        = $this->get_notification_decision_update_mappings( $form, $decision_settings );
 
 		$fields[] = array(
 			'title'       => esc_html__( 'Approval Pages', 'gf-email-approvals' ),
@@ -318,14 +322,14 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					'name'          => self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT,
 					'label'         => esc_html__( 'Approve confirmation text', 'gf-email-approvals' ),
 					'class'         => 'large merge-tag-support mt-position-right approval-page-copy-textarea',
-					'default_value' => $defaults[ self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ],
+					'default_value' => $this->get_notification_page_field_default_value( $notification, self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT, $defaults[ self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT ] ),
 				),
 				array(
 					'type'          => 'textarea',
 					'name'          => self::NOTIFICATION_APPROVED_RESULT_TEXT,
 					'label'         => esc_html__( 'Approved result text', 'gf-email-approvals' ),
 					'class'         => 'large merge-tag-support mt-position-right approval-page-copy-textarea',
-					'default_value' => $defaults[ self::NOTIFICATION_APPROVED_RESULT_TEXT ],
+					'default_value' => $this->get_notification_page_field_default_value( $notification, self::NOTIFICATION_APPROVED_RESULT_TEXT, $defaults[ self::NOTIFICATION_APPROVED_RESULT_TEXT ] ),
 				),
 				array(
 					'type'          => 'text',
@@ -339,14 +343,14 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					'name'          => self::NOTIFICATION_REJECT_CONFIRMATION_TEXT,
 					'label'         => esc_html__( 'Reject confirmation text', 'gf-email-approvals' ),
 					'class'         => 'large merge-tag-support mt-position-right approval-page-copy-textarea',
-					'default_value' => $defaults[ self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ],
+					'default_value' => $this->get_notification_page_field_default_value( $notification, self::NOTIFICATION_REJECT_CONFIRMATION_TEXT, $defaults[ self::NOTIFICATION_REJECT_CONFIRMATION_TEXT ] ),
 				),
 				array(
 					'type'          => 'textarea',
 					'name'          => self::NOTIFICATION_REJECTED_RESULT_TEXT,
 					'label'         => esc_html__( 'Rejected result text', 'gf-email-approvals' ),
 					'class'         => 'large merge-tag-support mt-position-right approval-page-copy-textarea',
-					'default_value' => $defaults[ self::NOTIFICATION_REJECTED_RESULT_TEXT ],
+					'default_value' => $this->get_notification_page_field_default_value( $notification, self::NOTIFICATION_REJECTED_RESULT_TEXT, $defaults[ self::NOTIFICATION_REJECTED_RESULT_TEXT ] ),
 				),
 				array(
 					'type'          => 'text',
@@ -360,7 +364,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 
 		$fields[] = array(
 			'title'       => esc_html__( 'Approval actions', 'gf-email-approvals' ),
-			'description' => esc_html__( 'Optionally update one supported entry field after the approver confirms their decision. You can either apply a predefined value automatically or let the approver choose the value on the confirmation page.', 'gf-email-approvals' ),
+			'description' => esc_html__( 'Optionally update one or more supported entry fields after the approver confirms their decision. You can either apply predefined values automatically or let the approver choose one field value on the confirmation page.', 'gf-email-approvals' ),
 			'id'          => 'approval-actions',
 			'dependency'  => array(
 				'live'   => true,
@@ -382,62 +386,14 @@ class GFEmailApprovalsAddon extends GFAddOn {
 					'description'   => esc_html__( 'Choose whether the value is applied automatically when the link is confirmed or selected by the approver on the confirmation page.', 'gf-email-approvals' ),
 				),
 				array(
-					'type'        => 'select',
-					'name'        => self::NOTIFICATION_DECISION_UPDATE_FIELD,
-					'label'       => esc_html__( 'Field to update', 'gf-email-approvals' ),
-					'class'       => 'medium',
-					'choices'     => $decision_field_choices,
-					'description' => esc_html__( 'Choose one supported field to update after approval or rejection.', 'gf-email-approvals' ),
+					'type' => 'html',
+					'name' => self::NOTIFICATION_DECISION_UPDATE_FIELDS_FIELD,
+					'html' => $this->get_manual_decision_update_fields_setting_markup( $form, $manual_fields ),
 				),
 				array(
-					'type'          => 'textarea',
-					'name'          => self::NOTIFICATION_APPROVED_TEXT_VALUE,
-					'label'         => esc_html__( 'Approved value', 'gf-email-approvals' ),
-					'class'         => 'large merge-tag-support mt-position-right',
-					'default_value' => $decision_defaults[ self::NOTIFICATION_APPROVED_TEXT_VALUE ],
-					'description'   => esc_html__( 'Used for text-like target fields. Merge tags are supported. Leave blank to keep the field unchanged.', 'gf-email-approvals' ),
-				),
-				array(
-					'type'          => 'textarea',
-					'name'          => self::NOTIFICATION_REJECTED_TEXT_VALUE,
-					'label'         => esc_html__( 'Rejected value', 'gf-email-approvals' ),
-					'class'         => 'large merge-tag-support mt-position-right',
-					'default_value' => $decision_defaults[ self::NOTIFICATION_REJECTED_TEXT_VALUE ],
-					'description'   => esc_html__( 'Used for text-like target fields. Merge tags are supported. Leave blank to keep the field unchanged.', 'gf-email-approvals' ),
-				),
-				array(
-					'type'        => 'select',
-					'name'        => self::NOTIFICATION_APPROVED_CHOICE_VALUE,
-					'label'       => esc_html__( 'Approved choice', 'gf-email-approvals' ),
-					'class'       => 'medium',
-					'choices'     => $current_single_choices,
-					'description' => esc_html__( 'Used for drop down and multiple choice target fields. Leave unchanged to keep the current value.', 'gf-email-approvals' ),
-				),
-				array(
-					'type'        => 'select',
-					'name'        => self::NOTIFICATION_REJECTED_CHOICE_VALUE,
-					'label'       => esc_html__( 'Rejected choice', 'gf-email-approvals' ),
-					'class'       => 'medium',
-					'choices'     => $current_single_choices,
-					'description' => esc_html__( 'Used for drop down and multiple choice target fields. Leave unchanged to keep the current value.', 'gf-email-approvals' ),
-				),
-				array(
-					'type'        => 'select',
-					'name'        => self::NOTIFICATION_APPROVED_CHOICE_VALUES,
-					'label'       => esc_html__( 'Approved choices', 'gf-email-approvals' ),
-					'class'       => 'medium',
-					'choices'     => $current_target_choices,
-					'multiple'    => true,
-					'description' => esc_html__( 'Used for checkbox and multi select target fields. Leave empty to keep the current value.', 'gf-email-approvals' ),
-				),
-				array(
-					'type'        => 'select',
-					'name'        => self::NOTIFICATION_REJECTED_CHOICE_VALUES,
-					'label'       => esc_html__( 'Rejected choices', 'gf-email-approvals' ),
-					'class'       => 'medium',
-					'choices'     => $current_target_choices,
-					'multiple'    => true,
-					'description' => esc_html__( 'Used for checkbox and multi select target fields. Leave empty to keep the current value.', 'gf-email-approvals' ),
+					'type'          => 'html',
+					'name'          => self::NOTIFICATION_DECISION_UPDATE_MAPPINGS_FIELD,
+					'html'          => $this->get_decision_update_mappings_setting_markup( $form, $automatic_mappings ),
 				),
 			),
 		);
@@ -491,11 +447,20 @@ class GFEmailApprovalsAddon extends GFAddOn {
 				continue;
 			}
 
-			$value = sanitize_textarea_field( (string) $posted_value );
+			$value              = sanitize_textarea_field( (string) $posted_value );
+			$empty_override_key = $this->get_notification_page_empty_override_key( $setting_name );
 
 			if ( '' === $value ) {
+				if ( '' !== $empty_override_key ) {
+					$notification[ $empty_override_key ] = '1';
+				}
+
 				unset( $notification[ $setting_name ] );
 				continue;
+			}
+
+			if ( '' !== $empty_override_key ) {
+				unset( $notification[ $empty_override_key ] );
 			}
 
 			$notification[ $setting_name ] = $value;
@@ -510,104 +475,50 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			$notification[ self::NOTIFICATION_UPDATE_MODE ] = $update_mode;
 		}
 
-		$target_field_id = sanitize_text_field( (string) $this->get_posted_notification_setting( self::NOTIFICATION_DECISION_UPDATE_FIELD, '' ) );
-
-		$current_target_field = '' !== $target_field_id && '' !== $update_mode ? $this->get_decision_update_field( $form, $target_field_id, $update_mode ) : null;
-
-		if ( $current_target_field ) {
-			$notification[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] = (string) $current_target_field->id;
-		} else {
-			unset( $notification[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] );
-		}
-
-		$current_target_kind = $current_target_field ? $this->get_decision_update_field_kind( $current_target_field ) : '';
-
-		$text_update_fields = array(
+		$legacy_automatic_setting_names = array(
 			self::NOTIFICATION_APPROVED_TEXT_VALUE,
 			self::NOTIFICATION_REJECTED_TEXT_VALUE,
-		);
-
-		if ( self::UPDATE_MODE_AUTOMATIC === $update_mode && 'text' === $current_target_kind ) {
-			foreach ( $text_update_fields as $setting_name ) {
-				$value = sanitize_textarea_field( (string) $this->get_posted_notification_setting( $setting_name, '' ) );
-
-				if ( '' === $value ) {
-					unset( $notification[ $setting_name ] );
-					continue;
-				}
-
-				$notification[ $setting_name ] = $value;
-			}
-		} else {
-			foreach ( $text_update_fields as $setting_name ) {
-				unset( $notification[ $setting_name ] );
-			}
-		}
-
-		$choice_value_map = $current_target_field ? $this->get_supported_field_choice_value_map( $current_target_field ) : array();
-
-		$single_choice_fields = array(
 			self::NOTIFICATION_APPROVED_CHOICE_VALUE,
 			self::NOTIFICATION_REJECTED_CHOICE_VALUE,
-		);
-
-		if ( self::UPDATE_MODE_AUTOMATIC === $update_mode && 'single' === $current_target_kind ) {
-			foreach ( $single_choice_fields as $setting_name ) {
-				$value = sanitize_text_field( (string) $this->get_posted_notification_setting( $setting_name, '' ) );
-
-				if ( '' === $value || ! isset( $choice_value_map[ $value ] ) ) {
-					unset( $notification[ $setting_name ] );
-					continue;
-				}
-
-				$notification[ $setting_name ] = $value;
-			}
-		} else {
-			foreach ( $single_choice_fields as $setting_name ) {
-				unset( $notification[ $setting_name ] );
-			}
-		}
-
-		$multi_choice_fields = array(
 			self::NOTIFICATION_APPROVED_CHOICE_VALUES,
 			self::NOTIFICATION_REJECTED_CHOICE_VALUES,
 		);
 
-		if ( self::UPDATE_MODE_AUTOMATIC === $update_mode && 'multi' === $current_target_kind ) {
-			foreach ( $multi_choice_fields as $setting_name ) {
-				$raw_values = $this->get_posted_notification_setting( $setting_name, array() );
-
-				if ( ! is_array( $raw_values ) ) {
-					unset( $notification[ $setting_name ] );
-					continue;
-				}
-
-				$values = array();
-
-				foreach ( $raw_values as $raw_value ) {
-					$value = sanitize_text_field( $raw_value );
-
-					if ( '' === $value || ! isset( $choice_value_map[ $value ] ) ) {
-						continue;
-					}
-
-					$values[] = $value;
-				}
-
-				$values = array_values( array_unique( $values ) );
-
-				if ( empty( $values ) ) {
-					unset( $notification[ $setting_name ] );
-					continue;
-				}
-
-				$notification[ $setting_name ] = $values;
-			}
-		} else {
-			foreach ( $multi_choice_fields as $setting_name ) {
-				unset( $notification[ $setting_name ] );
-			}
+		foreach ( $legacy_automatic_setting_names as $setting_name ) {
+			unset( $notification[ $setting_name ] );
 		}
+
+		if ( self::UPDATE_MODE_MANUAL === $update_mode ) {
+			$manual_fields = $this->sanitize_posted_manual_decision_update_fields( $form );
+
+			if ( ! empty( $manual_fields ) ) {
+				$notification[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ] = $manual_fields;
+			} else {
+				unset( $notification[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ] );
+			}
+
+			unset( $notification[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] );
+			unset( $notification[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] );
+
+			return $notification;
+		}
+
+		unset( $notification[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ] );
+		unset( $notification[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] );
+
+		if ( self::UPDATE_MODE_AUTOMATIC === $update_mode ) {
+			$mappings = $this->sanitize_posted_decision_update_mappings( $form );
+
+			if ( ! empty( $mappings ) ) {
+				$notification[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] = $mappings;
+			} else {
+				unset( $notification[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] );
+			}
+
+			return $notification;
+		}
+
+		unset( $notification[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] );
 
 		return $notification;
 	}
@@ -649,6 +560,670 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	}
 
 	/**
+	 * Returns whether a notification setting was posted on the current request.
+	 *
+	 * @param string $setting_name The setting name.
+	 *
+	 * @return bool
+	 */
+	private function has_posted_notification_setting( $setting_name ) {
+		$posted_values = array();
+
+		if ( class_exists( 'GFNotification' ) && method_exists( 'GFNotification', 'get_settings_renderer' ) ) {
+			$settings_renderer = GFNotification::get_settings_renderer();
+
+			if ( is_object( $settings_renderer ) && method_exists( $settings_renderer, 'get_posted_values' ) ) {
+				$posted_values = $settings_renderer->get_posted_values();
+			}
+		}
+
+		if ( is_array( $posted_values ) && array_key_exists( $setting_name, $posted_values ) ) {
+			return true;
+		}
+
+		if ( isset( $_POST[ $setting_name ] ) ) {
+			return true;
+		}
+
+		return isset( $_POST[ '_gform_setting_' . $setting_name ] );
+	}
+
+	/**
+	 * Returns a posted notification setting array.
+	 *
+	 * @param string $setting_name The setting name.
+	 *
+	 * @return array
+	 */
+	private function get_posted_notification_setting_array( $setting_name ) {
+		$prefixed_setting_name = '_gform_setting_' . $setting_name;
+
+		if ( isset( $_POST[ $prefixed_setting_name ] ) && is_array( $_POST[ $prefixed_setting_name ] ) ) {
+			return wp_unslash( $_POST[ $prefixed_setting_name ] );
+		}
+
+		if ( isset( $_POST[ $setting_name ] ) && is_array( $_POST[ $setting_name ] ) ) {
+			return wp_unslash( $_POST[ $setting_name ] );
+		}
+
+		$value = $this->get_posted_notification_setting( $setting_name, array() );
+
+		return is_array( $value ) ? $value : array();
+	}
+
+	/**
+	 * Returns the posted automatic decision update value for the selected target field.
+	 *
+	 * @param array  $form   The current form.
+	 * @param object $field  The selected target field.
+	 * @param string $status The target decision status.
+	 *
+	 * @return array|string|null
+	 */
+	private function get_posted_decision_update_value( $form, $field, $status, $row_key = 0 ) {
+		if ( ! is_object( $field ) || ! class_exists( 'GFFormsModel' ) || ! method_exists( 'GFFormsModel', 'get_field_value' ) ) {
+			return null;
+		}
+
+		$virtual_field = $this->get_decision_update_virtual_field( $field, $form, $status, $row_key );
+
+		if ( ! $virtual_field ) {
+			return null;
+		}
+
+		$submit_flag_name   = 'is_submit_' . absint( $virtual_field->formId );
+		$submit_flag_exists = array_key_exists( $submit_flag_name, $_POST );
+		$previous_submit    = $submit_flag_exists ? $_POST[ $submit_flag_name ] : null;
+
+		$_POST[ $submit_flag_name ] = '1';
+		$raw_value                  = GFFormsModel::get_field_value( $virtual_field, array(), true );
+
+		if ( $submit_flag_exists ) {
+			$_POST[ $submit_flag_name ] = $previous_submit;
+		} else {
+			unset( $_POST[ $submit_flag_name ] );
+		}
+
+		if ( 'multi' === $this->get_decision_update_field_kind( $field ) ) {
+			if ( ! is_array( $raw_value ) ) {
+				$raw_value = rgblank( $raw_value ) ? array() : array( $raw_value );
+			}
+
+			return array_values(
+				array_filter(
+					array_map( 'strval', $raw_value ),
+					'strlen'
+				)
+			);
+		}
+
+		if ( method_exists( 'GFFormsModel', 'prepare_value' ) ) {
+			$raw_value = GFFormsModel::prepare_value( $form, $virtual_field, $raw_value, 'input_' . $virtual_field->id, 0, array() );
+		} elseif ( method_exists( $virtual_field, 'get_value_save_entry' ) ) {
+			$raw_value = $virtual_field->get_value_save_entry( $raw_value, $form, 'input_' . $virtual_field->id, 0, array() );
+		}
+
+		if ( is_string( $raw_value ) ) {
+			return $raw_value;
+		}
+
+		return is_scalar( $raw_value ) ? (string) $raw_value : null;
+	}
+
+	/**
+	 * Creates a virtual Gravity Forms field used to render and read decision update inputs.
+	 *
+	 * @param object $field  The selected target field.
+	 * @param array  $form   The current form.
+	 * @param string $status The target decision status.
+	 *
+	 * @return object|null
+	 */
+	private function get_decision_update_virtual_field( $field, $form, $status, $row_key = 0, $preserve_validation = false ) {
+		if ( ! is_object( $field ) || ! isset( $field->id ) ) {
+			return null;
+		}
+
+		$virtual_field = clone $field;
+		$original_id   = (string) $virtual_field->id;
+		$virtual_id    = $this->get_decision_update_virtual_field_id( $status, $row_key );
+
+		$virtual_field->id                 = $virtual_id;
+		$virtual_field->formId             = absint( $this->array_value( $form, 'id' ) );
+		$virtual_field->_is_entry_detail   = true;
+		$virtual_field->isRequired         = $preserve_validation ? ! empty( $virtual_field->isRequired ) : false;
+		$virtual_field->failed_validation  = false;
+		$virtual_field->validation_message = '';
+		$virtual_field->errorMessage       = '';
+
+		if ( isset( $virtual_field->enableSelectAll ) ) {
+			$virtual_field->enableSelectAll = false;
+		}
+
+		if ( isset( $virtual_field->choiceLimit ) ) {
+			$virtual_field->choiceLimit = '';
+		}
+
+		if ( isset( $virtual_field->choiceLimitNumber ) ) {
+			$virtual_field->choiceLimitNumber = '';
+		}
+
+		if ( isset( $virtual_field->choiceLimitMin ) ) {
+			$virtual_field->choiceLimitMin = '';
+		}
+
+		if ( isset( $virtual_field->choiceLimitMax ) ) {
+			$virtual_field->choiceLimitMax = '';
+		}
+
+		$this->remap_decision_update_virtual_field_inputs( $virtual_field, $original_id, (string) $virtual_id );
+
+		return $virtual_field;
+	}
+
+	/**
+	 * Updates multi-input ids on the virtual field so they match the virtual field id.
+	 *
+	 * @param object $field       The virtual field object.
+	 * @param string $original_id The original field id.
+	 * @param string $virtual_id  The virtual field id.
+	 *
+	 * @return void
+	 */
+	private function remap_decision_update_virtual_field_inputs( $field, $original_id, $virtual_id ) {
+		if ( ! isset( $field->inputs ) || ! is_array( $field->inputs ) ) {
+			return;
+		}
+
+		$inputs = array();
+
+		foreach ( $field->inputs as $input ) {
+			if ( isset( $input['id'] ) ) {
+				$input_id = (string) $input['id'];
+
+				if ( 0 === strpos( $input_id, $original_id . '.' ) ) {
+					$input['id'] = $virtual_id . substr( $input_id, strlen( $original_id ) );
+				} elseif ( $input_id === $original_id ) {
+					$input['id'] = $virtual_id;
+				}
+			}
+
+			$inputs[] = $input;
+		}
+
+		$field->inputs = $inputs;
+	}
+
+	/**
+	 * Returns the virtual field id used to render a decision value input.
+	 *
+	 * @param string $status  The target decision status.
+	 * @param int    $row_key The mapping row key.
+	 *
+	 * @return int
+	 */
+	private function get_decision_update_virtual_field_id( $status, $row_key = 0 ) {
+		if ( self::STATUS_APPROVED === $status ) {
+			$base_id = self::DECISION_VALUE_VIRTUAL_FIELD_ID_APPROVED;
+		} elseif ( self::STATUS_REJECTED === $status ) {
+			$base_id = self::DECISION_VALUE_VIRTUAL_FIELD_ID_REJECTED;
+		} else {
+			$base_id = self::DECISION_VALUE_VIRTUAL_FIELD_ID_MANUAL;
+		}
+
+		return $base_id + absint( $row_key );
+	}
+
+	/**
+	 * Returns the native Gravity Forms field markup used for a decision update value.
+	 *
+	 * @param object     $field   The selected target field.
+	 * @param array      $form    The current form.
+	 * @param string     $status  The target decision status.
+	 * @param int        $row_key The mapping row key.
+	 * @param mixed|null $value   The current stored value.
+	 *
+	 * @return string
+	 */
+	private function get_decision_value_setting_markup( $field, $form, $status, $row_key = 0, $value = null ) {
+		$virtual_field = $this->get_decision_update_virtual_field( $field, $form, $status, $row_key );
+
+		if ( ! $virtual_field || ! method_exists( $virtual_field, 'get_field_input' ) ) {
+			return '';
+		}
+
+		$input_type = $virtual_field->get_input_type();
+		$virtual_id = $this->get_decision_update_virtual_field_id( $status, $row_key );
+
+		if ( null === $value ) {
+			$value = in_array( $input_type, array( 'checkbox', 'multiselect' ), true ) ? array() : '';
+		} elseif ( 'multiselect' === $input_type ) {
+			if ( is_string( $value ) && method_exists( $virtual_field, 'to_array' ) ) {
+				$value = $virtual_field->to_array( $value );
+			} elseif ( ! is_array( $value ) ) {
+				$value = '' === (string) $value ? array() : array_map( 'trim', explode( ',', (string) $value ) );
+			}
+		} elseif ( 'checkbox' === $input_type ) {
+			$value = is_array( $value ) ? $value : array();
+		} elseif ( is_array( $value ) ) {
+			$value = '';
+		}
+
+		if ( 'hidden' === $input_type ) {
+			return sprintf(
+				'<div class="gf-email-approvals-decision-value-field" data-input-type="hidden"><input type="text" name="input_%1$d" id="input_%1$d" class="regular-text" value="%2$s" /></div>',
+				absint( $virtual_id ),
+				esc_attr( is_array( $value ) ? '' : (string) $value )
+			);
+		}
+
+		return sprintf(
+			'<div class="gf-email-approvals-decision-value-field" data-input-type="%1$s">%2$s</div>',
+			esc_attr( $input_type ),
+			$virtual_field->get_field_input( $form, $value, array() )
+		);
+	}
+
+	/**
+	 * Returns the sanitized automatic mappings configured for a notification.
+	 *
+	 * @param array $form     The current form.
+	 * @param array $settings The current notification settings.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
+	private function get_notification_decision_update_mappings( $form, $settings ) {
+		$mappings = isset( $settings[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] ) && is_array( $settings[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] )
+			? $settings[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ]
+			: array();
+		$sanitized = array();
+		$used_ids  = array();
+
+		foreach ( $mappings as $mapping ) {
+			if ( ! is_array( $mapping ) ) {
+				continue;
+			}
+
+			$field = $this->get_decision_update_field( $form, (string) $this->array_value( $mapping, 'field' ), self::UPDATE_MODE_AUTOMATIC );
+
+			if ( ! $field ) {
+				continue;
+			}
+
+			$field_id = (string) $field->id;
+
+			if ( isset( $used_ids[ $field_id ] ) ) {
+				continue;
+			}
+
+			$sanitized[] = array(
+				'field'          => $field_id,
+				'approved_value' => $this->sanitize_decision_update_mapping_value( $field, $this->array_value( $mapping, 'approved_value' ) ),
+				'rejected_value' => $this->sanitize_decision_update_mapping_value( $field, $this->array_value( $mapping, 'rejected_value' ) ),
+			);
+
+			$used_ids[ $field_id ] = true;
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitizes the posted automatic decision update mappings.
+	 *
+	 * @param array $form The current form.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
+	private function sanitize_posted_decision_update_mappings( $form ) {
+		$posted_mappings = $this->get_posted_notification_setting_array( self::NOTIFICATION_DECISION_UPDATE_MAPPINGS );
+		$sanitized       = array();
+		$used_ids        = array();
+
+		foreach ( $posted_mappings as $row_key => $mapping ) {
+			if ( ! is_array( $mapping ) ) {
+				continue;
+			}
+
+			$field = $this->get_decision_update_field(
+				$form,
+				sanitize_text_field( (string) $this->array_value( $mapping, 'field', '' ) ),
+				self::UPDATE_MODE_AUTOMATIC
+			);
+
+			if ( ! $field ) {
+				continue;
+			}
+
+			$field_id = (string) $field->id;
+
+			if ( isset( $used_ids[ $field_id ] ) ) {
+				continue;
+			}
+
+			$sanitized[] = array(
+				'field'          => $field_id,
+				'approved_value' => $this->sanitize_decision_update_mapping_value( $field, $this->get_posted_decision_update_value( $form, $field, self::STATUS_APPROVED, $row_key ) ),
+				'rejected_value' => $this->sanitize_decision_update_mapping_value( $field, $this->get_posted_decision_update_value( $form, $field, self::STATUS_REJECTED, $row_key ) ),
+			);
+
+			$used_ids[ $field_id ] = true;
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Returns the sanitized manual field ids configured for a notification.
+	 *
+	 * @param array $form     The current form.
+	 * @param array $settings The current notification settings.
+	 *
+	 * @return array<int, string>
+	 */
+	private function get_notification_manual_decision_update_fields( $form, $settings ) {
+		$field_ids = isset( $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ] ) && is_array( $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ] )
+			? $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ]
+			: array();
+		$legacy_field_id = (string) $this->array_value( $settings, self::NOTIFICATION_DECISION_UPDATE_FIELD, '' );
+		$sanitized       = array();
+		$used_ids        = array();
+
+		if ( empty( $field_ids ) && '' !== $legacy_field_id ) {
+			$field_ids[] = $legacy_field_id;
+		}
+
+		foreach ( $field_ids as $field_id ) {
+			$field = $this->get_decision_update_field( $form, (string) $field_id, self::UPDATE_MODE_MANUAL );
+
+			if ( ! $field ) {
+				continue;
+			}
+
+			$field_id = (string) $field->id;
+
+			if ( isset( $used_ids[ $field_id ] ) ) {
+				continue;
+			}
+
+			$sanitized[]        = $field_id;
+			$used_ids[ $field_id ] = true;
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitizes the posted manual decision update field ids.
+	 *
+	 * @param array $form The current form.
+	 *
+	 * @return array<int, string>
+	 */
+	private function sanitize_posted_manual_decision_update_fields( $form ) {
+		$posted_field_ids = $this->get_posted_notification_setting_array( self::NOTIFICATION_DECISION_UPDATE_FIELDS );
+		$sanitized        = array();
+		$used_ids         = array();
+
+		foreach ( $posted_field_ids as $field_id ) {
+			$field = $this->get_decision_update_field(
+				$form,
+				sanitize_text_field( (string) $field_id ),
+				self::UPDATE_MODE_MANUAL
+			);
+
+			if ( ! $field ) {
+				continue;
+			}
+
+			$field_id = (string) $field->id;
+
+			if ( isset( $used_ids[ $field_id ] ) ) {
+				continue;
+			}
+
+			$sanitized[]         = $field_id;
+			$used_ids[ $field_id ] = true;
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitizes a stored decision update mapping value for its field type.
+	 *
+	 * @param object $field The mapped field.
+	 * @param mixed  $value The raw value.
+	 *
+	 * @return array|string
+	 */
+	private function sanitize_decision_update_mapping_value( $field, $value ) {
+		$kind = $this->get_decision_update_field_kind( $field );
+
+		if ( 'text' === $kind ) {
+			if ( is_array( $value ) ) {
+				return '';
+			}
+
+			return is_scalar( $value ) ? (string) $value : '';
+		}
+
+		$choices = $this->get_supported_field_choice_value_map( $field );
+
+		if ( 'single' === $kind ) {
+			$value = is_scalar( $value ) ? (string) $value : '';
+
+			return '' !== $value && isset( $choices[ $value ] ) ? $value : '';
+		}
+
+		$values = is_array( $value ) ? $value : array();
+		$values = array_values(
+			array_filter(
+				array_unique( array_map( 'strval', $values ) ),
+				static function( $item ) use ( $choices ) {
+					return '' !== $item && isset( $choices[ $item ] );
+				}
+			)
+		);
+
+		return $values;
+	}
+
+	/**
+	 * Returns the automatic mappings builder markup.
+	 *
+	 * @param array $form     The current form.
+	 * @param array $mappings The configured mappings.
+	 *
+	 * @return string
+	 */
+	private function get_decision_update_mappings_setting_markup( $form, $mappings ) {
+		$rows_markup = '';
+
+		foreach ( $mappings as $index => $mapping ) {
+			$rows_markup .= $this->get_decision_update_mapping_row_markup( $form, $index + 1, $mapping );
+		}
+
+		$builder_classes = array( 'gf-email-approvals-mappings' );
+
+		if ( '' !== $rows_markup ) {
+			$builder_classes[] = 'gf-email-approvals-mappings--has-rows';
+		}
+
+		return sprintf(
+			'<div class="%1$s" data-gf-email-approvals-mappings-builder><div class="gf-email-approvals-mappings__header" aria-hidden="true"><div class="gf-email-approvals-mappings__header-cell gf-email-approvals-mappings__header-cell--field">%2$s</div><div class="gf-email-approvals-mappings__header-cell">%3$s</div><div class="gf-email-approvals-mappings__header-cell">%4$s</div><div class="gf-email-approvals-mappings__header-cell gf-email-approvals-mappings__header-cell--actions"></div></div><div class="gf-email-approvals-mappings__rows" data-gf-email-approvals-mappings-rows>%5$s</div><button type="button" class="button button-secondary gf-email-approvals-mappings__add" data-gf-email-approvals-mappings-add><span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span><span>%6$s</span></button></div>',
+			esc_attr( implode( ' ', $builder_classes ) ),
+			esc_html__( 'Field', 'gf-email-approvals' ),
+			esc_html__( 'Approved value', 'gf-email-approvals' ),
+			esc_html__( 'Rejected value', 'gf-email-approvals' ),
+			$rows_markup,
+			esc_html__( 'Add field', 'gf-email-approvals' )
+		);
+	}
+
+	/**
+	 * Returns the markup for one automatic mapping row.
+	 *
+	 * @param array $form    The current form.
+	 * @param int   $row_key The mapping row key.
+	 * @param array $mapping The mapping configuration.
+	 *
+	 * @return string
+	 */
+	private function get_decision_update_mapping_row_markup( $form, $row_key, $mapping ) {
+		$selected_field_id = sanitize_text_field( (string) $this->array_value( $mapping, 'field', '' ) );
+		$field             = $this->get_decision_update_field( $form, $selected_field_id, self::UPDATE_MODE_AUTOMATIC );
+		$approved_markup   = $field ? $this->get_decision_value_setting_markup( $field, $form, self::STATUS_APPROVED, $row_key, $this->array_value( $mapping, 'approved_value' ) ) : '';
+		$rejected_markup   = $field ? $this->get_decision_value_setting_markup( $field, $form, self::STATUS_REJECTED, $row_key, $this->array_value( $mapping, 'rejected_value' ) ) : '';
+
+		return sprintf(
+			'<div class="gf-email-approvals-mappings__row" data-gf-email-approvals-mapping-row data-row-key="%1$d"><div class="gf-email-approvals-mappings__cell gf-email-approvals-mappings__cell--field"><label class="gf-email-approvals-mappings__mobile-label" for="%2$s">%3$s</label>%4$s</div><div class="gf-email-approvals-mappings__cell"><label class="gf-email-approvals-mappings__mobile-label">%5$s</label><div class="gf-email-approvals-mappings__slot" data-gf-email-approvals-mapping-slot="approved">%6$s</div></div><div class="gf-email-approvals-mappings__cell"><label class="gf-email-approvals-mappings__mobile-label">%7$s</label><div class="gf-email-approvals-mappings__slot" data-gf-email-approvals-mapping-slot="rejected">%8$s</div></div><div class="gf-email-approvals-mappings__cell gf-email-approvals-mappings__cell--actions"><button type="button" class="gf-email-approvals-mappings__remove" data-gf-email-approvals-mapping-remove aria-label="%9$s"><span class="dashicons dashicons-trash" aria-hidden="true"></span><span class="screen-reader-text">%9$s</span></button></div></div>',
+			absint( $row_key ),
+			esc_attr( sprintf( 'gf-email-approvals-mapping-field-%d', absint( $row_key ) ) ),
+			esc_html__( 'Field', 'gf-email-approvals' ),
+			$this->get_decision_update_mapping_field_select_markup( $form, $row_key, $selected_field_id ),
+			esc_html__( 'Approved value', 'gf-email-approvals' ),
+			$approved_markup,
+			esc_html__( 'Rejected value', 'gf-email-approvals' ),
+			$rejected_markup,
+			esc_attr__( 'Remove field', 'gf-email-approvals' )
+		);
+	}
+
+	/**
+	 * Returns the field select markup for one automatic mapping row.
+	 *
+	 * @param array  $form              The current form.
+	 * @param int    $row_key           The mapping row key.
+	 * @param string $selected_field_id The selected field id.
+	 *
+	 * @return string
+	 */
+	private function get_decision_update_mapping_field_select_markup( $form, $row_key, $selected_field_id = '' ) {
+		$options = array(
+			sprintf( '<option value="">%s</option>', esc_html__( 'Select a field', 'gf-email-approvals' ) ),
+		);
+
+		foreach ( $this->get_decision_update_field_choices( $form, self::UPDATE_MODE_AUTOMATIC, false ) as $choice ) {
+			$options[] = sprintf(
+				'<option value="%1$s"%2$s>%3$s</option>',
+				esc_attr( $choice['value'] ),
+				(string) $selected_field_id === (string) $choice['value'] ? ' selected="selected"' : '',
+				esc_html( $choice['label'] )
+			);
+		}
+
+		return sprintf(
+			'<select name="%1$s" id="%2$s" data-gf-email-approvals-mapping-field>%3$s</select>',
+			esc_attr( sprintf( '_gform_setting_%s[%d][field]', self::NOTIFICATION_DECISION_UPDATE_MAPPINGS, absint( $row_key ) ) ),
+			esc_attr( sprintf( 'gf-email-approvals-mapping-field-%d', absint( $row_key ) ) ),
+			implode( '', $options )
+		);
+	}
+
+	/**
+	 * Returns the manual fields builder markup.
+	 *
+	 * @param array    $form      The current form.
+	 * @param string[] $field_ids The configured manual field ids.
+	 *
+	 * @return string
+	 */
+	private function get_manual_decision_update_fields_setting_markup( $form, $field_ids ) {
+		$rows_markup = '';
+
+		foreach ( $field_ids as $index => $field_id ) {
+			$rows_markup .= $this->get_manual_decision_update_field_row_markup( $form, $index + 1, $field_id );
+		}
+
+		$builder_classes = array( 'gf-email-approvals-mappings', 'gf-email-approvals-mappings--manual' );
+
+		if ( '' !== $rows_markup ) {
+			$builder_classes[] = 'gf-email-approvals-mappings--has-rows';
+		}
+
+		return sprintf(
+			'<div class="%1$s" data-gf-email-approvals-manual-fields-builder><div class="gf-email-approvals-mappings__header" aria-hidden="true"><div class="gf-email-approvals-mappings__header-cell gf-email-approvals-mappings__header-cell--field">%2$s</div><div class="gf-email-approvals-mappings__header-cell gf-email-approvals-mappings__header-cell--actions"></div></div><div class="gf-email-approvals-mappings__rows" data-gf-email-approvals-manual-fields-rows>%3$s</div><button type="button" class="button button-secondary gf-email-approvals-mappings__add" data-gf-email-approvals-manual-fields-add><span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span><span>%4$s</span></button></div>',
+			esc_attr( implode( ' ', $builder_classes ) ),
+			esc_html__( 'Field', 'gf-email-approvals' ),
+			$rows_markup,
+			esc_html__( 'Add field', 'gf-email-approvals' )
+		);
+	}
+
+	/**
+	 * Returns the markup for one manual field row.
+	 *
+	 * @param array  $form              The current form.
+	 * @param int    $row_key           The builder row key.
+	 * @param string $selected_field_id The selected field id.
+	 *
+	 * @return string
+	 */
+	private function get_manual_decision_update_field_row_markup( $form, $row_key, $selected_field_id = '' ) {
+		return sprintf(
+			'<div class="gf-email-approvals-mappings__row" data-gf-email-approvals-manual-field-row data-row-key="%1$d"><div class="gf-email-approvals-mappings__cell gf-email-approvals-mappings__cell--field"><label class="gf-email-approvals-mappings__mobile-label" for="%2$s">%3$s</label>%4$s</div><div class="gf-email-approvals-mappings__cell gf-email-approvals-mappings__cell--actions"><button type="button" class="gf-email-approvals-mappings__remove" data-gf-email-approvals-manual-field-remove aria-label="%5$s"><span class="dashicons dashicons-trash" aria-hidden="true"></span><span class="screen-reader-text">%5$s</span></button></div></div>',
+			absint( $row_key ),
+			esc_attr( sprintf( 'gf-email-approvals-manual-field-%d', absint( $row_key ) ) ),
+			esc_html__( 'Field', 'gf-email-approvals' ),
+			$this->get_manual_decision_update_field_select_markup( $form, $row_key, $selected_field_id ),
+			esc_attr__( 'Remove field', 'gf-email-approvals' )
+		);
+	}
+
+	/**
+	 * Returns the field select markup for one manual field row.
+	 *
+	 * @param array  $form              The current form.
+	 * @param int    $row_key           The builder row key.
+	 * @param string $selected_field_id The selected field id.
+	 *
+	 * @return string
+	 */
+	private function get_manual_decision_update_field_select_markup( $form, $row_key, $selected_field_id = '' ) {
+		$options = array(
+			sprintf( '<option value="">%s</option>', esc_html__( 'Select a field', 'gf-email-approvals' ) ),
+		);
+
+		foreach ( $this->get_decision_update_field_choices( $form, self::UPDATE_MODE_MANUAL, false ) as $choice ) {
+			$options[] = sprintf(
+				'<option value="%1$s"%2$s>%3$s</option>',
+				esc_attr( $choice['value'] ),
+				(string) $selected_field_id === (string) $choice['value'] ? ' selected="selected"' : '',
+				esc_html( $choice['label'] )
+			);
+		}
+
+		return sprintf(
+			'<select name="%1$s" id="%2$s" data-gf-email-approvals-manual-field>%3$s</select>',
+			esc_attr( sprintf( '_gform_setting_%s[%d]', self::NOTIFICATION_DECISION_UPDATE_FIELDS, absint( $row_key ) ) ),
+			esc_attr( sprintf( 'gf-email-approvals-manual-field-%d', absint( $row_key ) ) ),
+			implode( '', $options )
+		);
+	}
+
+	/**
+	 * Returns a cache-busting version string for a plugin asset.
+	 *
+	 * @param string $relative_path The asset path relative to the plugin root.
+	 *
+	 * @return int|string
+	 */
+	private function get_plugin_asset_version( $relative_path ) {
+		$asset_path = GF_EMAIL_APPROVALS_PATH . ltrim( (string) $relative_path, '/\\' );
+
+		if ( is_readable( $asset_path ) ) {
+			$modified_time = filemtime( $asset_path );
+
+			if ( false !== $modified_time ) {
+				return $modified_time;
+			}
+		}
+
+		return GF_EMAIL_APPROVALS_VERSION;
+	}
+
+	/**
 	 * Exposes the approval merge tags in Gravity Forms editors.
 	 *
 	 * @param array $merge_tags Existing merge tags.
@@ -681,19 +1256,21 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		$form_id = isset( $_GET['id'] ) ? absint( wp_unslash( $_GET['id'] ) ) : 0;
 		$form    = ( $form_id && class_exists( 'GFAPI' ) ) ? GFAPI::get_form( $form_id ) : array();
 		$form    = is_array( $form ) ? $form : array();
+		$style_version  = $this->get_plugin_asset_version( 'assets/css/admin-notification-settings.css' );
+		$script_version = $this->get_plugin_asset_version( 'assets/js/admin-notification-settings.js' );
 
 		wp_enqueue_style(
 			'gf-email-approvals-admin-notification-settings',
 			GF_EMAIL_APPROVALS_URL . 'assets/css/admin-notification-settings.css',
 			array(),
-			GF_EMAIL_APPROVALS_VERSION
+			$style_version
 		);
 
 		wp_register_script(
 			'gf-email-approvals-admin-notification-settings',
 			GF_EMAIL_APPROVALS_URL . 'assets/js/admin-notification-settings.js',
-			array( 'jquery' ),
-			GF_EMAIL_APPROVALS_VERSION,
+			wp_script_is( 'gform_datepicker_init', 'registered' ) ? array( 'jquery', 'gform_datepicker_init' ) : array( 'jquery' ),
+			$script_version,
 			true
 		);
 
@@ -720,20 +1297,41 @@ class GFEmailApprovalsAddon extends GFAddOn {
 				self::UPDATE_MODE_AUTOMATIC => $this->get_decision_update_field_choices( $form, self::UPDATE_MODE_AUTOMATIC, false ),
 				self::UPDATE_MODE_MANUAL    => $this->get_decision_update_field_choices( $form, self::UPDATE_MODE_MANUAL, false ),
 			),
+			'visualSettingsUrl'  => add_query_arg(
+				array(
+					'page'    => 'gf_settings',
+					'subview' => $this->_slug,
+				),
+				admin_url( 'admin.php' )
+			),
 			'fieldNames'         => array(
+				'confirmationTitle' => self::NOTIFICATION_CONFIRMATION_TITLE,
 				'mode'            => self::NOTIFICATION_UPDATE_MODE,
 				'target'          => self::NOTIFICATION_DECISION_UPDATE_FIELD,
-				'approvedText'    => self::NOTIFICATION_APPROVED_TEXT_VALUE,
-				'rejectedText'    => self::NOTIFICATION_REJECTED_TEXT_VALUE,
-				'approvedChoice'  => self::NOTIFICATION_APPROVED_CHOICE_VALUE,
-				'rejectedChoice'  => self::NOTIFICATION_REJECTED_CHOICE_VALUE,
-				'approvedChoices' => self::NOTIFICATION_APPROVED_CHOICE_VALUES,
-				'rejectedChoices' => self::NOTIFICATION_REJECTED_CHOICE_VALUES,
+				'manualFields'    => self::NOTIFICATION_DECISION_UPDATE_FIELDS_FIELD,
+				'manualFieldsSetting' => self::NOTIFICATION_DECISION_UPDATE_FIELDS,
+				'mappings'        => self::NOTIFICATION_DECISION_UPDATE_MAPPINGS_FIELD,
+				'mappingsSetting' => self::NOTIFICATION_DECISION_UPDATE_MAPPINGS,
 			),
 			'automaticMode'      => self::UPDATE_MODE_AUTOMATIC,
+			'manualMode'         => self::UPDATE_MODE_MANUAL,
+			'templateIds'        => array(
+				'approved' => (string) $this->get_decision_update_virtual_field_id( self::STATUS_APPROVED, 0 ),
+				'rejected' => (string) $this->get_decision_update_virtual_field_id( self::STATUS_REJECTED, 0 ),
+			),
+			'virtualIdBases'     => array(
+				'approved' => self::DECISION_VALUE_VIRTUAL_FIELD_ID_APPROVED,
+				'rejected' => self::DECISION_VALUE_VIRTUAL_FIELD_ID_REJECTED,
+			),
 			'strings'            => array(
-				'leaveUnchanged' => __( 'Leave unchanged', 'gf-email-approvals' ),
-				'doNotUpdateField' => __( 'Do not update any field', 'gf-email-approvals' ),
+				'doNotUpdateField'    => __( 'Do not update any field', 'gf-email-approvals' ),
+				'selectField'         => __( 'Select a field', 'gf-email-approvals' ),
+				'field'               => __( 'Field', 'gf-email-approvals' ),
+				'approvedValue'       => __( 'Approved value', 'gf-email-approvals' ),
+				'rejectedValue'       => __( 'Rejected value', 'gf-email-approvals' ),
+				'addField'            => __( 'Add field', 'gf-email-approvals' ),
+				'removeField'         => __( 'Remove field', 'gf-email-approvals' ),
+				'visualSettingsTooltip' => __( 'Approval Page Visual Settings', 'gf-email-approvals' ),
 			),
 		);
 	}
@@ -751,19 +1349,21 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
 		wp_enqueue_media();
+		$style_version  = $this->get_plugin_asset_version( 'assets/css/admin-appearance-builder.css' );
+		$script_version = $this->get_plugin_asset_version( 'assets/js/admin-appearance-builder.js' );
 
 		wp_enqueue_style(
 			'gf-email-approvals-admin-appearance-builder',
 			GF_EMAIL_APPROVALS_URL . 'assets/css/admin-appearance-builder.css',
 			array( 'wp-color-picker' ),
-			GF_EMAIL_APPROVALS_VERSION
+			$style_version
 		);
 
 		wp_register_script(
 			'gf-email-approvals-admin-appearance-builder',
 			GF_EMAIL_APPROVALS_URL . 'assets/js/admin-appearance-builder.js',
 			array( 'jquery', 'wp-color-picker' ),
-			GF_EMAIL_APPROVALS_VERSION,
+			$script_version,
 			true
 		);
 
@@ -1582,6 +2182,20 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	}
 
 	/**
+	 * Returns the inline style used by approval action buttons in HTML emails.
+	 *
+	 * @param string $background_color The button background color.
+	 *
+	 * @return string
+	 */
+	private function get_approval_action_button_inline_style( $background_color ) {
+		return sprintf(
+			'display:inline-block;padding:8px 8px;background:%1$s;color:#ffffff;text-decoration:none;border-radius:4px;font-weight:600;',
+			(string) $background_color
+		);
+	}
+
+	/**
 	 * Returns the rendered approval button markup for one action.
 	 *
 	 * @param array      $action_data    Approval action data.
@@ -1614,9 +2228,9 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		}
 
 		return sprintf(
-			'<a href="%1$s" style="display:inline-block;padding:12px 18px;margin:0 12px 12px 0;background:%2$s;color:#ffffff;text-decoration:none;border-radius:4px;font-weight:600;">%3$s</a>',
+			'<a href="%1$s" style="%2$s">%3$s</a>',
 			esc_url( $url ),
-			esc_attr( (string) $this->array_value( $action_data, 'color' ) ),
+			esc_attr( $this->get_approval_action_button_inline_style( (string) $this->array_value( $action_data, 'color' ) ) ),
 			esc_html( $label )
 		);
 	}
@@ -1979,6 +2593,18 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		}
 
 		$notification = $this->get_form_notification( is_array( $form ) ? $form : array(), (string) $record->notification_id );
+		$validation   = $this->validate_public_manual_decision_update_submission( $form, $entry, $notification );
+
+		if ( isset( $validation['is_valid'] ) && ! $validation['is_valid'] ) {
+			$this->render_public_confirmation_page(
+				$record,
+				$token,
+				$notification,
+				$form,
+				$entry,
+				isset( $validation['manual_render_state'] ) && is_array( $validation['manual_render_state'] ) ? $validation['manual_render_state'] : array()
+			);
+		}
 
 		$result = $this->process_decision(
 			$entry,
@@ -2003,6 +2629,136 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		}
 
 		$this->render_public_message_page( $message );
+	}
+
+	/**
+	 * Validates manual approval-page fields before the decision is processed.
+	 *
+	 * @param array $form         The current form.
+	 * @param array $entry        The current entry.
+	 * @param array $notification The current notification.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function validate_public_manual_decision_update_submission( $form, $entry, $notification ) {
+		unset( $entry );
+
+		$result   = array( 'is_valid' => true );
+		$settings = $this->get_notification_decision_update_settings( $notification );
+
+		if ( self::UPDATE_MODE_MANUAL !== (string) $settings[ self::NOTIFICATION_UPDATE_MODE ] ) {
+			return $result;
+		}
+
+		if ( ! class_exists( 'GFFormDisplay' ) || ! method_exists( 'GFFormDisplay', 'validate_field' ) || ! class_exists( 'GFFormsModel' ) || ! method_exists( 'GFFormsModel', 'get_field_value' ) ) {
+			return $result;
+		}
+
+		$field_ids = $this->get_notification_manual_decision_update_fields( $form, $settings );
+
+		if ( empty( $field_ids ) ) {
+			return $result;
+		}
+
+		$render_form          = $this->get_public_gravity_forms_themed_form( $form );
+		$form_id              = absint( $this->array_value( $render_form, 'id' ) );
+		$submit_flag_name     = 'is_submit_' . $form_id;
+		$submit_flag_set      = array_key_exists( $submit_flag_name, $_POST );
+		$previous_submit      = $submit_flag_set ? $_POST[ $submit_flag_name ] : null;
+		$virtual_fields       = array();
+		$display_values       = array();
+		$has_validation_error = false;
+
+		$_POST[ $submit_flag_name ] = '1';
+
+		foreach ( $field_ids as $index => $field_id ) {
+			$row_key      = $index + 1;
+			$source_field = $this->get_decision_update_field( $form, (string) $field_id, self::UPDATE_MODE_MANUAL );
+
+			if ( ! $source_field ) {
+				continue;
+			}
+
+			$validation_field = $this->get_decision_update_virtual_field( $source_field, $render_form, 'manual', $row_key, true );
+
+			if ( ! $validation_field ) {
+				continue;
+			}
+
+			$validation_field->_is_entry_detail = false;
+			$validation_result                  = $this->validate_public_manual_decision_update_field_submission( $validation_field, $render_form );
+			$display_values[ $row_key ]        = array_key_exists( 'value', $validation_result ) ? $validation_result['value'] : null;
+
+			$virtual_field = $this->get_decision_update_virtual_field( $source_field, $render_form, 'manual', $row_key, true );
+
+			if ( $virtual_field ) {
+				$virtual_field->failed_validation  = ! empty( $validation_field->failed_validation );
+				$virtual_field->validation_message = (string) $validation_field->validation_message;
+				$virtual_fields[ $row_key ]        = $virtual_field;
+			}
+
+			if ( ! empty( $validation_field->failed_validation ) ) {
+				$has_validation_error = true;
+			}
+		}
+
+		if ( $submit_flag_set ) {
+			$_POST[ $submit_flag_name ] = $previous_submit;
+		} else {
+			unset( $_POST[ $submit_flag_name ] );
+		}
+
+		if ( ! $has_validation_error ) {
+			return $result;
+		}
+
+		$result['is_valid']            = false;
+		$result['manual_render_state'] = array(
+			'virtual_fields' => $virtual_fields,
+			'display_values' => $display_values,
+		);
+
+		return $result;
+	}
+
+	/**
+	 * Validates one public manual decision update field submission.
+	 *
+	 * @param object $field The validation field clone.
+	 * @param array  $form  The current render form.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function validate_public_manual_decision_update_field_submission( $field, $form ) {
+		$result = array(
+			'is_valid' => true,
+			'value'    => null,
+		);
+
+		if ( ! is_object( $field ) || ! is_array( $form ) || ! class_exists( 'GFFormsModel' ) || ! method_exists( 'GFFormsModel', 'get_field_value' ) ) {
+			return $result;
+		}
+
+		$field->failed_validation  = false;
+		$field->validation_message = '';
+		$result['value']           = GFFormsModel::get_field_value( $field, array(), true );
+
+		if ( class_exists( 'GFFormDisplay' ) && method_exists( 'GFFormDisplay', 'validate_field' ) ) {
+			GFFormDisplay::validate_field( $field, $form, 'form-submit' );
+		}
+
+		if ( ! empty( $field->isRequired ) && empty( $field->failed_validation ) && method_exists( $field, 'is_value_submission_empty' ) && $field->is_value_submission_empty( absint( $this->array_value( $form, 'id' ) ) ) ) {
+			if ( method_exists( $field, 'set_required_error' ) ) {
+				$field->set_required_error( $result['value'] );
+			} else {
+				$field->failed_validation  = true;
+				$field->validation_message = esc_html__( 'This field is required.', 'gravityforms' );
+			}
+		}
+
+		$result['is_valid'] = empty( $field->failed_validation );
+
+		return $result;
 	}
 
 	/**
@@ -2144,11 +2900,14 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 *
 	 * @return void
 	 */
-	private function render_public_confirmation_page( $record, $token, $notification = array(), $form = array(), $entry = array() ) {
+	private function render_public_confirmation_page( $record, $token, $notification = array(), $form = array(), $entry = array(), $manual_render_state = array() ) {
 		$settings          = $this->get_notification_page_settings( $notification, $form, $entry );
 		$decision_settings = $this->get_notification_decision_update_settings( $notification );
 		$theme             = $this->get_public_page_theme_settings();
 		$update_mode       = (string) $decision_settings[ self::NOTIFICATION_UPDATE_MODE ];
+		$manual_fields     = self::UPDATE_MODE_MANUAL === $update_mode
+			? $this->get_notification_manual_decision_update_fields( $form, $decision_settings )
+			: array();
 		$is_approve        = self::STATUS_APPROVED === $record->action;
 		$title             = $settings[ self::NOTIFICATION_CONFIRMATION_TITLE ];
 		$message           = $is_approve
@@ -2165,16 +2924,42 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			home_url( '/' )
 		);
 		$message_markup      = $this->get_public_message_markup( $message );
-		$target_field        = $this->get_decision_update_field( $form, (string) $decision_settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ], $update_mode );
-		$manual_update_html  = self::UPDATE_MODE_MANUAL === $update_mode && $target_field
-			? $this->get_public_manual_update_field_markup( $target_field, $entry, $theme )
-			: '';
-		$button_style = $this->get_public_page_button_style( $is_approve ? self::STATUS_APPROVED : self::STATUS_REJECTED, $theme, true );
+		$public_form         = $this->get_public_gravity_forms_themed_form( $form );
+		$manual_render_parts = self::UPDATE_MODE_MANUAL === $update_mode
+			? $this->get_public_manual_update_fields_render_context( $public_form, $entry, $manual_fields, $manual_render_state )
+			: array(
+				'markup'        => '',
+				'head'          => '',
+				'footer'        => '',
+				'hidden_inputs' => '',
+			);
+		$manual_update_html = isset( $manual_render_parts['markup'] ) ? (string) $manual_render_parts['markup'] : '';
+		$manual_hidden_inputs = isset( $manual_render_parts['hidden_inputs'] ) ? (string) $manual_render_parts['hidden_inputs'] : '';
+		$button_style       = $this->get_public_page_button_style( $is_approve ? self::STATUS_APPROVED : self::STATUS_REJECTED, $theme, true );
+		$form_id            = absint( $this->array_value( $form, 'id' ) );
+		$form_render_config = $this->get_public_gravity_forms_render_config( $public_form );
+		$form_wrapper_open  = '';
+		$form_wrapper_close = '';
+		$form_attributes    = sprintf(
+			' class="gf-email-approvals-public__form"%s',
+			$form_id > 0 ? ' id="gform_' . $form_id . '"' : ''
+		);
+
+		if ( '' !== $manual_update_html ) {
+			$form_wrapper_open  = sprintf(
+				'<div class="%1$s" data-form-theme="%2$s" data-form-index="%3$s"%4$s>',
+				esc_attr( $form_render_config['wrapper_classes'] ),
+				esc_attr( $form_render_config['theme_slug'] ),
+				esc_attr( (string) $this->array_value( $form, 'page_instance', 0 ) ),
+				$form_id > 0 ? ' id="gform_wrapper_' . $form_id . '"' : ''
+			);
+			$form_wrapper_close = '</div>';
+		}
 
 		$this->render_public_page(
 			$title,
 			sprintf(
-				'%1$s<form method="post" action="%2$s"><input type="hidden" name="%3$s" value="%4$s" /><input type="hidden" name="%5$s" value="%6$s" />%7$s<p><button type="submit" style="%8$s">%9$s</button></p></form>',
+				'%1$s%10$s<form method="post" action="%2$s"%11$s><input type="hidden" name="%3$s" value="%4$s" /><input type="hidden" name="%5$s" value="%6$s" />%7$s%13$s<p><button type="submit" style="%8$s">%9$s</button></p></form>%12$s',
 				$message_markup,
 				esc_url( $action_url ),
 				esc_attr( self::QUERY_TOKEN ),
@@ -2183,140 +2968,411 @@ class GFEmailApprovalsAddon extends GFAddOn {
 				esc_attr( self::PUBLIC_ACTION_CONFIRM ),
 				$manual_update_html,
 				esc_attr( $button_style ),
-				esc_html( $button_label )
-			)
+				esc_html( $button_label ),
+				$form_wrapper_open,
+				$form_attributes,
+				$form_wrapper_close,
+				$manual_hidden_inputs
+			),
+			isset( $manual_render_parts['head'] ) ? (string) $manual_render_parts['head'] : '',
+			isset( $manual_render_parts['footer'] ) ? (string) $manual_render_parts['footer'] : '',
+			'' !== $manual_update_html
 		);
 	}
 
 	/**
-	 * Returns the public field markup used when the approver must choose the value manually.
+	 * Returns the public native Gravity Forms field markup used for one manual field.
 	 *
-	 * @param object $field The configured target field.
-	 * @param array  $entry The current entry.
+	 * @param object $field        The virtual field to render.
+	 * @param array  $form         The render form containing the virtual fields.
+	 * @param object $source_field The original configured field.
+	 * @param array  $entry        The current entry.
 	 *
 	 * @return string
 	 */
-	private function get_public_manual_update_field_markup( $field, $entry, $theme = null ) {
-		$theme         = is_array( $theme ) ? $theme : $this->get_public_page_theme_settings();
-		$input_type    = $field->get_input_type();
-		$label         = $this->get_field_admin_label( $field );
-		$current_value = $this->get_entry_field_value_for_update( $entry, $field );
-		$control_html  = '';
-
-		if ( 'textarea' === $input_type ) {
-			$control_html = sprintf(
-				'<textarea name="%1$s" id="%2$s" rows="4" placeholder="%3$s" style="%4$s">%5$s</textarea>',
-				esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-				esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-				esc_attr( $this->get_public_manual_field_placeholder( $field ) ),
-				esc_attr( $this->get_public_page_input_style( 'textarea', $theme ) ),
-				esc_textarea( is_array( $current_value ) ? '' : (string) $current_value )
-			);
-		} elseif ( in_array( $input_type, array( 'text', 'email', 'number', 'phone', 'website', 'date' ), true ) ) {
-			$control_html = sprintf(
-				'<input type="%1$s" name="%2$s" id="%3$s" value="%4$s" placeholder="%5$s" style="%6$s" />',
-				esc_attr( $this->get_public_html_input_type( $input_type ) ),
-				esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-				esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-				esc_attr( is_array( $current_value ) ? '' : (string) $current_value ),
-				esc_attr( $this->get_public_manual_field_placeholder( $field ) ),
-				esc_attr( $this->get_public_page_input_style( 'input', $theme ) )
-			);
-		} elseif ( 'select' === $input_type ) {
-			$options = array(
-				sprintf(
-					'<option value=""%1$s>%2$s</option>',
-					'' === (string) $current_value ? ' selected="selected"' : '',
-					esc_html__( 'Choose a value', 'gf-email-approvals' )
-				),
-			);
-
-			foreach ( $this->get_supported_field_choice_options( $field ) as $choice ) {
-				$options[] = sprintf(
-					'<option value="%1$s"%2$s>%3$s</option>',
-					esc_attr( $choice['value'] ),
-					(string) $current_value === (string) $choice['value'] ? ' selected="selected"' : '',
-					esc_html( $choice['label'] )
-				);
-			}
-
-			$control_html = sprintf(
-				'<select name="%1$s" id="%2$s" style="%3$s">%4$s</select>',
-				esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-				esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-				esc_attr( $this->get_public_page_input_style( 'select', $theme ) ),
-				implode( '', $options )
-			);
-		} elseif ( 'multiselect' === $input_type ) {
-			$selected_values = is_array( $current_value ) ? array_values( array_map( 'strval', $current_value ) ) : array();
-			$options         = array();
-
-			foreach ( $this->get_supported_field_choice_options( $field ) as $choice ) {
-				$options[] = sprintf(
-					'<option value="%1$s"%2$s>%3$s</option>',
-					esc_attr( $choice['value'] ),
-					in_array( (string) $choice['value'], $selected_values, true ) ? ' selected="selected"' : '',
-					esc_html( $choice['label'] )
-				);
-			}
-
-			$control_html = sprintf(
-				'<select name="%1$s[]" id="%2$s" multiple="multiple" style="%3$s">%4$s</select>',
-				esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-				esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-				esc_attr( $this->get_public_page_input_style( 'multiselect', $theme ) ),
-				implode( '', $options )
-			);
-		} elseif ( 'radio' === $input_type ) {
-			$choices = array();
-
-			foreach ( $this->get_supported_field_choice_options( $field ) as $index => $choice ) {
-				$choice_id = self::PUBLIC_DECISION_UPDATE_VALUE . '_' . $index;
-				$choices[] = sprintf(
-					'<label for="%1$s" style="%2$s"><input type="radio" name="%3$s" id="%1$s" value="%4$s"%5$s style="margin-top:3px;" /><span>%6$s</span></label>',
-					esc_attr( $choice_id ),
-					esc_attr( $this->get_public_page_choice_label_style( $theme ) ),
-					esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-					esc_attr( $choice['value'] ),
-					(string) $current_value === (string) $choice['value'] ? ' checked="checked"' : '',
-					esc_html( $choice['label'] )
-				);
-			}
-
-			$control_html = '<div style="margin-top:4px;">' . implode( '', $choices ) . '</div>';
-		} elseif ( 'checkbox' === $input_type ) {
-			$selected_values = is_array( $current_value ) ? array_values( array_map( 'strval', $current_value ) ) : array();
-			$choices         = array();
-
-			foreach ( $this->get_supported_field_choice_options( $field ) as $index => $choice ) {
-				$choice_id = self::PUBLIC_DECISION_UPDATE_VALUE . '_' . $index;
-				$choices[] = sprintf(
-					'<label for="%1$s" style="%2$s"><input type="checkbox" name="%3$s[]" id="%1$s" value="%4$s"%5$s style="margin-top:3px;" /><span>%6$s</span></label>',
-					esc_attr( $choice_id ),
-					esc_attr( $this->get_public_page_choice_label_style( $theme ) ),
-					esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ),
-					esc_attr( $choice['value'] ),
-					in_array( (string) $choice['value'], $selected_values, true ) ? ' checked="checked"' : '',
-					esc_html( $choice['label'] )
-				);
-			}
-
-			$control_html = '<div style="margin-top:4px;">' . implode( '', $choices ) . '</div>';
-		}
-
-		if ( '' === $control_html ) {
+	private function get_public_manual_update_field_markup( $field, $form, $source_field, $entry, $display_value = null, $has_display_value = false ) {
+		if ( ! is_object( $field ) || ! is_array( $form ) || ! class_exists( 'GFFormDisplay' ) || ! method_exists( 'GFFormDisplay', 'get_field' ) ) {
 			return '';
 		}
 
-		$label_html = in_array( $input_type, array( 'radio', 'checkbox' ), true )
-			? sprintf( '<div style="%1$s">%2$s</div>', esc_attr( $this->get_public_page_field_label_style( $theme ) ), esc_html( $label ) )
-			: sprintf( '<label for="%1$s" style="%2$s">%3$s</label>', esc_attr( self::PUBLIC_DECISION_UPDATE_VALUE ), esc_attr( $this->get_public_page_field_label_style( $theme ) ), esc_html( $label ) );
+		$value = $has_display_value ? $display_value : $this->get_entry_field_value_for_update( $entry, $source_field );
 
-		return sprintf(
-			'<div style="margin:28px 0 20px 0;">%1$s%2$s</div>',
-			$label_html,
-			$control_html
+		return GFFormDisplay::get_field( $field, $value, false, $form );
+	}
+
+	/**
+	 * Returns the rendered manual fields and any required Gravity Forms assets.
+	 *
+	 * @param array    $form      The current form.
+	 * @param array    $entry     The current entry.
+	 * @param string[] $field_ids The configured manual field ids.
+	 *
+	 * @return array<string, string>
+	 */
+	private function get_public_manual_update_fields_render_context( $form, $entry, $field_ids, $render_state = array() ) {
+		$context = array(
+			'markup'        => '',
+			'head'          => '',
+			'footer'        => '',
+			'hidden_inputs' => '',
 		);
+
+		if ( empty( $field_ids ) || ! class_exists( 'GFFormDisplay' ) ) {
+			return $context;
+		}
+
+		$render_form           = $this->get_public_gravity_forms_themed_form( $form );
+		$render_form['fields'] = array();
+		$rendered_fields       = array();
+		$virtual_fields        = isset( $render_state['virtual_fields'] ) && is_array( $render_state['virtual_fields'] ) ? $render_state['virtual_fields'] : array();
+		$display_values        = isset( $render_state['display_values'] ) && is_array( $render_state['display_values'] ) ? $render_state['display_values'] : array();
+
+		foreach ( $field_ids as $index => $field_id ) {
+			$row_key      = $index + 1;
+			$source_field = $this->get_decision_update_field( $form, (string) $field_id, self::UPDATE_MODE_MANUAL );
+
+			if ( ! $source_field ) {
+				continue;
+			}
+
+			$virtual_field = isset( $virtual_fields[ $row_key ] ) && is_object( $virtual_fields[ $row_key ] )
+				? $virtual_fields[ $row_key ]
+				: $this->get_decision_update_virtual_field( $source_field, $form, 'manual', $row_key, true );
+
+			if ( ! $virtual_field ) {
+				continue;
+			}
+
+			$render_form['fields'][] = $virtual_field;
+			$has_display_value       = array_key_exists( $row_key, $display_values );
+			$rendered_field          = $this->get_public_manual_update_field_markup( $virtual_field, $render_form, $source_field, $entry );
+
+			if ( $has_display_value ) {
+				$rendered_field = $this->get_public_manual_update_field_markup( $virtual_field, $render_form, $source_field, $entry, $display_values[ $row_key ], true );
+			}
+
+			if ( '' !== trim( $rendered_field ) ) {
+				$rendered_fields[] = $rendered_field;
+			}
+		}
+
+		if ( empty( $rendered_fields ) ) {
+			return $context;
+		}
+
+		$form_render_config = $this->get_public_gravity_forms_render_config( $render_form );
+		$context['head']   .= $this->get_public_gravity_forms_style_markup( $render_form );
+
+		if ( method_exists( 'GFFormDisplay', 'register_form_init_scripts' ) ) {
+			GFFormDisplay::register_form_init_scripts( $render_form );
+		}
+
+		if ( method_exists( 'GFFormDisplay', 'print_form_scripts' ) ) {
+			ob_start();
+			GFFormDisplay::print_form_scripts( $render_form, false );
+			$context['head'] .= (string) ob_get_clean();
+		}
+
+		if ( method_exists( 'GFFormDisplay', 'get_form_init_scripts' ) ) {
+			$context['footer'] .= GFFormDisplay::get_form_init_scripts( $render_form );
+		}
+
+		$render_form_id = absint( $this->array_value( $render_form, 'id' ) );
+
+		if ( $render_form_id > 0 && method_exists( 'GFFormDisplay', 'post_render_script' ) && class_exists( 'GFCommon' ) && method_exists( 'GFCommon', 'get_inline_script_tag' ) ) {
+			$context['footer'] .= GFCommon::get_inline_script_tag(
+				'gform.initializeOnLoaded( function() {' . GFFormDisplay::post_render_script( $render_form_id, 1 ) . '} );'
+			);
+		}
+
+		$context['markup'] = sprintf(
+			'<div class="gf-email-approvals-public__gf-wrapper" style="margin:28px 0 20px 0;"><div class="gform_body gform-body"><div class="%1$s"%2$s>%3$s</div></div></div>',
+			esc_attr( $form_render_config['field_list_classes'] ),
+			$render_form_id > 0 ? ' id="gform_fields_' . $render_form_id . '"' : '',
+			implode( '', $rendered_fields )
+		);
+		$context['hidden_inputs'] = $this->get_public_manual_update_hidden_inputs_markup( $render_form );
+
+		return $context;
+	}
+
+	/**
+	 * Returns the hidden Gravity Forms inputs required for standalone manual choice validation.
+	 *
+	 * @param array $form The current render form.
+	 *
+	 * @return string
+	 */
+	private function get_public_manual_update_hidden_inputs_markup( $form ) {
+		$form_id = absint( $this->array_value( $form, 'id' ) );
+
+		if ( $form_id <= 0 ) {
+			return '';
+		}
+
+		$markup = sprintf(
+			'<input type="hidden" class="gform_hidden" name="is_submit_%1$d" value="1" />',
+			$form_id
+		);
+
+		if ( class_exists( 'GFFormDisplay' ) && method_exists( 'GFFormDisplay', 'get_state' ) ) {
+			$markup .= sprintf(
+				'<input type="hidden" class="gform_hidden" name="state_%1$d" value="%2$s" />',
+				$form_id,
+				esc_attr( GFFormDisplay::get_state( $form, array() ) )
+			);
+		}
+
+		return $markup;
+	}
+
+	/**
+	 * Returns the form data used to render standalone public Gravity Forms controls.
+	 *
+	 * @param array $form The current form.
+	 *
+	 * @return array
+	 */
+	private function get_public_gravity_forms_themed_form( $form ) {
+		$themed_form          = is_array( $form ) ? $form : array();
+		$themed_form['theme'] = $this->get_public_gravity_forms_theme_slug( $themed_form );
+
+		return $themed_form;
+	}
+
+	/**
+	 * Returns the Gravity Forms theme slug used on the standalone approval page.
+	 *
+	 * @param array $form The current render form.
+	 *
+	 * @return string
+	 */
+	private function get_public_gravity_forms_theme_slug( $form ) {
+		$theme_slug = is_array( $form ) ? (string) $this->array_value( $form, 'theme', '' ) : '';
+
+		if ( in_array( $theme_slug, array( 'orbital', 'gravity-theme', 'legacy' ), true ) ) {
+			return $theme_slug;
+		}
+
+		return 'orbital';
+	}
+
+	/**
+	 * Returns the Gravity Forms wrapper and field list classes for public standalone rendering.
+	 *
+	 * @param array $form The current render form.
+	 *
+	 * @return array<string, string>
+	 */
+	private function get_public_gravity_forms_render_config( $form ) {
+		$theme_slug       = $this->get_public_gravity_forms_theme_slug( $form );
+		$browser_class    = class_exists( 'GFCommon' ) && method_exists( 'GFCommon', 'get_browser_class' ) ? trim( (string) GFCommon::get_browser_class() ) : '';
+		$field_list_class = class_exists( 'GFCommon' ) && method_exists( 'GFCommon', 'get_ul_classes' ) ? (string) GFCommon::get_ul_classes( $form ) : 'gform_fields top_label form_sublabel_below description_below validation_below';
+		$wrapper_classes  = trim( $browser_class . ' gform_wrapper gravity-theme gform-theme--no-framework' );
+
+		if ( 'orbital' === $theme_slug ) {
+			$wrapper_classes = trim( $browser_class . ' gform_wrapper gform-theme gform-theme--foundation gform-theme--framework gform-theme--orbital' );
+		} elseif ( 'legacy' === $theme_slug ) {
+			$wrapper_classes = trim( $browser_class . ' gform_wrapper gform_legacy_markup_wrapper gform-theme--no-framework' );
+		}
+
+		return array(
+			'theme_slug'         => '' !== $theme_slug ? $theme_slug : 'gravity-theme',
+			'wrapper_classes'    => $wrapper_classes,
+			'field_list_classes' => $field_list_class,
+		);
+	}
+
+	/**
+	 * Returns the Gravity Forms stylesheet markup required by the standalone public page.
+	 *
+	 * @param array $form The current render form.
+	 *
+	 * @return string
+	 */
+	private function get_public_gravity_forms_style_markup( $form ) {
+		if ( ! is_array( $form ) || empty( $form['id'] ) ) {
+			return '';
+		}
+
+		$this->register_public_gravity_forms_theme_styles();
+
+		if ( function_exists( 'gf_do_action' ) ) {
+			gf_do_action( array( 'gform_enqueue_scripts', absint( $this->array_value( $form, 'id' ) ) ), $form, false );
+		} else {
+			do_action( 'gform_enqueue_scripts', $form, false );
+		}
+
+		$theme_style_handles = $this->get_public_gravity_forms_theme_style_handles( $form );
+
+		foreach ( $theme_style_handles as $handle ) {
+			if ( wp_style_is( $handle, 'registered' ) ) {
+				wp_enqueue_style( $handle );
+			}
+		}
+
+		global $wp_styles;
+
+		$theme_link_markup = $this->get_public_gravity_forms_theme_stylesheet_link_markup( $form );
+		$printed_handles   = array_keys( $this->get_public_gravity_forms_theme_stylesheet_urls( $form ) );
+
+		if ( ! is_object( $wp_styles ) ) {
+			return $theme_link_markup;
+		}
+
+		$style_handles = array_values(
+			array_diff(
+				array_unique(
+					array_merge(
+						$theme_style_handles,
+						array_filter( $wp_styles->queue, array( $this, 'is_public_gravity_forms_style_handle' ) )
+					)
+				),
+				$printed_handles
+			)
+		);
+
+		if ( empty( $style_handles ) ) {
+			return $theme_link_markup;
+		}
+
+		ob_start();
+		wp_print_styles( $style_handles );
+
+		return $theme_link_markup . (string) ob_get_clean();
+	}
+
+	/**
+	 * Returns direct stylesheet urls for the standalone Gravity Forms theme.
+	 *
+	 * @param array $form The current render form.
+	 *
+	 * @return array<string, string>
+	 */
+	private function get_public_gravity_forms_theme_stylesheet_urls( $form ) {
+		if ( ! class_exists( 'GFCommon' ) || ! class_exists( 'GFForms' ) ) {
+			return array();
+		}
+
+		$theme_slug = $this->get_public_gravity_forms_theme_slug( $form );
+		$base_url   = GFCommon::get_base_url() . '/assets/css/dist';
+		$dev_min    = defined( 'GF_SCRIPT_DEBUG' ) && GF_SCRIPT_DEBUG ? '' : '.min';
+		$urls       = array();
+
+		if ( 'orbital' === $theme_slug ) {
+			$urls = array(
+				'gravity_forms_theme_reset'      => "{$base_url}/gravity-forms-theme-reset{$dev_min}.css",
+				'gravity_forms_theme_foundation' => "{$base_url}/gravity-forms-theme-foundation{$dev_min}.css",
+				'gravity_forms_theme_framework'  => "{$base_url}/gravity-forms-theme-framework{$dev_min}.css",
+				'gravity_forms_orbital_theme'    => "{$base_url}/gravity-forms-orbital-theme{$dev_min}.css",
+			);
+		}
+
+		return $urls;
+	}
+
+	/**
+	 * Returns direct stylesheet link markup for the standalone Gravity Forms theme.
+	 *
+	 * @param array $form The current render form.
+	 *
+	 * @return string
+	 */
+	private function get_public_gravity_forms_theme_stylesheet_link_markup( $form ) {
+		if ( ! class_exists( 'GFForms' ) ) {
+			return '';
+		}
+
+		$markup = array();
+
+		foreach ( $this->get_public_gravity_forms_theme_stylesheet_urls( $form ) as $handle => $url ) {
+			$href     = add_query_arg( 'ver', GFForms::$version, $url );
+			$markup[] = sprintf(
+				'<link rel="stylesheet" id="%1$s-css" href="%2$s" media="all" />',
+				esc_attr( $handle ),
+				esc_url( $href )
+			);
+		}
+
+		return implode( '', $markup );
+	}
+
+	/**
+	 * Registers the Gravity Forms public theme styles used by the standalone approval page.
+	 *
+	 * @return void
+	 */
+	private function register_public_gravity_forms_theme_styles() {
+		if ( ! class_exists( 'GFCommon' ) || ! class_exists( 'GFForms' ) ) {
+			return;
+		}
+
+		$base_url = GFCommon::get_base_url();
+		$version  = GFForms::$version;
+		$dev_min  = defined( 'GF_SCRIPT_DEBUG' ) && GF_SCRIPT_DEBUG ? '' : '.min';
+
+		if ( ! wp_style_is( 'gravity_forms_theme_reset', 'registered' ) ) {
+			wp_register_style( 'gravity_forms_theme_reset', "{$base_url}/assets/css/dist/gravity-forms-theme-reset{$dev_min}.css", array(), $version );
+		}
+
+		if ( ! wp_style_is( 'gravity_forms_theme_foundation', 'registered' ) ) {
+			wp_register_style( 'gravity_forms_theme_foundation', "{$base_url}/assets/css/dist/gravity-forms-theme-foundation{$dev_min}.css", array(), $version );
+		}
+
+		if ( ! wp_style_is( 'gravity_forms_theme_framework', 'registered' ) ) {
+			wp_register_style(
+				'gravity_forms_theme_framework',
+				"{$base_url}/assets/css/dist/gravity-forms-theme-framework{$dev_min}.css",
+				array( 'gravity_forms_theme_reset', 'gravity_forms_theme_foundation' ),
+				$version
+			);
+		}
+
+		if ( ! wp_style_is( 'gravity_forms_orbital_theme', 'registered' ) ) {
+			wp_register_style(
+				'gravity_forms_orbital_theme',
+				"{$base_url}/assets/css/dist/gravity-forms-orbital-theme{$dev_min}.css",
+				array( 'gravity_forms_theme_framework' ),
+				$version
+			);
+		}
+	}
+
+	/**
+	 * Returns the core Gravity Forms theme style handles needed on the standalone approval page.
+	 *
+	 * @param array $form The current render form.
+	 *
+	 * @return string[]
+	 */
+	private function get_public_gravity_forms_theme_style_handles( $form ) {
+		if ( 'orbital' === $this->get_public_gravity_forms_theme_slug( $form ) ) {
+			return array(
+				'gravity_forms_theme_reset',
+				'gravity_forms_theme_foundation',
+				'gravity_forms_theme_framework',
+				'gravity_forms_orbital_theme',
+			);
+		}
+
+		return array();
+	}
+
+	/**
+	 * Returns whether a queued style handle belongs to Gravity Forms public rendering.
+	 *
+	 * @param string $handle The queued stylesheet handle.
+	 *
+	 * @return bool
+	 */
+	private function is_public_gravity_forms_style_handle( $handle ) {
+		return is_string( $handle )
+			&& (
+				'dashicons' === $handle
+				|| 0 === strpos( $handle, 'gravity_forms_' )
+				|| 0 === strpos( $handle, 'gforms_' )
+				|| 0 === strpos( $handle, 'gform_' )
+			);
 	}
 
 	/**
@@ -2354,8 +3410,10 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 */
 	private function get_notification_decision_update_defaults() {
 		return array(
-			self::NOTIFICATION_UPDATE_MODE            => '',
+			self::NOTIFICATION_UPDATE_MODE             => '',
 			self::NOTIFICATION_DECISION_UPDATE_FIELD   => '',
+			self::NOTIFICATION_DECISION_UPDATE_FIELDS  => array(),
+			self::NOTIFICATION_DECISION_UPDATE_MAPPINGS => array(),
 			self::NOTIFICATION_APPROVED_TEXT_VALUE     => '',
 			self::NOTIFICATION_REJECTED_TEXT_VALUE     => '',
 			self::NOTIFICATION_APPROVED_CHOICE_VALUE   => '',
@@ -2400,6 +3458,24 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		foreach ( $settings as $setting_name => $default_value ) {
 			$value = $this->array_value( $notification, $setting_name, $default_value );
 
+			if ( self::NOTIFICATION_DECISION_UPDATE_MAPPINGS === $setting_name ) {
+				if ( is_array( $value ) ) {
+					foreach ( $value as $mapping ) {
+						if ( ! is_array( $mapping ) ) {
+							continue;
+						}
+
+						$settings[ $setting_name ][] = array(
+							'field'          => sanitize_text_field( (string) $this->array_value( $mapping, 'field', '' ) ),
+							'approved_value' => $this->array_value( $mapping, 'approved_value', '' ),
+							'rejected_value' => $this->array_value( $mapping, 'rejected_value', '' ),
+						);
+					}
+				}
+
+				continue;
+			}
+
 			if ( is_array( $default_value ) ) {
 				if ( is_array( $value ) ) {
 					$settings[ $setting_name ] = array_values(
@@ -2418,9 +3494,70 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			}
 		}
 
-		if ( '' === $settings[ self::NOTIFICATION_UPDATE_MODE ] && '' !== (string) $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] ) {
-			$settings[ self::NOTIFICATION_UPDATE_MODE ] = self::UPDATE_MODE_AUTOMATIC;
+		if ( empty( $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ] ) && '' !== (string) $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] ) {
+			$settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ] = array( (string) $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] );
 		}
+
+		if ( '' === $settings[ self::NOTIFICATION_UPDATE_MODE ] ) {
+			if ( ! empty( $settings[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] ) ) {
+				$settings[ self::NOTIFICATION_UPDATE_MODE ] = self::UPDATE_MODE_AUTOMATIC;
+			} elseif ( ! empty( $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ] ) || '' !== (string) $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] ) {
+				$settings[ self::NOTIFICATION_UPDATE_MODE ] = self::UPDATE_MODE_MANUAL;
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Returns the effective decision update settings for the current screen render.
+	 *
+	 * The automatic mappings builder is custom HTML, so Gravity Forms does not
+	 * automatically rehydrate it from posted values on the save response.
+	 * Prefer the submitted values when available so the refreshed screen matches
+	 * what was just saved.
+	 *
+	 * @param array $notification The notification object.
+	 * @param array $form         The current form object.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function get_current_notification_decision_update_settings( $notification, $form ) {
+		$settings = $this->get_notification_decision_update_settings( $notification );
+
+		if (
+			! $this->has_posted_notification_setting( self::NOTIFICATION_UPDATE_MODE )
+			&& ! $this->has_posted_notification_setting( self::NOTIFICATION_DECISION_UPDATE_FIELDS )
+			&& ! $this->has_posted_notification_setting( self::NOTIFICATION_DECISION_UPDATE_FIELD )
+			&& ! $this->has_posted_notification_setting( self::NOTIFICATION_DECISION_UPDATE_MAPPINGS )
+		) {
+			return $settings;
+		}
+
+		$update_mode = sanitize_key( (string) $this->get_posted_notification_setting( self::NOTIFICATION_UPDATE_MODE, '' ) );
+
+		if ( ! in_array( $update_mode, array( self::UPDATE_MODE_AUTOMATIC, self::UPDATE_MODE_MANUAL ), true ) ) {
+			$settings[ self::NOTIFICATION_UPDATE_MODE ]              = '';
+			$settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ]    = '';
+			$settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ]   = array();
+			$settings[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] = array();
+
+			return $settings;
+		}
+
+		$settings[ self::NOTIFICATION_UPDATE_MODE ] = $update_mode;
+
+		if ( self::UPDATE_MODE_MANUAL === $update_mode ) {
+			$settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ]    = '';
+			$settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ]   = $this->sanitize_posted_manual_decision_update_fields( $form );
+			$settings[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] = array();
+
+			return $settings;
+		}
+
+		$settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ]    = '';
+		$settings[ self::NOTIFICATION_DECISION_UPDATE_FIELDS ]   = array();
+		$settings[ self::NOTIFICATION_DECISION_UPDATE_MAPPINGS ] = $this->sanitize_posted_decision_update_mappings( $form );
 
 		return $settings;
 	}
@@ -2483,8 +3620,10 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			}
 
 			$config[ (string) $field->id ] = array(
-				'kind'    => $this->get_decision_update_field_kind( $field ),
-				'choices' => $this->get_supported_field_choice_options( $field ),
+				'kind'             => $this->get_decision_update_field_kind( $field ),
+				'choices'          => $this->get_supported_field_choice_options( $field ),
+				'approvedTemplate' => $this->get_decision_value_setting_markup( $field, $form, self::STATUS_APPROVED, 0 ),
+				'rejectedTemplate' => $this->get_decision_value_setting_markup( $field, $form, self::STATUS_REJECTED, 0 ),
 			);
 		}
 
@@ -2656,7 +3795,6 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		$changes      = array();
 		$entry_id     = absint( $this->array_value( $entry, 'id' ) );
 		$update_mode  = (string) $settings[ self::NOTIFICATION_UPDATE_MODE ];
-		$target_field = $this->get_decision_update_field( $form, (string) $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ], $update_mode );
 
 		if ( '' === $update_mode ) {
 			return array(
@@ -2666,9 +3804,54 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			);
 		}
 
-		if ( ! $target_field ) {
-			if ( '' !== (string) $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] ) {
-				$this->log_error( __METHOD__ . '(): configured decision update target field is no longer available; skipping field update.' );
+		if ( self::UPDATE_MODE_MANUAL === $update_mode ) {
+			$manual_fields = $this->get_notification_manual_decision_update_fields( $form, $settings );
+
+			if ( empty( $manual_fields ) ) {
+				if ( '' !== (string) $settings[ self::NOTIFICATION_DECISION_UPDATE_FIELD ] ) {
+					$this->log_error( __METHOD__ . '(): configured manual decision update target fields are no longer available; skipping field updates.' );
+				}
+
+				return array(
+					'success' => true,
+					'entry'   => $entry,
+					'changes' => $changes,
+				);
+			}
+
+			foreach ( $manual_fields as $index => $field_id ) {
+				$target_field = $this->get_decision_update_field( $form, (string) $field_id, $update_mode );
+
+				if ( ! $target_field ) {
+					continue;
+				}
+
+				$new_value = $this->get_manual_decision_update_value_from_request( $form, $target_field, $index + 1 );
+
+				if ( null === $new_value ) {
+					continue;
+				}
+
+				$old_value = $this->get_entry_field_value_for_update( $entry, $target_field );
+
+				if ( $this->decision_update_values_equal( $target_field, $old_value, $new_value ) ) {
+					continue;
+				}
+
+				$result = $this->persist_field_update( $entry_id, $entry, $form, $target_field, $new_value );
+
+				if ( empty( $result['success'] ) ) {
+					return $result;
+				}
+
+				$entry     = $result['entry'];
+				$changes[] = array(
+					'type'  => 'target',
+					'field' => $target_field,
+					'label' => $this->get_field_admin_label( $target_field ),
+					'old'   => $old_value,
+					'new'   => $new_value,
+				);
 			}
 
 			return array(
@@ -2678,42 +3861,40 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			);
 		}
 
-		$new_value = self::UPDATE_MODE_MANUAL === $update_mode
-			? $this->get_manual_decision_update_value_from_request( $target_field )
-			: $this->get_configured_decision_update_value( $target_field, $settings, $status, $form, $entry );
+		foreach ( $this->get_notification_decision_update_mappings( $form, $settings ) as $mapping ) {
+			$target_field = $this->get_decision_update_field( $form, (string) $this->array_value( $mapping, 'field', '' ), self::UPDATE_MODE_AUTOMATIC );
 
-		if ( null === $new_value ) {
-			return array(
-				'success' => true,
-				'entry'   => $entry,
-				'changes' => $changes,
+			if ( ! $target_field ) {
+				continue;
+			}
+
+			$new_value = $this->get_configured_decision_update_mapping_value( $target_field, $mapping, $status, $form, $entry );
+
+			if ( null === $new_value ) {
+				continue;
+			}
+
+			$old_value = $this->get_entry_field_value_for_update( $entry, $target_field );
+
+			if ( $this->decision_update_values_equal( $target_field, $old_value, $new_value ) ) {
+				continue;
+			}
+
+			$result = $this->persist_field_update( $entry_id, $entry, $form, $target_field, $new_value );
+
+			if ( empty( $result['success'] ) ) {
+				return $result;
+			}
+
+			$entry     = $result['entry'];
+			$changes[] = array(
+				'type'  => 'target',
+				'field' => $target_field,
+				'label' => $this->get_field_admin_label( $target_field ),
+				'old'   => $old_value,
+				'new'   => $new_value,
 			);
 		}
-
-		$old_value = $this->get_entry_field_value_for_update( $entry, $target_field );
-
-		if ( $this->decision_update_values_equal( $target_field, $old_value, $new_value ) ) {
-			return array(
-				'success' => true,
-				'entry'   => $entry,
-				'changes' => $changes,
-			);
-		}
-
-		$result = $this->persist_field_update( $entry_id, $entry, $form, $target_field, $new_value );
-
-		if ( empty( $result['success'] ) ) {
-			return $result;
-		}
-
-		$entry     = $result['entry'];
-		$changes[] = array(
-			'type'  => 'target',
-			'field' => $target_field,
-			'label' => $this->get_field_admin_label( $target_field ),
-			'old'   => $old_value,
-			'new'   => $new_value,
-		);
 
 		return array(
 			'success' => true,
@@ -2733,12 +3914,12 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 *
 	 * @return array|string|null
 	 */
-	private function get_configured_decision_update_value( $field, $settings, $status, $form, $entry ) {
+	private function get_configured_decision_update_mapping_value( $field, $mapping, $status, $form, $entry ) {
 		$kind = $this->get_decision_update_field_kind( $field );
+		$value = self::STATUS_APPROVED === $status ? $this->array_value( $mapping, 'approved_value' ) : $this->array_value( $mapping, 'rejected_value' );
 
 		if ( 'text' === $kind ) {
-			$setting_name = self::STATUS_APPROVED === $status ? self::NOTIFICATION_APPROVED_TEXT_VALUE : self::NOTIFICATION_REJECTED_TEXT_VALUE;
-			$template     = isset( $settings[ $setting_name ] ) ? (string) $settings[ $setting_name ] : '';
+			$template = is_scalar( $value ) ? (string) $value : '';
 
 			if ( '' === trim( $template ) ) {
 				return null;
@@ -2748,8 +3929,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		}
 
 		if ( 'single' === $kind ) {
-			$setting_name = self::STATUS_APPROVED === $status ? self::NOTIFICATION_APPROVED_CHOICE_VALUE : self::NOTIFICATION_REJECTED_CHOICE_VALUE;
-			$value        = isset( $settings[ $setting_name ] ) ? (string) $settings[ $setting_name ] : '';
+			$value = is_scalar( $value ) ? (string) $value : '';
 
 			if ( '' === $value ) {
 				return null;
@@ -2765,9 +3945,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			return $value;
 		}
 
-		$setting_name = self::STATUS_APPROVED === $status ? self::NOTIFICATION_APPROVED_CHOICE_VALUES : self::NOTIFICATION_REJECTED_CHOICE_VALUES;
-		$values       = isset( $settings[ $setting_name ] ) ? $settings[ $setting_name ] : array();
-		$values       = is_array( $values ) ? array_values( array_filter( array_map( 'strval', $values ), 'strlen' ) ) : array();
+		$values = is_array( $value ) ? array_values( array_filter( array_map( 'strval', $value ), 'strlen' ) ) : array();
 
 		if ( empty( $values ) ) {
 			return null;
@@ -2794,71 +3972,14 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	/**
 	 * Returns the manual value submitted on the public confirmation page.
 	 *
-	 * @param object $field The configured target field.
+	 * @param array  $form    The current form.
+	 * @param object $field   The configured target field.
+	 * @param int    $row_key The manual field row key.
 	 *
 	 * @return array|string|null
 	 */
-	private function get_manual_decision_update_value_from_request( $field ) {
-		$input_type = $field->get_input_type();
-		$input_name = self::PUBLIC_DECISION_UPDATE_VALUE;
-
-		if ( in_array( $input_type, array( 'checkbox', 'multiselect' ), true ) ) {
-			$raw_values = isset( $_POST[ $input_name ] ) ? wp_unslash( $_POST[ $input_name ] ) : array();
-
-			if ( ! is_array( $raw_values ) ) {
-				return array();
-			}
-
-			$choices = $this->get_supported_field_choice_value_map( $field );
-			$values  = array();
-
-			foreach ( $raw_values as $raw_value ) {
-				$value = sanitize_text_field( $raw_value );
-
-				if ( '' === $value || ! isset( $choices[ $value ] ) ) {
-					continue;
-				}
-
-				$values[] = $value;
-			}
-
-			return array_values( array_unique( $values ) );
-		}
-
-		if ( ! isset( $_POST[ $input_name ] ) ) {
-			return null;
-		}
-
-		$raw_value = wp_unslash( $_POST[ $input_name ] );
-
-		if ( is_array( $raw_value ) ) {
-			return null;
-		}
-
-		if ( 'textarea' === $input_type ) {
-			return sanitize_textarea_field( $raw_value );
-		}
-
-		if ( 'email' === $input_type ) {
-			return sanitize_email( $raw_value );
-		}
-
-		if ( 'website' === $input_type ) {
-			return esc_url_raw( $raw_value );
-		}
-
-		if ( in_array( $input_type, array( 'select', 'radio' ), true ) ) {
-			$value   = sanitize_text_field( $raw_value );
-			$choices = $this->get_supported_field_choice_value_map( $field );
-
-			if ( '' !== $value && ! isset( $choices[ $value ] ) ) {
-				return null;
-			}
-
-			return $value;
-		}
-
-		return sanitize_text_field( $raw_value );
+	private function get_manual_decision_update_value_from_request( $form, $field, $row_key = 0 ) {
+		return $this->get_posted_decision_update_value( $form, $field, 'manual', $row_key );
 	}
 
 	/**
@@ -3203,6 +4324,11 @@ class GFEmailApprovalsAddon extends GFAddOn {
 
 			if ( is_string( $value ) && '' !== trim( $value ) ) {
 				$settings[ $setting_name ] = $value;
+				continue;
+			}
+
+			if ( $this->is_notification_page_field_overridden_as_empty( $notification, $setting_name ) ) {
+				$settings[ $setting_name ] = '';
 			}
 		}
 
@@ -3330,6 +4456,58 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	}
 
 	/**
+	 * Returns standalone fallback CSS for native Gravity Forms markup on the public approval page.
+	 *
+	 * @param array|null $theme Optional already-sanitized theme.
+	 *
+	 * @return string
+	 */
+	private function get_public_page_gravity_forms_fallback_css( $theme = null ) {
+		$theme               = is_array( $theme ) ? $theme : $this->get_public_page_theme_settings();
+		$text_color          = (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ];
+		$card_background     = (string) $theme[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ];
+		$focus_color         = (string) $theme[ self::PLUGIN_SETTING_APPROVE_BUTTON_COLOR ];
+		$border_color        = $this->hex_to_rgba( $text_color, 0.18, 'rgba(29,35,39,0.18)' );
+		$muted_text_color    = $this->hex_to_rgba( $text_color, 0.66, 'rgba(29,35,39,0.66)' );
+		$shadow_color        = $this->hex_to_rgba( $text_color, 0.05, 'rgba(29,35,39,0.05)' );
+		$focus_shadow_color  = $this->hex_to_rgba( $focus_color, 0.18, 'rgba(34,113,177,0.18)' );
+		$control_radius      = max( 10, (int) round( floatval( $theme[ self::PLUGIN_SETTING_CARD_BORDER_RADIUS ] ) * 16 ) );
+		$control_radius_px   = $control_radius . 'px';
+
+		return '.gf-email-approvals-public .gf-email-approvals-public__form{display:block;}'
+			. '.gf-email-approvals-public .gf-email-approvals-public__gf-wrapper{width:100%;}'
+			. '.gf-email-approvals-public .gform_body{width:100%;}'
+			. '.gf-email-approvals-public .gform_fields{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px 16px;margin:0;padding:0;list-style:none;}'
+			. '.gf-email-approvals-public .gfield{grid-column:1 / -1;min-width:0;margin:0;padding:0;border:0;}'
+			. '.gf-email-approvals-public .gfield--width-third{grid-column:span 4;}'
+			. '.gf-email-approvals-public .gfield--width-half{grid-column:span 6;}'
+			. '.gf-email-approvals-public .gfield--width-two-thirds{grid-column:span 8;}'
+			. '.gf-email-approvals-public .gfield--width-quarter{grid-column:span 3;}'
+			. '.gf-email-approvals-public .gfield--width-three-quarter{grid-column:span 9;}'
+			. '.gf-email-approvals-public .gfield_label{display:block;margin:0 0 8px;font-size:15px;font-weight:600;line-height:1.45;color:' . esc_html( $text_color ) . ';}'
+			. '.gf-email-approvals-public .gfield_required{margin-left:4px;color:#c02b0a;font-weight:700;}'
+			. '.gf-email-approvals-public .ginput_container{position:relative;}'
+			. '.gf-email-approvals-public .ginput_container input:not([type=checkbox]):not([type=radio]):not([type=hidden]),.gf-email-approvals-public .ginput_container select,.gf-email-approvals-public .ginput_container textarea{display:block;width:100%;max-width:100%;min-height:50px;margin:0;padding:12px 14px;border:1px solid ' . esc_html( $border_color ) . ';border-radius:' . esc_html( $control_radius_px ) . ';background:' . esc_html( $card_background ) . ';color:' . esc_html( $text_color ) . ';font:inherit;line-height:1.5;box-shadow:0 1px 2px ' . esc_html( $shadow_color ) . ';transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease;box-sizing:border-box;-webkit-appearance:none;appearance:none;}'
+			. '.gf-email-approvals-public .ginput_container textarea{min-height:132px;resize:vertical;}'
+			. '.gf-email-approvals-public .ginput_container select{padding-right:48px;background-image:linear-gradient(45deg, transparent 50%, ' . esc_html( $text_color ) . ' 50%),linear-gradient(135deg, ' . esc_html( $text_color ) . ' 50%, transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px,6px 6px;background-repeat:no-repeat;}'
+			. '.gf-email-approvals-public .ginput_container select[multiple]{min-height:148px;padding-right:14px;background-image:none;}'
+			. '.gf-email-approvals-public .ginput_container input:not([type=checkbox]):not([type=radio]):not([type=hidden]):focus,.gf-email-approvals-public .ginput_container select:focus,.gf-email-approvals-public .ginput_container textarea:focus{outline:none;border-color:' . esc_html( $focus_color ) . ';box-shadow:0 0 0 4px ' . esc_html( $focus_shadow_color ) . ';}'
+			. '.gf-email-approvals-public .gfield.gfield_error .gfield_label,.gf-email-approvals-public .gfield.gfield_error legend,.gf-email-approvals-public .gfield.gfield_error .gfield_validation_message{color:#c02b0a;}'
+			. '.gf-email-approvals-public .gfield.gfield_error input:not([type=checkbox]):not([type=radio]):not([type=hidden]),.gf-email-approvals-public .gfield.gfield_error select,.gf-email-approvals-public .gfield.gfield_error textarea{border-color:#c02b0a;box-shadow:0 0 0 1px rgba(192,43,10,0.08);}'
+			. '.gf-email-approvals-public .gfield_validation_message{display:block;margin:8px 0 0;padding:10px 12px;border:1px solid rgba(192,43,10,0.18);border-radius:' . esc_html( $control_radius_px ) . ';background:#fff6f6;font-size:13px;line-height:1.45;color:#c02b0a;}'
+			. '.gf-email-approvals-public .gfield_description{margin:8px 0 0;font-size:13px;line-height:1.5;color:' . esc_html( $muted_text_color ) . ';}'
+			. '.gf-email-approvals-public .gfield_description:empty{display:none;}'
+			. '.gf-email-approvals-public .large_admin,.gf-email-approvals-public .medium,.gf-email-approvals-public .small{width:100% !important;max-width:100%;}'
+			. '.gf-email-approvals-public .gfield_radio,.gf-email-approvals-public .gfield_checkbox{display:grid;gap:10px;margin:0;padding:6px 0 0;list-style:none;}'
+			. '.gf-email-approvals-public .gchoice{display:flex;align-items:flex-start;gap:10px;margin:0;}'
+			. '.gf-email-approvals-public .gchoice label{margin:0;font-weight:500;line-height:1.5;color:' . esc_html( $text_color ) . ';}'
+			. '.gf-email-approvals-public .gchoice input{width:18px;height:18px;margin:2px 0 0;accent-color:' . esc_html( $focus_color ) . ';}'
+			. '.gf-email-approvals-public .screen-reader-text{position:absolute !important;width:1px !important;height:1px !important;padding:0 !important;margin:-1px !important;overflow:hidden !important;clip:rect(0,0,0,0) !important;white-space:nowrap !important;border:0 !important;}'
+			. '.gf-email-approvals-public .gf-email-approvals-public__content form > p:last-child{margin:28px 0 0;}'
+			. '@media screen and (max-width:900px){.gf-email-approvals-public .gform_fields{grid-template-columns:1fr;gap:16px;}.gf-email-approvals-public .gfield--width-third,.gf-email-approvals-public .gfield--width-half,.gf-email-approvals-public .gfield--width-two-thirds,.gf-email-approvals-public .gfield--width-quarter,.gf-email-approvals-public .gfield--width-three-quarter{grid-column:1 / -1;}}';
+	}
+
+	/**
 	 * Resolves Gravity Forms merge tags in arbitrary text using the current form and entry.
 	 *
 	 * @param string     $text  The text to parse.
@@ -3398,18 +4576,82 @@ class GFEmailApprovalsAddon extends GFAddOn {
 	 * @return string
 	 */
 	private function get_public_message_markup( $message ) {
-		return '<p style="white-space:pre-line;">' . esc_html( $message ) . '</p>';
+		if ( '' === trim( $message ) ) {
+			return '';
+		}
+
+		return '<p class="gf-email-approvals-public__message">' . esc_html( $message ) . '</p>';
+	}
+
+	/**
+	 * Returns the textarea page copy fields that may intentionally render blank.
+	 *
+	 * @return array<int, string>
+	 */
+	private function get_blankable_notification_page_fields() {
+		return array(
+			self::NOTIFICATION_APPROVE_CONFIRMATION_TEXT,
+			self::NOTIFICATION_REJECT_CONFIRMATION_TEXT,
+			self::NOTIFICATION_APPROVED_RESULT_TEXT,
+			self::NOTIFICATION_REJECTED_RESULT_TEXT,
+		);
+	}
+
+	/**
+	 * Returns the notification key used to remember an intentionally blank page copy field.
+	 *
+	 * @param string $setting_name The page copy setting name.
+	 *
+	 * @return string
+	 */
+	private function get_notification_page_empty_override_key( $setting_name ) {
+		return in_array( $setting_name, $this->get_blankable_notification_page_fields(), true )
+			? $setting_name . '_is_blank'
+			: '';
+	}
+
+	/**
+	 * Returns the field default used by the notification editor.
+	 *
+	 * @param array  $notification  The current notification.
+	 * @param string $setting_name  The page copy setting name.
+	 * @param string $default_value The default copy.
+	 *
+	 * @return string
+	 */
+	private function get_notification_page_field_default_value( $notification, $setting_name, $default_value ) {
+		return $this->is_notification_page_field_overridden_as_empty( $notification, $setting_name ) ? '' : $default_value;
+	}
+
+	/**
+	 * Returns whether the notification should render a page copy field as blank.
+	 *
+	 * @param array  $notification The current notification.
+	 * @param string $setting_name The page copy setting name.
+	 *
+	 * @return bool
+	 */
+	private function is_notification_page_field_overridden_as_empty( $notification, $setting_name ) {
+		$empty_override_key = $this->get_notification_page_empty_override_key( $setting_name );
+
+		return '' !== $empty_override_key
+			&& is_array( $notification )
+			&& array_key_exists( $empty_override_key, $notification )
+			&& '1' === (string) $notification[ $empty_override_key ];
 	}
 
 	/**
 	 * Outputs the public approval page.
 	 *
-	 * @param string $title   Page title.
-	 * @param string $content Page content.
+	 * @param string $title           Page title.
+	 * @param string $content         Page content.
+	 * @param string $head_markup     Extra trusted markup to output in the head.
+	 * @param string $footer_markup   Extra trusted markup to output before </body>.
+	 * @param bool   $trusted_content Whether the page content is trusted internal markup.
 	 *
 	 * @return void
 	 */
-	private function render_public_page( $title, $content ) {
+	private function render_public_page( $title, $content, $head_markup = '', $footer_markup = '', $trusted_content = false ) {
 		status_header( 200 );
 		nocache_headers();
 		$theme         = $this->get_public_page_theme_settings();
@@ -3465,6 +4707,7 @@ class GFEmailApprovalsAddon extends GFAddOn {
 				'selected' => true,
 			),
 			'p'       => array(
+				'class' => true,
 				'style' => true,
 			),
 			'div'     => array(
@@ -3497,8 +4740,12 @@ class GFEmailApprovalsAddon extends GFAddOn {
 			),
 		);
 
-		$logo_html = '';
-		$logo_url  = (string) $theme[ self::PLUGIN_SETTING_LOGO_IMAGE ];
+		$logo_html         = '';
+		$logo_url          = (string) $theme[ self::PLUGIN_SETTING_LOGO_IMAGE ];
+		$title_alignment   = (string) $theme[ self::PLUGIN_SETTING_TITLE_ALIGNMENT ];
+		$title_font_size   = floatval( $theme[ self::PLUGIN_SETTING_TITLE_FONT_SIZE ] ) . $theme[ self::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT ];
+		$message_alignment = (string) $theme[ self::PLUGIN_SETTING_MESSAGE_ALIGNMENT ];
+		$message_font_size = floatval( $theme[ self::PLUGIN_SETTING_MESSAGE_FONT_SIZE ] ) . $theme[ self::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT ];
 		if ( ! empty( $logo_url ) ) {
 			$logo_align  = (string) $theme[ self::PLUGIN_SETTING_LOGO_ALIGNMENT ];
 			$logo_height = floatval( $theme[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT ] ) . esc_attr( $theme[ self::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ] );
@@ -3513,15 +4760,22 @@ class GFEmailApprovalsAddon extends GFAddOn {
 		echo '<!doctype html><html><head><meta charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '" />';
 		echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
 		echo '<title>' . esc_html( $title ) . '</title>';
-		echo '<style>html{box-sizing:border-box;}*,*::before,*::after{box-sizing:inherit;}input,select,textarea{font:inherit;max-width:100%;}textarea{resize:vertical;}body.gf-email-approvals-public{margin:0;font-family:Segoe UI,Arial,sans-serif;background:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ] ) . ';color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ] ) . ';}main.gf-email-approvals-public__main{width:100%;max-width:' . esc_html( $card_width ) . ';margin:8vh auto;box-sizing:border-box;}section.gf-email-approvals-public__card{width:100%;box-sizing:border-box;background:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ] ) . ';border-radius:' . esc_html( $card_radius ) . ';padding:' . esc_html( $card_padding ) . ';box-shadow:0 10px 30px ' . esc_html( $this->hex_to_rgba( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ], 0.12, 'rgba(0,0,0,0.08)' ) ) . ';}h1.gf-email-approvals-public__title{margin-top:0;margin-bottom:16px;font-size:28px;line-height:1.2;color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TITLE_COLOR ] ) . ';}.gf-email-approvals-public__content p:first-child{margin-top:0;}.gf-email-approvals-public__content p:last-child{margin-bottom:0;}@media screen and (max-width:680px){main.gf-email-approvals-public__main{margin:0;}section.gf-email-approvals-public__card{padding:' . esc_html( $responsive_padding ) . ';}}</style>';
+		echo $head_markup; // WPCS: XSS ok.
+		echo '<style>html{box-sizing:border-box;}*,*::before,*::after{box-sizing:inherit;}input,select,textarea{font:inherit;max-width:100%;}textarea{resize:vertical;}body.gf-email-approvals-public{margin:0;font-family:Segoe UI,Arial,sans-serif;background:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ] ) . ';color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ] ) . ';}main.gf-email-approvals-public__main{width:100%;max-width:' . esc_html( $card_width ) . ';margin:8vh auto;box-sizing:border-box;}section.gf-email-approvals-public__card{width:100%;box-sizing:border-box;background:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ] ) . ';border-radius:' . esc_html( $card_radius ) . ';padding:' . esc_html( $card_padding ) . ';box-shadow:0 10px 30px ' . esc_html( $this->hex_to_rgba( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ], 0.12, 'rgba(0,0,0,0.08)' ) ) . ';}h1.gf-email-approvals-public__title{margin-top:0;margin-bottom:16px;font-size:' . esc_html( $title_font_size ) . ';line-height:1.2;text-align:' . esc_html( $title_alignment ) . ';color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TITLE_COLOR ] ) . ';}.gf-email-approvals-public__message{white-space:pre-line;color:' . esc_html( (string) $theme[ self::PLUGIN_SETTING_TEXT_COLOR ] ) . ';font-size:' . esc_html( $message_font_size ) . ';text-align:' . esc_html( $message_alignment ) . ';}.gf-email-approvals-public__content p:first-child{margin-top:0;}.gf-email-approvals-public__content p:last-child{margin-bottom:0;}' . $this->get_public_page_gravity_forms_fallback_css( $theme ) . '@media screen and (max-width:680px){main.gf-email-approvals-public__main{margin:0;}section.gf-email-approvals-public__card{padding:' . esc_html( $responsive_padding ) . ';}}</style>';
 		echo '</head><body class="gf-email-approvals-public">';
 		echo '<main class="gf-email-approvals-public__main">';
 		echo $logo_html; // WPCS: XSS ok.
 		echo '<section class="gf-email-approvals-public__card">';
 		echo '<h1 class="gf-email-approvals-public__title">' . esc_html( $title ) . '</h1>';
 		echo '<div class="gf-email-approvals-public__content">';
-		echo wp_kses( $content, $allowed_html );
-		echo '</div></section></main></body></html>';
+		if ( $trusted_content ) {
+			echo $content; // WPCS: XSS ok.
+		} else {
+			echo wp_kses( $content, $allowed_html );
+		}
+		echo '</div></section></main>';
+		echo $footer_markup; // WPCS: XSS ok.
+		echo '</body></html>';
 
 		exit;
 	}

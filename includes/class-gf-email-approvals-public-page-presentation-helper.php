@@ -31,6 +31,12 @@ class GFEmailApprovalsPublicPagePresentationHelper {
 			GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_BACKGROUND_COLOR   => '#ffffff',
 			GFEmailApprovalsAddon::PLUGIN_SETTING_TEXT_COLOR              => '#1d2327',
 			GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_COLOR             => '#1d2327',
+			GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT         => 'left',
+			GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE         => 28,
+			GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT    => 'px',
+			GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT       => 'left',
+			GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE       => 16,
+			GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT  => 'px',
 			GFEmailApprovalsAddon::PLUGIN_SETTING_APPROVE_BUTTON_COLOR    => '#2271b1',
 			GFEmailApprovalsAddon::PLUGIN_SETTING_REJECT_BUTTON_COLOR     => '#b32d2e',
 			GFEmailApprovalsAddon::PLUGIN_SETTING_BUTTON_TEXT_COLOR       => '#ffffff',
@@ -119,10 +125,48 @@ class GFEmailApprovalsPublicPagePresentationHelper {
 			$defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ]
 		);
 
+		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT ] = $this->sanitize_public_page_alignment(
+			$this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT ),
+			$defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT ]
+		);
+
+		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE ] = $this->sanitize_public_page_dimension(
+			$this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE ),
+			12,
+			96,
+			$defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE ]
+		);
+
+		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT ] = $this->sanitize_public_page_unit(
+			$this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT ),
+			array( 'rem', 'px' ),
+			$defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT ]
+		);
+
+		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT ] = $this->sanitize_public_page_alignment(
+			$this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT ),
+			$defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT ]
+		);
+
+		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE ] = $this->sanitize_public_page_dimension(
+			$this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE ),
+			12,
+			48,
+			$defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE ]
+		);
+
+		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT ] = $this->sanitize_public_page_unit(
+			$this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT ),
+			array( 'rem', 'px' ),
+			$defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT ]
+		);
+
 		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_IMAGE ] = esc_url_raw( (string) $this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_IMAGE ) );
 
-		$logo_alignment = sanitize_key( (string) $this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_ALIGNMENT ) );
-		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_ALIGNMENT ] = in_array( $logo_alignment, array( 'left', 'center', 'right' ), true ) ? $logo_alignment : $defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_ALIGNMENT ];
+		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_ALIGNMENT ] = $this->sanitize_public_page_alignment(
+			$this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_ALIGNMENT ),
+			$defaults[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_ALIGNMENT ]
+		);
 
 		$settings[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_MAX_HEIGHT ] = $this->sanitize_public_page_dimension(
 			$this->get_plugin_setting( GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_MAX_HEIGHT ),
@@ -186,6 +230,22 @@ class GFEmailApprovalsPublicPagePresentationHelper {
 	}
 
 	/**
+	 * Sanitizes a text alignment value against the supported options.
+	 *
+	 * @param mixed  $value   Raw alignment value.
+	 * @param string $default Fallback alignment value.
+	 *
+	 * @return string
+	 */
+	public function sanitize_public_page_alignment( $value, $default ) {
+		if ( is_string( $value ) && in_array( $value, array( 'left', 'center', 'right' ), true ) ) {
+			return $value;
+		}
+
+		return $default;
+	}
+
+	/**
 	 * Converts a hex color to an rgba() string.
 	 *
 	 * @param string $hex_color Hex color value.
@@ -229,23 +289,31 @@ class GFEmailApprovalsPublicPagePresentationHelper {
 		$card_width   = floatval( $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_MAX_WIDTH ] ) . $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_MAX_WIDTH_UNIT ];
 		$card_padding = floatval( $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_PADDING ] ) . $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_PADDING_UNIT ];
 		$card_radius  = floatval( $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_BORDER_RADIUS ] ) . $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_BORDER_RADIUS_UNIT ];
+		$title_size   = floatval( $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE ] ) . $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_FONT_SIZE_UNIT ];
+		$message_size = floatval( $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE ] ) . $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_FONT_SIZE_UNIT ];
 		$logo_height  = floatval( $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_MAX_HEIGHT ] ) . $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_MAX_HEIGHT_UNIT ];
 
-		return sprintf(
-			'--gf-email-approvals-page-bg:%1$s;--gf-email-approvals-card-bg:%2$s;--gf-email-approvals-text:%3$s;--gf-email-approvals-title:%4$s;--gf-email-approvals-approve:%5$s;--gf-email-approvals-reject:%6$s;--gf-email-approvals-button-text:%7$s;--gf-email-approvals-card-width:%8$s;--gf-email-approvals-card-padding:%9$s;--gf-email-approvals-card-radius:%10$s;--gf-email-approvals-shadow:%11$s;--gf-email-approvals-logo-align:%12$s;--gf-email-approvals-logo-height:%13$s;',
-			(string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ],
-			(string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ],
-			(string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TEXT_COLOR ],
-			(string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_COLOR ],
-			(string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_APPROVE_BUTTON_COLOR ],
-			(string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_REJECT_BUTTON_COLOR ],
-			(string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_BUTTON_TEXT_COLOR ],
-			$card_width,
-			$card_padding,
-			$card_radius,
-			$this->hex_to_rgba( (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TEXT_COLOR ], 0.12, 'rgba(29,35,39,0.12)' ),
-			(string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_ALIGNMENT ],
-			$logo_height
+		return implode(
+			'',
+			array(
+				'--gf-email-approvals-page-bg:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_PAGE_BACKGROUND_COLOR ] . ';',
+				'--gf-email-approvals-card-bg:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_CARD_BACKGROUND_COLOR ] . ';',
+				'--gf-email-approvals-text:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TEXT_COLOR ] . ';',
+				'--gf-email-approvals-title:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_COLOR ] . ';',
+				'--gf-email-approvals-title-align:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TITLE_ALIGNMENT ] . ';',
+				'--gf-email-approvals-title-size:' . $title_size . ';',
+				'--gf-email-approvals-message-align:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_MESSAGE_ALIGNMENT ] . ';',
+				'--gf-email-approvals-message-size:' . $message_size . ';',
+				'--gf-email-approvals-approve:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_APPROVE_BUTTON_COLOR ] . ';',
+				'--gf-email-approvals-reject:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_REJECT_BUTTON_COLOR ] . ';',
+				'--gf-email-approvals-button-text:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_BUTTON_TEXT_COLOR ] . ';',
+				'--gf-email-approvals-card-width:' . $card_width . ';',
+				'--gf-email-approvals-card-padding:' . $card_padding . ';',
+				'--gf-email-approvals-card-radius:' . $card_radius . ';',
+				'--gf-email-approvals-shadow:' . $this->hex_to_rgba( (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_TEXT_COLOR ], 0.12, 'rgba(29,35,39,0.12)' ) . ';',
+				'--gf-email-approvals-logo-align:' . (string) $theme[ GFEmailApprovalsAddon::PLUGIN_SETTING_LOGO_ALIGNMENT ] . ';',
+				'--gf-email-approvals-logo-height:' . $logo_height . ';',
+			)
 		);
 	}
 

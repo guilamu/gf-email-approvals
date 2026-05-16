@@ -382,6 +382,12 @@
 		var cardBackground = sanitizeColor(getInputValue($builder, configSettings.cardBackground), defaults.cardBackground);
 		var textColor = sanitizeColor(getInputValue($builder, configSettings.textColor), defaults.textColor);
 		var titleColor = sanitizeColor(getInputValue($builder, configSettings.titleColor), defaults.titleColor);
+		var titleAlignment = getInputValue($builder, configSettings.titleAlignment) || defaults.titleAlignment || 'left';
+		var titleFontSize = sanitizeNumber(getInputValue($builder, configSettings.titleFontSize), defaults.titleFontSize);
+		var titleFontSizeUnit = getInputValue($builder, configSettings.titleFontSizeUnit) || defaults.titleFontSizeUnit || 'px';
+		var messageAlignment = getInputValue($builder, configSettings.messageAlignment) || defaults.messageAlignment || 'left';
+		var messageFontSize = sanitizeNumber(getInputValue($builder, configSettings.messageFontSize), defaults.messageFontSize);
+		var messageFontUnit = getInputValue($builder, configSettings.messageFontUnit) || defaults.messageFontUnit || 'px';
 		var approveButton = sanitizeColor(getInputValue($builder, configSettings.approveButton), defaults.approveButton);
 		var rejectButton = sanitizeColor(getInputValue($builder, configSettings.rejectButton), defaults.rejectButton);
 		var buttonText = sanitizeColor(getInputValue($builder, configSettings.buttonText), defaults.buttonText);
@@ -401,6 +407,10 @@
 		$builder[0].style.setProperty('--gf-email-approvals-card-bg', cardBackground);
 		$builder[0].style.setProperty('--gf-email-approvals-text', textColor);
 		$builder[0].style.setProperty('--gf-email-approvals-title', titleColor);
+		$builder[0].style.setProperty('--gf-email-approvals-title-align', titleAlignment);
+		$builder[0].style.setProperty('--gf-email-approvals-title-size', titleFontSize + titleFontSizeUnit);
+		$builder[0].style.setProperty('--gf-email-approvals-message-align', messageAlignment);
+		$builder[0].style.setProperty('--gf-email-approvals-message-size', messageFontSize + messageFontUnit);
 		$builder[0].style.setProperty('--gf-email-approvals-approve', approveButton);
 		$builder[0].style.setProperty('--gf-email-approvals-reject', rejectButton);
 		$builder[0].style.setProperty('--gf-email-approvals-button-text', buttonText);

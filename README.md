@@ -9,7 +9,7 @@ Send approval requests for Gravity Forms entries with secure email decision link
 - Override button labels inline with advanced merge tags such as `{approval_approve_button:Approve this request}` or `{approval_reject_button:Reject this request}`.
 - Customize the public confirmation and result page text directly on each `Approval Request` notification, with Gravity Forms merge tags and the native selector already available on the notification screen.
 - Style the shared public approval card from `Forms → Settings → Email Approvals` with global colors, spacing, radius, and a live preview builder.
-- Update one supported field after approval or rejection, either with a predefined automatic value or with a value chosen by the approver on the confirmation page.
+- Update one or more supported fields after approval or rejection, either with predefined automatic values or with values chosen by the approver on the confirmation page using native Gravity Forms controls.
 - Match approval emails to each form workflow while keeping shared appearance controls in one plugin settings screen.
 
 ## Review Decisions in Gravity Forms
@@ -21,13 +21,14 @@ Send approval requests for Gravity Forms entries with secure email decision link
 ## Protect Approval Actions
 
 - Confirm public approval actions before applying them to an entry.
+- Re-render the public approval page with inline field errors when required or invalid approver-selected values are submitted.
 - Invalidate older tokens when a request is resent or when one approver completes the decision.
 - Record entry notes and logging-friendly events for auditability.
 
 ## Key Features
 
 - **Gravity Forms Native:** Uses custom notification events, entry meta, list filters, and entry detail actions inside Gravity Forms.
-- **Field Updates After Confirmation:** Can update one supported field per decision with either automatic values or approver-selected values, and records a detailed audit trail in the entry notes.
+- **Field Updates After Confirmation:** Can update one or more supported fields per decision with either automatic values or approver-selected values, using type-aware Gravity Forms controls and native validation on the public approval page while recording a detailed audit trail in the entry notes.
 - **Global Approval Page Appearance:** Adds a shared appearance builder for the public approval confirmation and result pages, including colors, card width, padding, and radius with a live preview.
 - **Decision Tokens:** Creates single-use approval links and invalidates older active tokens automatically.
 - **Multilingual:** Works with forms, notifications, and approver emails in any language.
@@ -66,13 +67,17 @@ No. After the first valid decision, the used token is marked as consumed and the
 
 Yes. Users who can edit Gravity Forms entries can approve, reject, or reset status from the entry detail view and in bulk from the entry list.
 
+### Do approval-page fields follow Gravity Forms validation rules?
+
+Yes. Manual decision fields on the public approval page use Gravity Forms rendering and validation for the fields shown there, including required checks and choice integrity validation. Invalid submissions are re-rendered with inline field errors instead of applying the decision.
+
 ### Does it support GitHub updates and bug reporting?
 
 Yes. The plugin includes GitHub release updates, a WordPress-style details modal, and optional integration with Guilamu Bug Reporter.
 
 ### Can I customize the workflow with public hooks?
 
-Not yet. The current MVP is configured through Gravity Forms notifications and native entry permissions rather than custom plugin hooks.
+Not yet. The current release is configured through Gravity Forms notifications and native entry permissions rather than custom plugin hooks.
 
 ## Limitations
 
@@ -85,7 +90,7 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 2. If a link says it is invalid or expired, send a fresh approval request; previous tokens are invalidated after a resend, reset, or successful decision.
 3. If an admin cannot change status, confirm the user has the `gravityforms_edit_entries` capability.
 4. If a GitHub update does not appear, clear transients and verify the latest GitHub release tag is newer than the plugin version header.
-5. If a field update does not apply, confirm the chosen update behavior matches the selected field type and that choice-based fields still use valid configured choices.
+5. If a field update does not apply, confirm the chosen update behavior matches the selected field type, that choice-based fields still use valid configured choices, and that the approval link was generated after the latest field choice changes.
 
 ## Project Structure
 
@@ -116,59 +121,13 @@ Not yet. The current MVP is configured through Gravity Forms notifications and n
 
 ## Changelog
 
-### 0.6.1 - 2026-05-08
+### 1.0.0 - 2026-05-16
 
-- **Improved:** Removed the extra outer wrapper padding around the public approve/reject pages on both desktop and mobile so the approval card aligns directly with the configured theme spacing.
-- **Improved:** Refactored the shared approval page appearance logic into dedicated helper classes for admin appearance settings and public-page presentation.
-
-### 0.6.0 - 2026-05-08
-
-- **New:** Added a `Logo` accordion to the `Approval Page Appearance` settings, allowing you to upload a custom logo image, set its alignment, and control its maximum height on the public approval pages.
-
-### 0.5.1 - 2026-05-07
-
-- **Improved:** Replaced the default Gravity Forms cog icon for the `Email Approvals` settings tab with an email icon.
-
-### 0.5.0 - 2026-05-07
-
-- **New:** Added `Approval Page Appearance` under `Forms → Settings → Email Approvals` to style the shared public approval confirmation and result pages with color controls, card dimensions, and a live preview.
-
-### 0.4.0 - 2026-05-03
-
-- **Improved:** Public approval links are now invalidated when entries are trashed and removed when entries are permanently deleted, and trashed or missing entries can no longer be actioned from public approval pages.
-- **Improved:** Approval Request notifications now expose separate Approve and Reject button labels, tighter Approval Pages copy fields, and a cleaner two-column layout for confirmation and result text.
-- **Improved:** The `Approval Pages` and `Approval actions` sections in the notification editor now only appear for the `Approval Request` event.
-
-### 0.3.2 - 2026-05-03
-
-- **Improved:** Fixed the plugin details modal so the sidebar version now prefers the installed plugin version instead of a stale GitHub release tag.
-- **Improved:** Aligned the modal download link and release metadata so they only point to GitHub when a newer release is actually available.
-
-### 0.3.1 - 2026-05-03
-
-- **Improved:** Fixed the plugin details modal sidebar so `Requires Gravity Forms` renders as formatted HTML instead of escaped literal tags.
-
-### 0.3.0 - 2026-05-03
-
-- **New:** Added automatic and approver-selected field updates for one supported entry field on each `Approval Request` notification.
-- **New:** Added advanced approval button merge tags so each email can override the displayed Approve/Reject button text inline.
-- **Improved:** Reworked the notification editor so post-confirmation field updates start with an explicit update behavior choice before the target field is selected.
-- **Improved:** Refined the public confirmation page layout so manual update fields stay properly contained inside the confirmation card.
-- **Improved:** Added detailed audit notes for approval decisions, including notification context, recipient, IP, and field diffs.
-
-### 0.2.0 - 2026-05-03
-
-- **New:** Added notification-level `Approval Pages` settings for public confirmation and result copy on `Approval Request` notifications.
-- **New:** Added merge tag support to Approval Pages text fields using the native Gravity Forms merge tag selector.
-- **Improved:** Scoped public approval page text to the originating notification by storing and resolving the source notification for each approval token.
-- **Improved:** Refined the notification editor UX so Approval Pages settings only appear for the `Approval Request` event.
-
-### 0.1.0 - 2026-05-02
-
-- **New:** Added the initial email approval workflow for Gravity Forms entries.
-- **New:** Added GitHub release auto-updates, the plugin details modal, and Guilamu Bug Reporter integration.
-- **Improved:** Added native Gravity Forms entry detail actions, list filters, status columns, bulk actions, and configurable public approval page copy on `Approval Request` notifications.
-- **Security:** Added one-time hashed decision tokens, nonce-protected admin actions, and capability checks for status changes.
+- **Initial Release:** Added a full email approval workflow for Gravity Forms entries with `Approval Request`, `Approval Approved`, and `Approval Rejected` notification events.
+- **Initial Release:** Added secure single-use approve/reject links, token invalidation, native admin status management, bulk actions, audit notes, and approval status filters.
+- **Initial Release:** Added notification-level approval page copy, advanced approval button merge tags, and a shared `Approval Page Appearance` builder with preview, logo, spacing, and color controls.
+- **Initial Release:** Added automatic and approver-selected field updates, including multi-field public approval-page inputs rendered with native Gravity Forms controls and validated before a decision is applied.
+- **Initial Release:** Added GitHub release updates, the plugin details modal, multilingual catalogs, and the optional Guilamu Bug Reporter integration.
 
 ## License
 

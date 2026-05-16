@@ -163,6 +163,17 @@
 	margin-bottom: 0;
 }
 
+#gf-email-approvals-accordion-text .gf-email-approvals-accordion__content-inner {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	align-items: start;
+}
+
+#gf-email-approvals-accordion-text .gform-settings-field {
+	margin-bottom: 0;
+}
+
 #gf-email-approvals-accordion-logo .gf-email-approvals-accordion__content-inner {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -342,8 +353,8 @@
 }
 
 .gf-email-approvals-appearance-grid > .gf-email-approvals-appearance-setting.gf-email-approvals-appearance-setting--button-color {
-	flex-basis: calc(33.333% - 11px);
-	max-width: calc(33.333% - 11px);
+	flex-basis: calc(25% - 12px);
+	max-width: calc(25% - 12px);
 }
 
 .gf-email-approvals-appearance-grid > .gf-email-approvals-appearance-preview-row {
@@ -490,6 +501,10 @@
 	--gf-email-approvals-card-bg: #ffffff;
 	--gf-email-approvals-text: #1d2327;
 	--gf-email-approvals-title: #1d2327;
+	--gf-email-approvals-title-align: left;
+	--gf-email-approvals-title-size: 28px;
+	--gf-email-approvals-message-align: left;
+	--gf-email-approvals-message-size: 16px;
 	--gf-email-approvals-approve: #2271b1;
 	--gf-email-approvals-reject: #b32d2e;
 	--gf-email-approvals-button-text: #ffffff;
@@ -558,14 +573,17 @@
 
 .gf-email-approvals-appearance-builder__title {
 	margin: 0 0 16px;
-	font-size: 28px;
+	font-size: var(--gf-email-approvals-title-size);
 	line-height: 1.2;
+	text-align: var(--gf-email-approvals-title-align);
 	color: var(--gf-email-approvals-title);
 }
 
 .gf-email-approvals-appearance-builder__message {
 	margin: 0;
 	white-space: pre-line;
+	font-size: var(--gf-email-approvals-message-size);
+	text-align: var(--gf-email-approvals-message-align);
 	color: var(--gf-email-approvals-text);
 }
 
@@ -614,6 +632,10 @@
 }
 
 @media screen and (max-width: 782px) {
+	#gf-email-approvals-accordion-text .gf-email-approvals-accordion__content-inner {
+		grid-template-columns: 1fr;
+	}
+
 	.gf-email-approvals-appearance-grid > .gf-email-approvals-appearance-setting {
 		flex-basis: calc(50% - 8px);
 		max-width: calc(50% - 8px);

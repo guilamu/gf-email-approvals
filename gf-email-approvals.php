@@ -3,7 +3,7 @@
  * Plugin Name: Email Approvals for Gravity Forms
  * Plugin URI: https://github.com/guilamu/gf-email-approvals
  * Description: Adds email-based approval notifications to Gravity Forms entries.
- * Version: 0.6.1
+ * Version: 1.0.0
  * Author: Guilamu
  * Author URI: https://github.com/guilamu
  * License: AGPL-3.0
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GF_EMAIL_APPROVALS_VERSION', '0.6.1' );
+define( 'GF_EMAIL_APPROVALS_VERSION', '1.0.0' );
 define( 'GF_EMAIL_APPROVALS_FILE', __FILE__ );
 define( 'GF_EMAIL_APPROVALS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GF_EMAIL_APPROVALS_URL', plugin_dir_url( __FILE__ ) );
